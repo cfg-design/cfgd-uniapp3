@@ -1,0 +1,190 @@
+{
+	"easycom": {
+		"custom": {
+			"^app-(.*)": "@/components/app-$1.vue"
+		}
+	},
+	"pages": [
+		{
+			"path": "pages/index/index",
+			"style": {
+				"navigationBarTitleText": "cfg-design"
+			}
+		},
+		{
+			"path": "pages/colors/index",
+			"style": {
+				"navigationBarTitleText": "Colors 颜色"
+			}
+		},
+
+		{
+			"path": "pages/text/index",
+			"style": {
+				"navigationBarTitleText": "Text 文本"
+			}
+		},
+		{
+			"path": "pages/icon/index",
+			"style": {
+				"navigationBarTitleText": "Icon 图标"
+			}
+		},
+		{
+			"path": "pages/button/index",
+			"style": {
+				"navigationBarTitleText": "Button 按钮"
+			}
+		},
+		{
+			"path": "pages/cell/index",
+			"style": {
+				"navigationBarTitleText": "Cell 单元格"
+			}
+		},
+		{
+			"path": "pages/spin/index",
+			"style": {
+				"navigationBarTitleText": "Spin 加载"
+			}
+		},
+		{
+			"path": "pages/image/index",
+			"style": {
+				"navigationBarTitleText": "Image 图片"
+			}
+		},
+		{
+			"path": "pages/avatar/index",
+			"style": {
+				"navigationBarTitleText": "Avatar 头像"
+			}
+		},
+		{
+			"path": "pages/line/index",
+			"style": {
+				"navigationBarTitleText": "Line 线条"
+			}
+		},
+		{
+			"path": "pages/badge/index",
+			"style": {
+				"navigationBarTitleText": "Badge 徽标"
+			}
+		},
+		{
+			"path": "pages/tag/index",
+			"style": {
+				"navigationBarTitleText": "Tag 标签"
+			}
+		},
+
+		{
+			"path": "pages/form/index",
+			"style": {
+				"navigationBarTitleText": "Form 表单"
+			}
+		},
+		{
+			"path": "pages/input/index",
+			"style": {
+				"navigationBarTitleText": "Input 输入框"
+			}
+		},
+		{
+			"path": "pages/inputNumber/index",
+			"style": {
+				"navigationBarTitleText": "InputNumber 数字输入"
+			}
+		},
+		{
+			"path": "pages/textarea/index",
+			"style": {
+				"navigationBarTitleText": "Textarea 多行输入框"
+			}
+		},
+		{
+			"path": "pages/checkbox/index",
+			"style": {
+				"navigationBarTitleText": "Checkbox 复选框"
+			}
+		},
+		{
+			"path": "pages/radio/index",
+			"style": {
+				"navigationBarTitleText": "Radio 单选框"
+			}
+		},
+		{
+			"path": "pages/switch/index",
+			"style": {
+				"navigationBarTitleText": "Switch 开关"
+			}
+		},
+
+		{
+			"path": "pages/empty/index",
+			"style": {
+				"navigationBarTitleText": "Empty 无内容"
+			}
+		},
+
+		{
+			"path": "pages/navBar/index",
+			"style": {
+				"navigationBarTitleText": "NavBar 导航栏"
+			}
+		},
+		{
+			"path": "pages/tabBar/index",
+			"style": {
+				"navigationBarTitleText": "TabBar 底部导航栏"
+			}
+		},
+		{
+			"path": "pages/tabs/index",
+			"style": {
+				"navigationBarTitleText": "Tabs 标签页"
+			}
+		},
+
+		{
+			"path": "pages/progress/index",
+			"style": {
+				"navigationBarTitleText": "Progress 进度条"
+			}
+		},
+
+		{
+			"path": "pages/loadMore/index",
+			"style": {
+				"navigationBarTitleText": "LoadMore 加载更多"
+			}
+		},
+
+		{
+			"path": "pages/grid/index",
+			"style": {
+				"navigationBarTitleText": "Grid 栅格"
+			}
+		},
+		{
+			"path": "pages/topBar/index",
+			"style": {
+				"navigationBarTitleText": "TopBar 顶部栏",
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/bottomBar/index",
+			"style": {
+				"navigationBarTitleText": "BottomBar 底部栏"
+			}
+		}
+	],
+	"globalStyle": {
+		"navigationBarTextStyle": "black",
+		"navigationBarTitleText": "cfg-design",
+		"navigationBarBackgroundColor": "#fff"
+	}
+}

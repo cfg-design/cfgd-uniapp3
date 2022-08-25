@@ -1,0 +1,7 @@
+node_modules
+unpackage
+.DS_Store
+dist
+dist-ssr
+*.local
+report.html

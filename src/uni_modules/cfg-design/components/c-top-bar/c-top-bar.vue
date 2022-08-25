@@ -1,0 +1,118 @@
+<script setup lang="ts">
+import type { CSSProperties } from 'vue'
+import type { TopBarProps } from './types.d'
+import { computed, ref, onMounted, getCurrentInstance } from 'vue'
+import { toCssUnit } from '../../styles'
+import { getPropsBoolean, mergeProps, getRect } from '../../utils'
+import { useConfigs } from './use'
+
+interface Props {
+  /**
+   * 配置名。使用 `useTopBarConfigs()` 查看配置数据。使用 `setTopBarConfigs()` 进行配置。
+   * 默认： `default`
+   */
+  c?: TopBarProps['c']
+  /**
+   * view 组件的 Attributes 和 Props 。
+   * 默认： `undefined`
+   */
+  viewBind?: TopBarProps['viewBind']
+  /**
+   * 元素层级 z-index。
+   * 默认： undefined
+   */
+  zIndex?: TopBarProps['zIndex']
+  /**
+   * fixed 顶部的距离。
+   * 默认： undefined
+   */
+  top?: TopBarProps['top']
+  /**
+   * 无空间。
+   * 默认： `undefined`
+   */
+  noSpace?: TopBarProps['noSpace']
+  /**
+   * 不固定。
+   * 默认： `undefined`
+   */
+  noFixed?: TopBarProps['noFixed']
+  /**
+   * 显示顶部状态栏高度。
+   * 默认： `undefined`
+   */
+  statusBar?: TopBarProps['statusBar']
+}
+
+const props = withDefaults(defineProps<Props>(), { c: 'default' })
+const configs = useConfigs()
+
+const statusBarHeight = ref('')
+const heightR = ref(0)
+
+const propsC = computed<Props>(() => mergeProps(configs.value[props.c], props))
+const noSpaceC = computed(() => getPropsBoolean(propsC.value.noSpace))
+const noFixedC = computed(() => getPropsBoolean(propsC.value.noFixed))
+const barStyle = computed<CSSProperties>(() => ({ paddingTop: !noSpaceC.value && !noFixedC.value ? heightR.value + 'px' : undefined }))
+
+const viewBindC = computed(() => mergeProps<Props['viewBind']>({
+  class: [{ 'c-top-bar__fixed': !noFixedC.value }],
+  style: [{
+    zIndex: Number(propsC.value.zIndex) || 2,
+    top: toCssUnit(propsC.value.top),
+    paddingTop: statusBarHeight.value,
+  }]
+}, propsC.value.viewBind))
+
+getPropsBoolean(propsC.value.statusBar) && uni.getSystemInfo({
+  success(res) {
+    statusBarHeight.value = res.statusBarHeight + 'px'
+  }
+})
+
+const handleInit = () => getRect(getCurrentInstance()!, '.c-top-bar__wrap')
+  .then(({ height }) => {
+    heightR.value = height || 0
+  })
+
+onMounted(handleInit)
+</script>
+
+<template>
+<view class="c-top-bar" :style="barStyle">
+  <view class="c-top-bar__wrap" v-bind="(viewBindC as any)">
+    <slot />
+  </view>
+</view>
+</template>
+
+<style lang="scss">
+.c-top-bar {
+  /* #ifndef APP-NVUE */
+  display: flex;
+  /* #endif */
+
+  flex-direction: column;
+  align-items: stretch;
+
+  &__ {
+    &wrap {
+      /* #ifndef APP-NVUE */
+      display: flex;
+      /* #endif */
+
+      flex-direction: column;
+      align-items: stretch;
+      background-color: #fff;
+    }
+
+    &fixed {
+      position: fixed;
+      top: 0;
+      right: 0;
+      left: 0;
+      margin: auto;
+    }
+  }
+}
+</style>
