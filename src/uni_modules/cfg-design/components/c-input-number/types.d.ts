@@ -1,14 +1,10 @@
 import type { HTMLAttributes } from 'vue'
-import type { UViewProps } from '../uni.d'
 import { InputProps } from '../c-input/types'
 import type { ButtonProps } from '../c-button/types.d'
 
 export interface InputNumberConfig {
-  /**
-   * view 组件的 Attributes 和 Props 。
-   * 默认： `undefined`
-   */
-  viewBind?: HTMLAttributes & UViewProps
+  cClass?: string | Record<string, any> | (string | Record<string, any>)[]
+  cStyle?: HTMLAttributes['style']
   /**
    * 输入框的内容。
    * 默认： `undefined`
@@ -60,10 +56,10 @@ export interface InputNumberConfig {
    */
   disabled?: boolean
   /**
-   * 圆角值。 default 配置为 `s`。 `useRadius()` 可以查看配置数据。使用 `setRadius()` 进行配置。
+   * 圆角值。 `useRadius()` 可以查看配置数据。使用 `setRadius()` 进行配置。
    * 默认： `undefined`
    */
-  radius?: string
+  radius?: string | number
   /**
    * 是否显示为圆形。
    * 默认： `undefined`

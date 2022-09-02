@@ -3,11 +3,7 @@ import { ref } from 'vue'
 import { mergeRight } from 'ramda'
 
 const configs = ref<Record<string, ImageConfig>>({
-  default: {
-    iconProps: { name: 'image-2-fill', color: 'placeholder' },
-    errorProps: { name: 'error-warning-fill', color: 'placeholder' },
-    radius: 'm'
-  },
+  default: {},
 })
 
 export const setConfigs = (_configs: Record<string, ImageConfig>) => {

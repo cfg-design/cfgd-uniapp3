@@ -6,8 +6,10 @@
   <c-nav-bar title="标题" left-icon="arrow-left-s-line" left-text="返回" @click:left="goBack" />
   <c-nav-bar title="标题" left-icon="arrow-left-s-line" left-text="返回" @click:left="goBack">
     <template #right>
-      <c-icon name="add-line" size="20px" />
-      <c-text>新增</c-text>
+      <c-row align="center">
+        <c-icon name="add-line" size="20px" />
+        <c-text>新增</c-text>
+      </c-row>
     </template>
   </c-nav-bar>
   <c-nav-bar
@@ -23,8 +25,10 @@
 
   <c-nav-bar @click:left="onClickLeft" @click:right="onClickRight">
     <template #left>
-      <c-text>广州</c-text>
-      <c-icon name="arrow-down-s-line" size="18px" />
+      <c-row align="center">
+        <c-text>广州</c-text>
+        <c-icon name="arrow-down-s-line" size="18px" />
+      </c-row>
     </template>
     <c-input size="s" icon="search-line" border round />
     <template #right>

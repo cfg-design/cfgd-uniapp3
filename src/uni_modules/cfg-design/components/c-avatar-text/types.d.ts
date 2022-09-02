@@ -1,15 +1,11 @@
 import type { HTMLAttributes } from 'vue'
-import type { UViewProps } from '../uni.d'
 import type { TextProps } from '../c-text/types.d'
 
 export interface AvatarTextConfig {
+  cClass?: string | Record<string, any> | (string | Record<string, any>)[]
+  cStyle?: HTMLAttributes['style']
   /**
-   * view 组件的 Attributes 和 Props 。
-   * 默认： `undefined`
-   */
-  viewBind?: HTMLAttributes & UViewProps
-  /**
-   * 背景颜色。 default 配置为 `#fff`。 `useColors()` 可以查看配置数据。使用 `setColors()` 进行配置。
+   * 背景颜色。 `useColors()` 可以查看配置数据。使用 `setColors()` 进行配置。
    * 默认： `undefined`
    */
   color?: string
@@ -29,15 +25,15 @@ export interface AvatarTextConfig {
    */
   textProps?: TextProps
   /**
-   * 头像大小。 default 配置为 `100rpx`。
+   * 头像大小。
    * 默认： `undefined`
    */
   size?: string | number
   /**
-   * 圆角值。 default 配置为 `m`。 `useRadius()` 可以查看配置数据。使用 `setRadius()` 进行配置。
+   * 圆角值。 `useRadius()` 可以查看配置数据。使用 `setRadius()` 进行配置。
    * 默认： `undefined`
    */
-  radius?: string
+  radius?: string | number
   /**
    * 是否显示为圆形。
    * 默认： `undefined`

@@ -1,0 +1,54 @@
+/* #ifdef MP */
+c-avatar,
+c-avatar-text,
+c-badge,
+c-button,
+c-checkbox,
+c-col,
+c-icon,
+c-image,
+c-input,
+c-input-number,
+c-radio,
+c-switch,
+c-tab-bar-item,
+c-tab-item,
+c-tag,
+c-textarea,
+c-text,
+c-bottom-bar,
+c-cell,
+c-checkbox-group,
+c-empty,
+c-form,
+c-form-item,
+c-line,
+c-load-more,
+c-nav-bar,
+c-progress,
+c-radio-group,
+c-row,
+c-tab-bar,
+c-tabs,
+c-top-bar {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+c-tab-bar-item,
+c-input,
+c-textarea,
+c-radio-group,
+c-checkbox-group,
+c-row {
+  flex-grow: 1;
+}
+
+.c-tab-bar > view {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+/* #endif */

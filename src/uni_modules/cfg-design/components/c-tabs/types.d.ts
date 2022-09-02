@@ -1,23 +1,19 @@
 import type { HTMLAttributes } from 'vue'
-import type { UViewProps } from '../uni'
-import type { TabItemProps } from '../c-tab-item/types'
+import type { TabItemProps, TabItemConfig } from '../c-tab-item/types'
 
 export interface TabsConfig {
-  /**
-   * view 组件的 Attributes 和 Props 。
-   * 默认： `undefined`
-   */
-  viewBind?: HTMLAttributes & UViewProps
+  cClass?: string | Record<string, any> | (string | Record<string, any>)[]
+  cStyle?: HTMLAttributes['style']
   /**
    * 选中的值。
    * 默认： `undefined`
    */
   value?: TabItemProps['value']
   /**
-   * c-tab-item props 一些配置，有效属性 `viewBind`, `dotBind`, `textProps`, `badgeProps`, `color` , `lineProps`, `activeType`。
+   * c-tab-item TabItemConfig 。
    * 默认： `undefined`
    */
-  item?: Pick<TabItemProps, 'viewBind' | 'dotBind' | 'textProps' | 'badgeProps' | 'color' | 'lineProps' | 'activeType'>
+  item?: TabItemConfig
   /**
    * 项目。
    * 默认： `undefined`

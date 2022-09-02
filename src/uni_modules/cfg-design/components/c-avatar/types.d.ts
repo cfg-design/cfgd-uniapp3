@@ -3,20 +3,16 @@ import type { ImageProps } from '../c-image/types.d'
 export interface AvatarConfig {
   /**
    * 详情请查看 c-image props 。
-   * default 配置为： {
-   *   viewBind: { class: ['c-avatar'], style: [{ backgroundColor: '#fff' }] },
-   *   iconProps: { name: 'user-5-line' }
-   * } 。
    * 默认： `default`
    */
-  ImageProps?: ImageProps
+  imageProps?: ImageProps
   /**
    * 头像图片链接地址。
    * 默认： `undefined`
    */
   src?: ImageProps['src']
   /**
-   * 头像大小。default 配置为 100rpx 。
+   * 头像大小。
    * 默认： `undefined`
    */
   size?: string | number
@@ -24,7 +20,7 @@ export interface AvatarConfig {
    * 圆角值。详情请查看 c-image props.radius 。
    * 默认： `undefined`
    */
-  radius?: string
+  radius?: string | number
   /**
    * 是否显示为圆形。
    * 默认： `undefined`

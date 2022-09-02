@@ -1,13 +1,9 @@
-import type { HTMLAttributes, CSSProperties } from 'vue'
-import type { UViewProps } from '../uni.d'
+import type { CSSProperties, HTMLAttributes } from 'vue'
 import type { CheckboxConfig } from '../c-checkbox/types.d'
 
 export interface CheckboxGroupConfig {
-  /**
-   * view 组件的 Attributes 和 Props 。
-   * 默认： `undefined`
-   */
-  viewBind?: HTMLAttributes & UViewProps
+  cClass?: string | Record<string, any> | (string | Record<string, any>)[]
+  cStyle?: HTMLAttributes['style']
   /**
    * 选中的值。
    * 默认： `undefined`
@@ -29,10 +25,10 @@ export interface CheckboxGroupConfig {
    */
   path?: string
   /**
-   * checkbox props 一些设置，有效属性 `activeType`, `iconWrapBind`, `viewBind`, `color`, `size`, `readonly`, `iconProps`, `textProps`, `border`, `borderBottom`, `radius`, `round`, `noFeedback`
+   * c-checkbox config 。
    * 默认： `undefined`
    */
-  checkbox?: Pick<CheckboxConfig, 'activeType' | 'iconWrapBind' | 'viewBind' | 'color' | 'size' | 'readonly' | 'iconProps' | 'textProps' | 'border' | 'borderBottom' | 'radius' | 'round' | 'noFeedback'>
+  checkbox?: CheckboxConfig
 }
 
 export interface CheckboxGroupProps extends CheckboxGroupConfig {

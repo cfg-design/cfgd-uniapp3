@@ -1,13 +1,8 @@
 import type { HTMLAttributes } from 'vue'
-import type { UViewProps } from '../uni.d'
-import { LineProps } from '../c-line/types'
 
 export interface BottomBarConfig {
-  /**
-   * view 组件的 Attributes 和 Props 。
-   * 默认： `undefined`
-   */
-  viewBind?: HTMLAttributes & UViewProps
+  cClass?: string | Record<string, any> | (string | Record<string, any>)[]
+  cStyle?: HTMLAttributes['style']
   /**
    * 元素层级 z-index。
    * 默认： undefined

@@ -7,7 +7,7 @@ export interface IconConfig {
    */
   textProps?: TextProps
   /**
-   * 字体名称。 default 配置为 c-icon 。
+   * 字体名称。
    * 默认： `undefined`
    */
   family?: string

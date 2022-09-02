@@ -3,20 +3,18 @@ import type { CSSProperties } from 'vue'
 import type { TopBarProps } from './types.d'
 import { computed, ref, onMounted, getCurrentInstance } from 'vue'
 import { toCssUnit } from '../../styles'
-import { getPropsBoolean, mergeProps, getRect } from '../../utils'
+import { omitProps, getPropsBoolean, mergeProps, getRect } from '../../utils'
 import { useConfigs } from './use'
 
 interface Props {
+  props?: TopBarProps
+  cClass?: TopBarProps['cClass']
+  cStyle?: TopBarProps['cStyle']
   /**
    * 配置名。使用 `useTopBarConfigs()` 查看配置数据。使用 `setTopBarConfigs()` 进行配置。
    * 默认： `default`
    */
   c?: TopBarProps['c']
-  /**
-   * view 组件的 Attributes 和 Props 。
-   * 默认： `undefined`
-   */
-  viewBind?: TopBarProps['viewBind']
   /**
    * 元素层级 z-index。
    * 默认： undefined
@@ -50,19 +48,26 @@ const configs = useConfigs()
 const statusBarHeight = ref('')
 const heightR = ref(0)
 
-const propsC = computed<Props>(() => mergeProps(configs.value[props.c], props))
+const props1 = computed(() => props.props ? mergeProps(props.props, omitProps(props)) : props)
+const propsC = computed(() => mergeProps(configs.value[props1.value.c!], props1.value))
 const noSpaceC = computed(() => getPropsBoolean(propsC.value.noSpace))
 const noFixedC = computed(() => getPropsBoolean(propsC.value.noFixed))
-const barStyle = computed<CSSProperties>(() => ({ paddingTop: !noSpaceC.value && !noFixedC.value ? heightR.value + 'px' : undefined }))
 
-const viewBindC = computed(() => mergeProps<Props['viewBind']>({
-  class: [{ 'c-top-bar__fixed': !noFixedC.value }],
-  style: [{
-    zIndex: Number(propsC.value.zIndex) || 2,
-    top: toCssUnit(propsC.value.top),
-    paddingTop: statusBarHeight.value,
-  }]
-}, propsC.value.viewBind))
+const wrapViewStyle = computed(() => ({
+  zIndex: Number(propsC.value.zIndex) || 2,
+  top: toCssUnit(propsC.value.top),
+  paddingTop: statusBarHeight.value,
+}))
+
+const style1 = computed(() => {
+  const style: CSSProperties = {}
+  if (!noSpaceC.value && !noFixedC.value) {
+    style.paddingTop = heightR.value + 'px'
+  }
+  return style
+})
+const styles = computed(() => mergeProps({ x: [style1.value] }, { x: propsC.value.cStyle }).x)
+const classC = computed(() => mergeProps({ x: ['c-top-bar'] }, { x: propsC.value.cClass }).x)
 
 getPropsBoolean(propsC.value.statusBar) && uni.getSystemInfo({
   success(res) {
@@ -79,19 +84,23 @@ onMounted(handleInit)
 </script>
 
 <template>
-<view class="c-top-bar" :style="barStyle">
-  <view class="c-top-bar__wrap" v-bind="(viewBindC as any)">
+<view :class="classC" :style="(styles as any)">
+  <view
+    :class="['c-top-bar__wrap', { 'c-top-bar__fixed': !noFixedC }]"
+    :style="wrapViewStyle"
+  >
     <slot />
   </view>
 </view>
 </template>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .c-top-bar {
   /* #ifndef APP-NVUE */
   display: flex;
   /* #endif */
 
+  box-sizing: border-box;
   flex-direction: column;
   align-items: stretch;
 
@@ -101,6 +110,7 @@ onMounted(handleInit)
       display: flex;
       /* #endif */
 
+      box-sizing: border-box;
       flex-direction: column;
       align-items: stretch;
       background-color: #fff;

@@ -1,21 +1,17 @@
 import type { HTMLAttributes } from 'vue'
-import type { UViewProps } from '../uni.d'
 import type { TextProps } from '../c-text/types'
 import type { IconProps } from '../c-icon/types'
 
 export interface TagConfig {
+  cClass?: string | Record<string, any> | (string | Record<string, any>)[]
+  cStyle?: HTMLAttributes['style']
   /**
-   * view 组件的 Attributes 和 Props 。
-   * 默认： `undefined`
-   */
-  viewBind?: HTMLAttributes & UViewProps
-  /**
-   * 背景和边框颜色。 default 配置为 `primary`。 `useColors()` 可以查看配置数据。使用 `setColors()` 进行配置。
+   * 背景和边框颜色。 `useColors()` 可以查看配置数据。使用 `setColors()` 进行配置。
    * 默认： `undefined`
    */
   color?: string
   /**
-   * 大小。 default 配置为 `s`。详情查看 c-text props.size
+   * 大小。详情查看 c-text props.size
    * 默认： `undefined`
    */
   size?: string | number
@@ -25,7 +21,7 @@ export interface TagConfig {
    */
   text?: string
   /**
-   * 文字的颜色。 default 配置为 `#fff`。详情查看 c-text props.color
+   * 文字的颜色。详情查看 c-text props.color
    * 默认： `undefined`
    */
   textColor?: string
@@ -50,20 +46,15 @@ export interface TagConfig {
    */
   closable?: boolean
   /**
-   * 关闭的 view 组件的 Attributes 和 Props 。
-   * 默认： `undefined`
-   */
-  closeViewBind?: HTMLAttributes & UViewProps
-  /**
    * 详情查看 c-icon props
    * 默认： `undefined`
    */
   closeIconProps?: IconProps
   /**
-   * 圆角值。 default 配置为 `s`。 `useRadius()` 可以查看配置数据。使用 `setRadius()` 进行配置。
+   * 圆角值。 `useRadius()` 可以查看配置数据。使用 `setRadius()` 进行配置。
    * 默认： `undefined`
    */
-  radius?: string
+  radius?: string | number
   /**
    * 是否显示为圆形。
    * 默认： `undefined`

@@ -4,7 +4,7 @@
       ref="formRef"
       v-model:value="formData"
       :rules="rules"
-      :label="{ labelWidth: 120 }"
+      :item="{ labelWidth: 120 }"
       @submit="onSubmit"
       @reset="onReset"
     >
@@ -68,27 +68,27 @@
       </c-form-item>
     </c-form>
     <c-text c="h3">no-require-mark</c-text>
-    <c-form v-model:value="formData" :rules="rules" no-require-mark>
+    <c-form v-model:value="formData" :rules="rules" :item="{ noRequireMark: true }">
       <Form1 />
     </c-form>
     <c-text c="h3">Label Top</c-text>
-    <c-form v-model:value="formData" :rules="rules" :label="{ labelPlacement: 'top' }">
+    <c-form v-model:value="formData" :rules="rules" :item="{ labelPlacement: 'top' }" >
       <Form1 />
     </c-form>
     <c-text c="h3">Size</c-text>
-    <c-form v-model:value="formData" :rules="rules" size="4xl">
+    <c-form v-model:value="formData" :rules="rules" :item="{ size: '4xl' }">
       <Form1 />
     </c-form>
     <c-text c="h3">Label Font Color</c-text>
-    <c-form v-model:value="formData" :rules="rules" size="40" :label="{ labelTextProps: { color: 'success' } }">
+    <c-form v-model:value="formData" :rules="rules" size="40" :item="{ labelTextProps: { color: 'success'} }" >
       <Form1 />
     </c-form>
     <c-text c="h3">no-border-bottom</c-text>
-    <c-form v-model:value="formData" :rules="rules" :size="30" no-border-bottom>
+    <c-form v-model:value="formData" :rules="rules" :size="30" :item="{ noBorderBottom: true }">
       <Form1 />
     </c-form>
     <c-text c="h3">no-label</c-text>
-    <c-form v-model:value="formData" :rules="rules" no-label>
+    <c-form v-model:value="formData" :rules="rules" :item="{ noLabel: true }">
       <Form1 />
     </c-form>
     <c-text c="h3">disabled</c-text>
@@ -124,48 +124,77 @@
     </c-form>
 
     <c-text c="h3">Label Align</c-text>
-    <c-form :label="{ labelWidth: 200 }">
+    <c-form :item="{ labelWidth: 200, mainStyle: { alignItems: 'flex-start'  } }">
       <c-form-item label="账号">
-        <c-textarea height="80rpx" />
+        <c-textarea height="100rpx" />
       </c-form-item>
     </c-form>
-    <c-form :label="{ labelWidth: 200, labelAlign: 'flex-start' }">
+    <c-form :item="{
+      labelWidth: 200,
+      mainStyle: { alignItems: 'flex-start' },
+      labelStyle: { justifyContent: 'center' }
+    }">
       <c-form-item label="账号">
-        <c-textarea height="80rpx" />
+        <c-textarea height="100rpx" />
       </c-form-item>
     </c-form>
-    <c-form :label="{ labelWidth: 200, labelAlign: 'flex-end' }">
+    <c-form :item="{
+      labelWidth: 200,
+      mainStyle: { alignItems: 'flex-start' },
+      labelStyle: { justifyContent: 'flex-end' }
+    }">
       <c-form-item label="账号">
-        <c-textarea height="80rpx" />
+        <c-textarea height="100rpx" />
       </c-form-item>
     </c-form>
-    <c-form :label="{ labelWidth: 200, labelJustify: 'center' }">
+    <c-form :item="{ labelWidth: 200, labelStyle: { justifyContent: 'flex-start' } }">
       <c-form-item label="账号">
-        <c-textarea height="80rpx" />
+        <c-textarea height="100rpx" />
       </c-form-item>
     </c-form>
-    <c-form :label="{ labelWidth: 200, labelJustify: 'flex-end' }">
+    <c-form :item="{ labelWidth: 200, labelStyle: { justifyContent: 'center' } }">
       <c-form-item label="账号">
-        <c-textarea height="80rpx" />
+        <c-textarea height="100rpx" />
       </c-form-item>
     </c-form>
-    <c-form :label="{ labelWidth: 200, labelAlign: 'flex-end', labelJustify: 'flex-end' }">
+    <c-form :item="{ labelWidth: 200, labelStyle: { justifyContent: 'flex-end' } }">
       <c-form-item label="账号">
-        <c-textarea height="80rpx" />
+        <c-textarea height="100rpx" />
       </c-form-item>
     </c-form>
-    <c-form>
-      <c-form-item right-icon="arrow-right-s-line" />
+    <c-form :item="{
+      labelWidth: 200,
+      mainStyle: { alignItems: 'flex-end' }
+    }">
+      <c-form-item label="账号">
+        <c-textarea height="100rpx" />
+      </c-form-item>
     </c-form>
-    <MyC>
-    </MyC>
+    <c-form :item="{
+      labelWidth: 200,
+      mainStyle: { alignItems: 'flex-end' },
+      labelStyle: { justifyContent: 'center' }
+    }">
+      <c-form-item label="账号">
+        <c-textarea height="100rpx" />
+      </c-form-item>
+    </c-form>
+    <c-form :item="{
+      labelWidth: 200,
+      mainStyle: { alignItems: 'flex-end' },
+      labelStyle: { justifyContent: 'flex-end' }
+    }">
+      <c-form-item label="账号">
+        <c-textarea height="100rpx" />
+      </c-form-item>
+    </c-form>
   </view>
 </template>
 
 <script setup lang="ts">
 import type { FormRules, RadioConfig } from '@/uni_modules/cfg-design'
 import { ref } from 'vue'
-import { CForm as MyC } from '@/uni_modules/cfg-design'
+import CForm from '@/uni_modules/cfg-design/components/c-form/c-form.vue'
 import Form1 from './form1.vue'
 
 const defaultFormData = {
@@ -187,7 +216,7 @@ const sexs: RadioConfig[] = [
   { text: '保密[no-feedback]', value: '3', noFeedback: true }
 ]
 
-const formRef = ref<InstanceType<typeof MyC>>()
+const formRef = ref<InstanceType<typeof CForm>>()
 const formData = ref({ ...defaultFormData })
 const rules: FormRules = {
   name: [{ required: true, message: '用户名不能为空', trigger: 'input' }],
@@ -227,5 +256,6 @@ const restoreValidation = () => formRef.value?.restoreValidation()
 }
 .c-form {
   margin-bottom: 10rpx;
+  padding-top: 10rpx;
 }
 </style>

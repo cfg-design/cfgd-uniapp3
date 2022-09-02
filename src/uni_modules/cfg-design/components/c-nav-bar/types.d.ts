@@ -1,19 +1,10 @@
 import type { HTMLAttributes } from 'vue'
-import type { UViewProps } from '../uni'
 import type { TextProps } from '../c-text/types.d'
 import type { IconProps } from '../c-icon/types.d'
 
 export interface NavBarConfig {
-  /**
-   * view 组件的 Attributes 和 Props 。
-   * 默认： `undefined`
-   */
-  viewBind?: HTMLAttributes & UViewProps
-  /**
-   * view 组件的 Attributes 和 Props 。
-   * 默认： `undefined`
-   */
-  leftViewBind?: HTMLAttributes & UViewProps
+  cClass?: string | Record<string, any> | (string | Record<string, any>)[]
+  cStyle?: HTMLAttributes['style']
   /**
    * 左边的图标。
    * 默认： `undefined`
@@ -44,16 +35,6 @@ export interface NavBarConfig {
    * 默认： `undefined`
    */
   titleProps?: TextProps
-  /**
-   * view 组件的 Attributes 和 Props 。
-   * 默认： `undefined`
-   */
-  titleViewBind?: HTMLAttributes & UViewProps
-  /**
-   * view 组件的 Attributes 和 Props 。
-   * 默认： `undefined`
-   */
-  rightViewBind?: HTMLAttributes & UViewProps
 }
 
 export interface NavBarProps extends NavBarConfig {

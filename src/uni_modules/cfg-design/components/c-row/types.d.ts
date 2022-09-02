@@ -1,12 +1,8 @@
-import type { HTMLAttributes, CSSProperties } from 'vue'
-import type { UViewProps } from '../uni.d'
+import type { CSSProperties, HTMLAttributes } from 'vue'
 
 export interface RowConfig {
-  /**
-   * view 组件的 Attributes 和 Props 。
-   * 默认： `undefined`
-   */
-  viewBind?: HTMLAttributes & UViewProps
+  cClass?: string | Record<string, any> | (string | Record<string, any>)[]
+  cStyle?: HTMLAttributes['style']
   /**
    * 显示的栅格数量。
    * 默认： `undefined`
@@ -27,11 +23,6 @@ export interface RowConfig {
    * 默认： `undefined`
    */
   justify?: CSSProperties['justify-content']
-  /**
-   * 是否超出换行。
-   * 默认： `undefined`
-   */
-  wrap?: boolean
   /**
    * 是否垂直布局。
    * 默认： `undefined`

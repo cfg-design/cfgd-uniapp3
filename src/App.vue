@@ -11,10 +11,13 @@ onHide(() => {
 })
 </script>
 
-<style>
+<style lang="scss">
 @import url('@/uni_modules/cfg-design/components/c-icon/iconfont.css');
+@import url('@/uni_modules/cfg-design/styles/mp.scss');
 
-body {
+.page {
+  box-sizing: border-box;
+  min-height: calc(100vh - 44px);
   background-color: #f2f6f8;
 }
 

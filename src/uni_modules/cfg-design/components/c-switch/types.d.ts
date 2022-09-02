@@ -1,26 +1,22 @@
 import type { HTMLAttributes } from 'vue'
-import type { UViewProps } from '../uni'
 import type { SpinProps } from '../c-spin/types'
 import type { TextProps } from '../c-text/types'
 
 export interface SwitchConfig {
+  cClass?: string | Record<string, any> | (string | Record<string, any>)[]
+  cStyle?: HTMLAttributes['style']
   /**
-   * view 组件的 Attributes 和 Props 。
-   * 默认： `undefined`
-   */
-  viewBind?: HTMLAttributes & UViewProps
-  /**
-   * 颜色。 default 配置为 `primary`。 `useColors()` 可以查看配置数据。使用 `setColors()` 进行配置。
+   * 颜色。 `useColors()` 可以查看配置数据。使用 `setColors()` 进行配置。
    * 默认： `undefined`
    */
   color?: string
   /**
-   * 背景颜色。 default 配置为 `primary`。 `useColors()` 可以查看配置数据。使用 `setColors()` 进行配置。
+   * 背景颜色。 `useColors()` 可以查看配置数据。使用 `setColors()` 进行配置。
    * 默认： `undefined`
    */
   bgColor?: string
   /**
-   * 字体大小。 default 配置为 m。 useFontSizes() 可以查看配置数据。使用 setFontSizes() 进行配置。
+   * 字体大小。 `useFontSizes()` 可以查看配置数据。使用 setFontSizes() 进行配置。
    * 默认： undefined
    */
   size?: string | number
@@ -75,20 +71,15 @@ export interface SwitchConfig {
    */
   loading?: boolean
   /**
-   * 文字 c-sping props 。
+   * 文字 c-spin props 。
    * 默认： `undefined`
    */
   spinProps?: SpinProps
   /**
-   * 滑动块，view 组件的 Attributes 和 Props 。
+   * 圆角值。 `useRadius()` 可以查看配置数据。使用 `setRadius()` 进行配置。
    * 默认： `undefined`
    */
-  sliderBind?: HTMLAttributes & UViewProps
-  /**
-   * 圆角值。 default 配置为 `s`。 `useRadius()` 可以查看配置数据。使用 `setRadius()` 进行配置。
-   * 默认： `undefined`
-   */
-  radius?: string
+  radius?: string | number
   /**
    * 是否显示为圆形。
    * 默认： `undefined`

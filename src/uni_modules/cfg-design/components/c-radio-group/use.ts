@@ -6,15 +6,14 @@ import { mergeRight } from 'ramda'
 import { toCssUnit } from '../../styles'
 
 const configs = ref<Record<string, RadioGroupConfig>>({
-  default: { radio: { viewBind: { style: [{ margin: toCssUnit('10 0') }] } } },
+  default: {},
   row: {
     direction: 'row',
-    radio: { viewBind: { style: [{ margin: toCssUnit('10 20 10 0') }] } }
+    radio: { cStyle: [{ margin: toCssUnit('10 20 10 0') }] }
   },
   right: {
     radio: {
-      viewBind: { style: [{ margin: toCssUnit('10 0') }] },
-      iconWrapBind: { style: [{ order: 2 }]}
+      iconWrapStyle: [{ order: 2, margin: '0' }]
     }
   }
 })

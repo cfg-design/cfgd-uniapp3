@@ -3,16 +3,7 @@ import { ref } from 'vue'
 import { mergeRight } from 'ramda'
 
 const configs = ref<Record<string, InputConfig>>({
-  default: {
-    radius: 's',
-    placeholder: '请输入',
-    iconProps: { textProps: { textBind: { class: 'c-input__icon' } } },
-    rightIconProps: { textProps: { textBind: { class: 'c-input__right-icon' } } },
-    countProps: {
-      color: 'secondary',
-      textBind: { class: 'c-input__count' }
-    }
-  },
+  default: {},
 })
 
 export const setConfigs = (_configs: Record<string, InputConfig>) => {

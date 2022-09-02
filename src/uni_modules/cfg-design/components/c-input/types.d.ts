@@ -1,39 +1,18 @@
-import type { HTMLAttributes, InputHTMLAttributes, CSSProperties } from 'vue'
-import type { UViewProps, UInputProps } from '../uni.d'
+import type { CSSProperties, HTMLAttributes } from 'vue'
+import type { UInputProps } from '../uni'
 import type { IconProps } from '../c-icon/types.d'
 import { TextProps } from '../c-text/types'
 
-export interface InputConfig {
-  /**
-   * view 组件的 Attributes 和 Props 。
-   * 默认： `undefined`
-   */
-  viewBind?: HTMLAttributes & UViewProps
-  /**
-   * input 组件的 Attributes 和 Props 。
-   * 默认： `undefined`
-   */
-  inputBind?: InputHTMLAttributes & UInputProps
-  /**
-   * 输入框的内容。
-   * 默认： `undefined`
-   */
-  value?: string
-  /**
-   * input 的类型。
-   * 默认： `undefined`
-   */
-  type?: UInputProps['type']
+export interface InputConfig extends UInputProps {
+  cClass?: string | Record<string, any> | (string | Record<string, any>)[]
+  cStyle?: HTMLAttributes['style']
+  inputClass?: string | Record<string, any> | (string | Record<string, any>)[]
+  inputStyle?: HTMLAttributes['style']
   /**
    * 字体的大小。
    * 默认： `undefined`
    */
   size?: string | number
-  /**
-   * 输入框为空时占位符。
-   * 默认： `undefined`
-   */
-  placeholder?: UInputProps['placeholder']
   /**
    * 输入内容对齐方式。
    * 默认： `undefined`
@@ -65,16 +44,6 @@ export interface InputConfig {
    */
   rightIconProps?: IconProps
   /**
-   * 是否密码类型。
-   * 默认： `undefined`
-   */
-  password?: boolean
-  /**
-   * 是否禁用。
-   * 默认： `undefined`
-   */
-  disabled?: boolean
-  /**
    * 是否只读。
    * 默认： `undefined`
    */
@@ -85,10 +54,10 @@ export interface InputConfig {
    */
   clearable?: boolean
   /**
-   * 最大输入长度，设置为 -1 的时候不限制最大长度。
+   * 详情查看 c-icon props
    * 默认： `undefined`
    */
-  maxlength?: number
+  clearIconProps?: IconProps
   /**
    * 是否显示输入字数统计。
    * 默认： `undefined`
@@ -100,11 +69,6 @@ export interface InputConfig {
    */
   countProps?: TextProps
   /**
-   * 自动获取焦点。
-   * 默认： `undefined`
-   */
-  autoFocus?: boolean
-  /**
    * 是否显示边框。
    * 默认： `undefined`
    */
@@ -115,10 +79,10 @@ export interface InputConfig {
    */
   borderBottom?: boolean
   /**
-   * 圆角值。 default 配置为 `s`。 `useRadius()` 可以查看配置数据。使用 `setRadius()` 进行配置。
+   * 圆角值。 `useRadius()` 可以查看配置数据。使用 `setRadius()` 进行配置。
    * 默认： `undefined`
    */
-  radius?: string
+  radius?: string | number
   /**
    * 是否显示为圆形。
    * 默认： `undefined`

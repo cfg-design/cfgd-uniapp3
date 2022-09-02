@@ -1,29 +1,13 @@
 import type { HTMLAttributes } from 'vue'
-import type { UImageProps, UViewProps } from '../uni.d'
+import type { UImageProps } from '../uni.d'
 import type { IconProps } from '../c-icon/types.d'
 import type { SpinProps } from '../c-spin/types.d'
 
-export interface ImageConfig {
-  /**
-   * view 组件的 Attributes 和 Props 。
-   * 默认： `undefined`
-   */
-  viewBind?: HTMLAttributes & UViewProps
-  /**
-   * image 组件的 Attributes 和 Props 。
-   * 默认： `undefined`
-   */
-  imageBind?: HTMLAttributes & UImageProps
-  /**
-   * 图片链接地址。
-   * 默认： `undefined`
-   */
-  src?: UImageProps['src']
-  /**
-   * 图片裁剪、缩放的模式。详情： https://uniapp.dcloud.io/component/image.html
-   * 默认： `undefined`
-   */
-  mode?: UImageProps['mode']
+export interface ImageConfig extends UImageProps {
+  cClass?: string | Record<string, any> | (string | Record<string, any>)[]
+  cStyle?: HTMLAttributes['style']
+  imageClass?: string | Record<string, any> | (string | Record<string, any>)[]
+  imageStyle?: HTMLAttributes['style']
   /**
    * 图片宽度。
    * 默认： `undefined`
@@ -35,22 +19,22 @@ export interface ImageConfig {
    */
   height?: string | number
   /**
-   * 圆角值。 default 配置为 `m`。 `useRadius()` 可以查看配置数据。使用 `setRadius()` 进行配置。
+   * 圆角值。 `useRadius()` 可以查看配置数据。使用 `setRadius()` 进行配置。
    * 默认： `undefined`
    */
-  radius?: string
+  radius?: string | number
   /**
    * 是否显示为圆形。
    * 默认： `undefined`
    */
   round?: boolean
   /**
-   * 详情查看 c-icon props 。 `src` 为空时，显示 `icon` 图标。 default 配置为 `{ name: 'image-2-fill' }`
+   * 详情查看 c-icon props 。 `src` 为空时，显示 `icon` 图标。
    * 默认： `undefined`
    */
   iconProps?: IconProps
   /**
-   * 详情查看 c-icon props 。 加载图片失败时，显示 `icon` 图标。 default 配置为 `{ name: 'error-warning-fill', color: 'tertiary' }`
+   * 详情查看 c-icon props 。 加载图片失败时，显示 `icon` 图标。
    * 默认： `undefined`
    */
   errorProps?: IconProps

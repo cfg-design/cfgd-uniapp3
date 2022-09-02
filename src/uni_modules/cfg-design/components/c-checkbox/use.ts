@@ -3,17 +3,12 @@ import { ref } from 'vue'
 import { mergeRight } from 'ramda'
 
 const configs = ref<Record<string, CheckboxConfig>>({
-  default: {
-    radius: 's',
-    iconProps: { name: 'check-line', color: '#fff' }
-  },
+  default: {},
   minus: {
-    radius: 's',
-    iconProps: { name: 'subtract-line', color: '#fff' }
+    iconProps: { name: 'subtract-line' }
   },
   indeterminate: {
-    radius: 's',
-    iconProps: { name: 'checkbox-blank-fill', color: '#fff' }
+    iconProps: { name: 'checkbox-blank-fill' }
   }
 })
 

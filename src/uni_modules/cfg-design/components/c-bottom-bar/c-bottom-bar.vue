@@ -3,20 +3,18 @@ import type { CSSProperties } from 'vue'
 import type { BottomBarProps } from './types.d'
 import { computed, ref, onMounted, getCurrentInstance } from 'vue'
 import { toCssUnit } from '../../styles'
-import { getPropsBoolean, mergeProps, getRect } from '../../utils'
+import { getPropsBoolean, omitProps, mergeProps, getRect } from '../../utils'
 import { useConfigs } from './use'
 
 interface Props {
+  props?: BottomBarProps
+  cClase?: BottomBarProps['cClass']
+  cStyle?: BottomBarProps['cStyle']
   /**
    * 配置名。使用 `useTopBarConfigs()` 查看配置数据。使用 `setTopBarConfigs()` 进行配置。
    * 默认： `default`
    */
   c?: BottomBarProps['c']
-  /**
-   * view 组件的 Attributes 和 Props 。
-   * 默认： `undefined`
-   */
-  viewBind?: BottomBarProps['viewBind']
   /**
    * 元素层级 z-index。
    * 默认： undefined
@@ -49,22 +47,29 @@ const configs = useConfigs()
 
 const heightR = ref(0)
 
-const propsC = computed<Props>(() => mergeProps(configs.value[props.c], props))
+const props1 = computed(() => props.props ? mergeProps(props.props, omitProps(props)) : props)
+const propsC = computed(() => mergeProps(configs.value[props1.value.c!], props1.value))
 const noSpaceC = computed(() => getPropsBoolean(propsC.value.noSpace))
 const noFixedC = computed(() => getPropsBoolean(propsC.value.noFixed))
 const safeAreaInsetBottomC = computed(() => getPropsBoolean(propsC.value.safeAreaInsetBottom))
-const barStyle = computed<CSSProperties>(() => ({ paddingTop: !noSpaceC.value && !noFixedC.value ? heightR.value + 'px' : undefined }))
+const barStyle = computed(() => {
+  const style: CSSProperties = {}
+  if (!noSpaceC.value && !noFixedC.value) {
+    style.paddingTop = heightR.value + 'px'
+  }
+  return style
+})
 const zIndexC = computed(() => Number(propsC.value.zIndex) || 2)
-const bottomC = computed(() => toCssUnit(propsC.value.bottom))
-const paddingBottom = computed(() => safeAreaInsetBottomC.value ? 'env(safe-area-inset-bottom)' : '')
+const bottomC = computed(() => toCssUnit(propsC.value.bottom || 0))
+const paddingBottom = computed(() => safeAreaInsetBottomC.value ? 'env(safe-area-inset-bottom)' : '0')
 
-const viewClass = computed(() => ({ 'c-bottom-bar__fixed': !noFixedC.value }))
-const viewStyle = computed<CSSProperties>(() => ({
+const style = computed<CSSProperties>(() => ({
   zIndex: zIndexC.value,
   bottom: bottomC.value,
   paddingBottom: paddingBottom.value
 }))
-const viewBindC = computed(() => mergeProps<Props['viewBind']>({ class: [viewClass.value], style: [viewStyle.value]}, propsC.value.viewBind))
+const styleC = computed(() => mergeProps({ x: [style.value] }, { x: propsC.value.cStyle }).x)
+const classC = computed(() => mergeProps({ x: ['c-bottom-bar__wrap', { 'c-bottom-bar__fixed': !noFixedC.value }] }, { x: propsC.value.cClass }).x)
 
 const handleInit = () => getRect(getCurrentInstance()!, '.c-bottom-bar__wrap')
   .then(({ height }) => {
@@ -76,13 +81,13 @@ onMounted(handleInit)
 
 <template>
 <view class="c-bottom-bar" :style="barStyle">
-  <view class="c-bottom-bar__wrap" v-bind="(viewBindC as any)">
+  <view :class="classC" :style="(styleC as any)">
     <slot />
   </view>
 </view>
 </template>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .c-bottom-bar {
   /* #ifndef APP-NVUE */
   display: flex;
@@ -90,6 +95,7 @@ onMounted(handleInit)
 
   flex-direction: column;
   align-items: stretch;
+  box-sizing: border-box;
 
   &__ {
     &wrap {
@@ -99,6 +105,7 @@ onMounted(handleInit)
 
       flex-direction: column;
       align-items: stretch;
+      box-sizing: border-box;
       background-color: #fff;
     }
 

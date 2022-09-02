@@ -3,14 +3,10 @@ import { ref } from 'vue'
 import { mergeRight } from 'ramda'
 
 const configs = ref<Record<string, InputNumberConfig>>({
-  default: {
-    radius: 's',
-    minusButtonProps: { icon: 'subtract-line' },
-    plusButtonProps: { icon: 'add-line' }
-  },
+  default: {},
   round: {
-    minusButtonProps: { icon: 'subtract-line', round: true },
-    plusButtonProps: { icon: 'add-line', round: true },
+    minusButtonProps: { round: true },
+    plusButtonProps: { round: true },
     inputProps: { bgColor: 'transparent' }
   }
 })

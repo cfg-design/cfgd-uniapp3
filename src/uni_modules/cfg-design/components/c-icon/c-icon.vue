@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import type { CSSProperties } from 'vue'
 import type { IconProps } from './types.d'
 import { computed } from 'vue'
-import { mergeProps } from '../../utils'
+import { omitProps, mergeProps } from '../../utils'
 import { useConfigs, useIcons } from './use'
 
 interface Props {
+  props?: IconProps,
   /**
    * 配置名。使用 `useIconConfigs()` 查看配置数据。使用 `setIconConfigs()` 进行配置。
    * 默认： `default`
@@ -17,7 +17,7 @@ interface Props {
    */
   textProps?: IconProps['textProps']
   /**
-   * 字体名称。 default 配置为 c-icon 。
+   * 字体名称。
    * 默认： `undefined`
    */
   family?: IconProps['family']
@@ -42,28 +42,15 @@ const props = withDefaults(defineProps<Props>(), { c: 'default' })
 const configs = useConfigs()
 const icons = useIcons()
 
-const propsC = computed<Props>(() => mergeProps(configs.value[props.c], props))
-
-const iconText = computed(() => propsC.value.name && icons.value[propsC.value.name] || propsC.value.name || '' )
-const fontFamily = computed(() => propsC.value.family || configs.value.default.family)
-const style = computed<CSSProperties>(() => ({
-  fontFamily: fontFamily.value
-}))
-const textPropsC = computed<IconProps['textProps']>(() => mergeProps(propsC.value.textProps, {
-  textBind: {
-    style: style.value
-  },
-  size: propsC.value.size,
-  color: propsC.value.color,
-}))
+const props1 = computed(() => props.props ? mergeProps(props.props, omitProps(props)) : props)
+const propsC = computed(() => mergeProps(configs.value[props1.value.c!], props1.value))
 </script>
 
 <template>
-  <c-text v-bind="textPropsC">{{ iconText }}</c-text>
+  <c-text
+    :props="propsC.textProps"
+    :c-style="[{ fontFamily: propsC.family || 'c-icon', lineHeight: 1 }]"
+    :size="propsC.size"
+    :color="propsC.color"
+    >{{ propsC.name && icons[propsC.name] || propsC.name || '' }}</c-text>
 </template>
-
-<style lang="scss">
-.c-icon {
-  line-height: 1;
-}
-</style>

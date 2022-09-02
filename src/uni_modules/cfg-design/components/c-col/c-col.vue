@@ -2,39 +2,34 @@
 import type { CSSProperties } from 'vue'
 import type { ColProps } from './types.d'
 import { computed, inject, ref } from 'vue'
-import { mergeProps } from '../../utils'
-import { rowInjectionKeyCols, rowInjectionKeyGutter } from '../c-row/use'
+import { omitProps, mergeProps } from '../../utils'
+import { rowInjectionKeyCols, rowInjectionKeyGutter, rowInjectionKeyWidth } from '../c-row/use'
 import { useConfigs } from './use'
 
 interface Props {
+  props?: ColProps
+  cClase?: ColProps['cClass']
+  cStyle?: ColProps['cStyle']
   /**
    * 配置名。使用 `useColConfigs()` 查看配置数据。使用 `setColConfigs()` 进行配置。
    * 默认： `default`
    */
   c?: ColProps['c']
   /**
-   * view 组件的 Attributes 和 Props 。
-   * 默认： `undefined`
-   */
-  viewBind?: ColProps['viewBind']
-  /**
    * 栅格占据的列数。
    * 默认： `undefined`
    */
   span?: ColProps['span']
-  /**
-   * 当前组件对齐方式（相对 flex 父级）。
-   * 默认： `undefined`
-   */
-  alignSelf?: ColProps['alignSelf']
 }
 
 const props = withDefaults(defineProps<Props>(), { c: 'default' })
 const configs = useConfigs()
 const gutterS = inject(rowInjectionKeyGutter, ref(['']))
 const cols = inject(rowInjectionKeyCols, ref(12))
+const rowWidth = inject(rowInjectionKeyWidth, ref(0))
 
-const propsC = computed<Props>(() => mergeProps(configs.value[props.c], props))
+const props1 = computed(() => props.props ? mergeProps(props.props, omitProps(props)) : props)
+const propsC = computed(() => mergeProps(configs.value[props1.value.c!], props1.value))
 const padding = computed(() => {
   let [top, right] = gutterS.value
   top = top ? `calc(${top} * 0.5)` : '0'
@@ -42,50 +37,36 @@ const padding = computed(() => {
   return `${top} ${right}`
 })
 
-const styles = computed<CSSProperties[]>(() => {
-  const result: CSSProperties = {
-    alignSelf: propsC.value.alignSelf
-  }
+const style = computed(() => {
+  const result: CSSProperties = {}
 
-  if (padding.value) {
+  if (padding.value !== '0 0') {
     result.padding = padding.value
   }
 
-  if (propsC.value.span === 'auto') {
-    return [result]
+  const spanNum = Number(propsC.value.span)
+
+  if (spanNum && cols.value) {
+    result.width = spanNum / cols.value * rowWidth.value + 'px'
   }
 
-  const span = Number(propsC.value.span)
-
-  if (span === 0) {
-    result.display = 'none'
-
-    return [result]
-  }
-
-  if (!span) {
-    result.flexGrow = 1
-  } else if (cols.value) {
-    result.width = span / cols.value * 100 + '%'
-  }
-
-  return [result]
+  return result
 })
+const styleC = computed(() => mergeProps({ x: [style.value] }, { x: propsC.value.cStyle }).x)
+const classC = computed(() => mergeProps({ x: ['c-col'] }, { x: propsC.value.cClass }).x)
 </script>
 
 <template>
-<view class="c-col" v-bind="(propsC.viewBind as any)" :style="(styles as any)">
-  <slot></slot>
-</view>
+<view v-if="Number(propsC.span) !== 0" :class="classC" :style="(styleC as any)"><slot /></view>
 </template>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .c-col {
   /* #ifndef APP-NVUE */
   display: flex;
   /* #endif */
 
-  flex-direction: column;
   box-sizing: border-box;
+  flex-direction: column;
 }
 </style>

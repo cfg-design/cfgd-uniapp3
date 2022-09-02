@@ -103,59 +103,51 @@
         </c-input>
       </c-form-item>
       <c-form-item>
-        <c-row align="stretch" gutter="10">
-          <c-col>
-            <c-input icon="search-line" border />
-          </c-col>
-          <c-col span="auto">
-            <c-button color="primary" text="搜索" height="100%" />
-          </c-col>
-        </c-row>
-      </c-form-item>
-      <c-form-item>
-        <c-row align="stretch" gutter="10">
-          <c-col>
-            <c-input icon="search-line" border round />
-          </c-col>
-          <c-col span="auto">
-            <c-button color="primary" text="搜索" height="100%" round />
-          </c-col>
-        </c-row>
-      </c-form-item>
-      <c-form-item>
-        <c-row align="stretch" gutter="10">
-          <c-col>
-            <c-input icon="search-line" border round />
-          </c-col>
-          <c-col span="auto">
-            <c-button color="#fff" text="搜索" text-color="main" height="100%" round />
-          </c-col>
+        <c-row align="stretch">
+          <c-input icon="search-line" border />
+          <c-button color="primary" text="搜索" :c-style="{ marginLeft: '10rpx' }" />
         </c-row>
       </c-form-item>
       <c-form-item>
         <c-row align="stretch">
-          <c-col>
-            <c-input icon="search-line" radius="m 0 0 m" border />
-          </c-col>
-          <c-col span="auto">
-            <c-button color="primary" text="搜索" height="100%" radius="0 m m 0" />
-          </c-col>
+          <c-input icon="search-line" border round />
+          <c-button color="primary" text="搜索" :c-style="{ marginLeft: '10rpx' }" round />
         </c-row>
       </c-form-item>
       <c-form-item>
         <c-row align="stretch">
-          <c-col>
-            <c-input icon="search-line" radius="999 0 0 999" border />
-          </c-col>
-          <c-col span="auto">
-            <c-button color="primary" text="搜索" height="100%" radius="0 999 999 0" />
-          </c-col>
+          <c-input icon="search-line" border round />
+          <c-button color="#fff" text="搜索" text-color="main" :c-style="{ marginLeft: '10rpx' }" round />
+        </c-row>
+      </c-form-item>
+      <c-form-item>
+        <c-row align="stretch">
+          <c-input icon="search-line" radius="m 0 0 m" border />
+          <c-button color="primary" text="搜索" :c-style="{ marginLeft: '10rpx' }" radius="0 m m 0" />
+        </c-row>
+      </c-form-item>
+      <c-form-item>
+        <c-row align="stretch">
+          <c-input icon="search-line" radius="999 0 0 999" border />
+          <c-button color="primary" text="搜索" :c-style="{ marginLeft: '10rpx' }" radius="0 999 999 0" />
+        </c-row>
+      </c-form-item>
+      <c-form-item>
+        <c-row align="stretch">
+          <c-input icon="search-line" radius="999 0 0 999" border />
+          <c-button color="primary" text="搜索" radius="0 999 999 0" />
+        </c-row>
+      </c-form-item>
+      <c-form-item>
+        <c-row align="stretch">
+          <c-input icon="search-line" radius="0 0 0 l" border />
+          <c-button color="primary" text="搜索" radius="0 l 0 0" />
         </c-row>
       </c-form-item>
       <c-form-item>
         <c-input icon="user-5-line" right-icon="search-line" border>
           <template #prefix>
-            <c-text color="secondary" :text-bind="{ style: [{ marginLeft: '10rpx' }] }">用户</c-text>
+            <c-text color="secondary" :c-style="[{ marginLeft: '10rpx' }]">用户</c-text>
           </template>
         </c-input>
       </c-form-item>
@@ -171,8 +163,8 @@
       <c-form-item>
         <c-input icon="search-line" bg-color="success" />
       </c-form-item>
-      <c-row :cols="2" :gutter="10">
-        <c-col>
+      <c-row :gutter="10">
+        <c-col :span="6">
           <c-form-item label="禁用" label-placement="top">
             <view class="inputs">
               <c-input disabled />
@@ -184,7 +176,7 @@
             </view>
           </c-form-item>
         </c-col>
-        <c-col>
+        <c-col :span="6">
           <c-form-item label="只读" label-placement="top">
             <view class="inputs">
               <c-input readonly />
@@ -197,16 +189,11 @@
           </c-form-item>
         </c-col>
       </c-row>
-      <c-form-item>
-        <MyC placeholder="手动引入" />
-      </c-form-item>
     </c-form>
   </view>
 </template>
 
 <script setup lang="ts">
-import { CInput as MyC } from '@/uni_modules/cfg-design'
-
 const onConfirm = () => uni.showToast({ title: 'confirm', icon: 'none' })
 const onClickInput = () => uni.showToast({ title: 'click Input', icon: 'none' })
 const onClickIcon = () => uni.showToast({ title: 'click Icon', icon: 'none' })

@@ -3,20 +3,18 @@ import type { CSSProperties } from 'vue'
 import type { LineProps } from './types.d'
 import { computed } from 'vue'
 import { useColors, toCssUnit } from '../../styles'
-import { getPropsBoolean, mergeProps } from '../../utils'
+import { getPropsBoolean, omitProps, mergeProps } from '../../utils'
 import { useConfigs } from './use'
 
 interface Props {
+  props?: LineProps
+  cClase?: LineProps['cClass']
+  cStyle?: LineProps['cStyle']
   /**
    * 配置名。使用 `useLindConfigs()` 查看配置数据。使用 `setLindConfigs()` 进行配置。
    * 默认： `default`
    */
   c?: LineProps['c']
-  /**
-   * view 组件的 Attributes 和 Props 。
-   * 默认： `undefined`
-   */
-  viewBind?: LineProps['viewBind']
   /**
    * 线条长度。
    * 默认： `undefined`
@@ -53,16 +51,18 @@ const props = withDefaults(defineProps<Props>(), { c: 'default' })
 const colors = useColors()
 const configs = useConfigs()
 
-const propsC = computed<Props>(() => mergeProps(configs.value[props.c], props))
+const props1 = computed(() => props.props ? mergeProps(props.props, omitProps(props)) : props)
+const propsC = computed(() => mergeProps(configs.value[props1.value.c!], props1.value))
 
 const colorC = computed<CSSProperties['color']>(() => {
   const { color } = propsC.value
-  return color ? colors.value[color] || color : configs.value.default.color
+  return color ? colors.value[color] || color : '#ebedf0'
 })
 
 const verticalC = computed(() => getPropsBoolean(propsC.value.vertical))
 const roundC = computed(() => getPropsBoolean(propsC.value.round))
 const lengthC = computed(() => toCssUnit(propsC.value.length))
+const borderStyleC = computed(() => propsC.value.borderStyle || 'solid')
 
 const lineStyle = computed<CSSProperties>(() => {
   const result: CSSProperties = {}
@@ -82,34 +82,47 @@ const lineStyle = computed<CSSProperties>(() => {
   if (!verticalC.value) {
     result.borderTopWidth = width
     result.borderTopColor = colorC.value
-    result.borderTopStyle = propsC.value.borderStyle
-    result.width = lengthC.value
+    result.borderTopStyle = borderStyleC.value
     result.height = '0'
+    if (lengthC.value) {
+      result.width = lengthC.value
+    }
   } else {
     result.borderLeftWidth = width
     result.borderLeftColor = colorC.value
-    result.borderLeftStyle = propsC.value.borderStyle
+    result.borderLeftStyle = borderStyleC.value
     result.width = '0'
-    result.height = lengthC.value
+    if (lengthC.value) {
+      result.height = lengthC.value
+    }
   }
 
   return result
 })
 
-const styles = computed<(string | CSSProperties)[]>(() => [
+const styles = computed<CSSProperties[]>(() => [
   lineStyle.value,
   {
-    borderRadius: roundC.value ? '9999px' : ''
+    borderRadius: roundC.value ? '9999px' : '0'
   }
 ])
+
+const styleC = computed(() => mergeProps({ x: styles.value }, { x: propsC.value.cStyle }).x)
+const classC = computed(() => mergeProps({ x: ['c-line'] }, { x: propsC.value.cClass }).x)
 </script>
 
 <template>
-<view class="c-line" v-bind="propsC.viewBind" :style="(styles as any)" />
+<view :class="classC" :style="(styleC as any)" />
 </template>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .c-line {
+  /* #ifndef APP-NVUE */
+  display: flex;
+  /* #endif */
+
+  box-sizing: border-box;
   border-width: 0;
+  border-style: solid;
 }
 </style>

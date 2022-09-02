@@ -14,19 +14,17 @@
       right-icon="arrow-right-s-line"
     />
 
-    <MyC>
+    <c-cell>
       <template #left><c-text>slot:left</c-text></template>
       <template #label><c-text>slot:label</c-text></template>
       <template #brief><c-text>slot:brief</c-text></template>
       <c-text color="primary">slot:default&nbsp;</c-text>
       <template #right><c-text>slot:right</c-text></template>
-    </MyC>
+    </c-cell>
   </view>
 </template>
 
 <script setup lang="ts">
-import { CCell as MyC } from '@/uni_modules/cfg-design'
-
 const onClick = () => uni.showToast({ title: '点击 Cell', icon: 'none' })
 </script>
 

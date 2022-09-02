@@ -1,19 +1,19 @@
 <script setup lang="ts">
-import type { CSSProperties } from 'vue'
 import type { BadgeProps } from './types.d'
 import { computed } from 'vue'
 import { useColors, useRadius, useFontSizes, getSize, getSizes } from '../../styles'
-import { getPropsBoolean, mergeProps } from '../../utils'
+import { getPropsBoolean, omitProps, mergeProps } from '../../utils'
 import { useConfigs } from './use'
 
 interface Props {
+  props?: BadgeProps
   /**
    * 配置名。使用 `useBadgeConfigs()` 查看配置数据。使用 `setBadgeConfigs()` 进行配置。
    * 默认： `default`
    */
   c?: BadgeProps['c']
   /**
-   * 背景颜色。 default 配置为 `primary`。 `useColors()` 可以查看配置数据。使用 `setColors()` 进行配置。
+   * 背景颜色。 `useColors()` 可以查看配置数据。使用 `setColors()` 进行配置。
    * 默认： `undefined`
    */
   color?: BadgeProps['color']
@@ -23,12 +23,12 @@ interface Props {
    */
   text?: BadgeProps['text']
   /**
-   * 文字的颜色。default 配置为 `#fff`。详情查看 c-text props.color
+   * 文字的颜色。详情查看 c-text props.color
    * 默认： `undefined`
    */
   textColor?: BadgeProps['textColor']
   /**
-   * 文字的字体大小。default 配置为 `s`。详情查看 c-text props.size
+   * 文字的字体大小。详情查看 c-text props.size
    * 默认： `undefined`
    */
   size?: BadgeProps['size']
@@ -38,7 +38,7 @@ interface Props {
    */
   textProps?: BadgeProps['textProps']
   /**
-   * 圆角值。 default 配置为 `xs`。 `useRadius()` 可以查看配置数据。使用 `setRadius()` 进行配置。
+   * 圆角值。 `useRadius()` 可以查看配置数据。使用 `setRadius()` 进行配置。
    * 默认： `undefined`
    */
   radius?: BadgeProps['radius']
@@ -55,41 +55,34 @@ const colors = useColors()
 const fontSizes = useFontSizes()
 const radiuses = useRadius()
 
-const propsC = computed<Props>(() => mergeProps(configs.value[props.c], props))
+const props1 = computed(() => props.props ? mergeProps(props.props, omitProps(props)) : props)
+const propsC = computed(() => mergeProps(configs.value[props1.value.c!], props1.value))
 const colorC = computed<BadgeProps['color']>(() => {
   const { color } = propsC.value
-  return color ? colors.value[color] || color : configs.value.default.color
+  return color ? colors.value[color] || color : colors.value.primary
 })
-const sizeC = computed<CSSProperties['fontSize']>(() => getSize(fontSizes.value, propsC.value.size || configs.value.default.size))
-const radiusC = computed(() => getSizes(radiuses.value, propsC.value.radius))
+const sizeC = computed<string>(() => getSize(fontSizes.value, propsC.value.size || 's'))
+const radius1 = computed(() => propsC.value.radius !== undefined ? propsC.value.radius : 'xs')
+const radius2 = computed(() => getSizes(radiuses.value, radius1.value))
 const roundC = computed(() => getPropsBoolean(propsC.value.round))
-const radiusC2 = computed(() => roundC.value ? '9999px' : radiusC.value)
+const radiusC = computed(() => roundC.value ? '9999px' : radius2.value)
 
-const styles1 = computed<CSSProperties[]>(() => [{
-  padding: `0 calc(${sizeC.value} * 0.4)`,
-}])
-
-const styles2 = computed<CSSProperties[]>(() => [{
-  backgroundColor: colorC.value,
-  borderRadius: radiusC2.value,
-}])
-
-const textPropsC1 = computed<BadgeProps['textProps']>(() =>
-  mergeProps<BadgeProps['textProps']>(
-    { textBind: { style: styles1.value } },
-    propsC.value.textProps
- )
-)
-
-const textPropsC2 = computed<BadgeProps['textProps']>(() => ({
-  textBind: { style: styles2.value },
-  color: propsC.value.textColor,
-  size: propsC.value.size,
-}))
-
-const textPropsC = computed<BadgeProps['textProps']>(() => mergeProps(textPropsC1.value, textPropsC2.value))
+const textPropsC = computed(() => mergeProps<BadgeProps['textProps']>({ cStyle: { padding: `0 calc(${sizeC.value} * 0.4)` } }, propsC.value.textProps))
 </script>
 
 <template>
-<c-text v-bind="textPropsC">{{ text }}<slot v-if="!propsC.text" /></c-text>
+<c-text
+  :props="textPropsC"
+  :c-class="['c-badge']"
+  :c-style="[{
+    alignItems: 'center',
+    justifyContent: 'center',
+    lineHeight: 1.25,
+    backgroundColor: colorC,
+    borderRadius: radiusC,
+  }]"
+  :color="propsC.textColor || '#fff'"
+  :size="sizeC"
+  >{{ text }}<slot v-if="!propsC.text" /></c-text
+>
 </template>

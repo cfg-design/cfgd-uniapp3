@@ -8,13 +8,13 @@
       <c-form-item label="row" label-placement="top">
         <view>
           <c-checkbox-group c="row" v-model:value="values">
-            <c-checkbox v-for="i in 3" :text="'value' + i" />
+            <c-checkbox v-for="i in 3" :key="i" :text="'value' + i" />
           </c-checkbox-group>
-          <c-text color="error" :text-bind="{ style: [{ alignSelf: 'center' }]}">checked: {{ values.join() }}</c-text>
+          <c-text color="error" :text-props="{ cStyle: [{ alignSelf: 'center' }]}">checked: {{ values.join() }}</c-text>
           <c-checkbox-group c="row" v-model:value="values2" :checkbox="{ activeType: 'icon' }">
-            <c-checkbox v-for="i in 3" :text="'value' + i" :value="'c-v-' + i" />
+            <c-checkbox v-for="i in 3" :key="i" :text="'value' + i" :value="'c-v-' + i" />
           </c-checkbox-group>
-          <c-text color="error" :text-bind="{ style: [{ alignSelf: 'center' }]}">checked: {{ values2.join() }}</c-text>
+          <c-text color="error" :text-props="{ cStyle: [{ alignSelf: 'center' }]}">checked: {{ values2.join() }}</c-text>
         </view>
       </c-form-item>
       <c-checkbox-group>
@@ -23,7 +23,7 @@
         <c-checkbox text="active icon" active-type="icon" checked />
         <c-checkbox text="active icon minus" active-type="icon" c="minus" checked />
         <c-checkbox text="active icon indeterminate" active-type="icon" c="indeterminate" checked />
-        <c-row>
+        <c-row gutter="20">
           <c-col>
             <c-checkbox text="readonly" checked readonly />
             <c-checkbox text="disabled" checked disabled />
@@ -37,7 +37,9 @@
       <c-checkbox-group>
         <c-checkbox text="text props" :text-props="{ color: 'error' }" />
         <c-checkbox>
-          <c-text color="primary">slot</c-text><c-text color="error">&nbsp;text</c-text><c-text color="success">&nbsp;text</c-text>
+          <c-row>
+            <c-text color="primary">slot</c-text><c-text color="error">&nbsp;text</c-text><c-text color="success">&nbsp;text</c-text>
+          </c-row>
         </c-checkbox>
         <c-checkbox size="3xl" text="size" />
         <c-checkbox size="8xl" text="size" />
@@ -45,10 +47,10 @@
       <c-form-item label="color" label-placement="top">
         <c-checkbox-group>
           <c-row>
-            <c-col>
+            <c-col :span="6">
               <c-checkbox v-for="color in ['error', 'warning', 'success', '#7546c9']" :key="color" :color="color" :text="color" checked />
             </c-col>
-            <c-col>
+            <c-col :span="6">
               <c-checkbox v-for="color in ['error', 'warning', 'success', '#7546c9']" :key="color" :color="color" :text="color" active-type="icon" checked />
             </c-col>
           </c-row>
@@ -80,13 +82,13 @@
       </c-form-item>
       <c-form-item label="right" label-placement="top">
         <c-checkbox-group c="right">
-          <c-checkbox v-for="i in 3" :text="'text' + i" border-bottom />
-          <c-checkbox v-for="i in 3" :text="'text' + i" border radius="s l" />
+          <c-checkbox v-for="i in 3" :key="i" :text="'text' + i" border-bottom />
+          <c-checkbox v-for="i in 3" :key="i" :text="'text' + i" border radius="s l" />
         </c-checkbox-group>
       </c-form-item>
     </view>
   </view>
-  <c-form :label="{ labelPlacement: 'top' }">
+  <c-form :item="{ labelPlacement: 'top' }">
     <c-form-item label="c-checkbox 禁用">
       <c-checkbox-group>
         <c-checkbox text="正常" />
@@ -106,7 +108,7 @@
       </c-checkbox-group>
     </c-form-item>
   </c-form>
-  <c-form :label="{ labelPlacement: 'top' }" disabled>
+  <c-form :item="{ labelPlacement: 'top' }" disabled>
     <c-form-item label="c-form 禁用" disabled>
       <c-checkbox-group disabled>
         <c-checkbox text="正常" />
@@ -114,16 +116,15 @@
       </c-checkbox-group>
     </c-form-item>
     <c-form-item>
-      <MyCheckboxGroup disabled>
-        <MyCheckbox text="正常" />
+      <c-checkbox-group disabled>
+        <c-checkbox text="正常" />
         <c-checkbox text="禁用" disabled />
-      </MyCheckboxGroup>
+      </c-checkbox-group>
     </c-form-item>
   </c-form>
 </template>
 
 <script setup lang="ts">
-import { CCheckbox as MyCheckbox, CCheckboxGroup as MyCheckboxGroup } from '@/uni_modules/cfg-design'
 import { ref } from 'vue'
 
 const values = ref<(string | number)[]>([1])

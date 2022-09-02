@@ -3,7 +3,8 @@ import type { CSSProperties } from 'vue'
 import type { ValidationTrigger, FormRule } from '../c-form/types.d'
 import type { RadioGroupProps, RadioGroupGetIndex, RadioGroupUpdateValue } from './types.d'
 import { computed, provide, inject, ref, watch } from 'vue'
-import { getPropsBoolean, mergeProps } from '../../utils'
+import { getPropsBoolean, omitProps, mergeProps } from '../../utils'
+import { toCssUnit } from '../../styles'
 import {
   hasTrigger,
   formInjectionKeyRules,
@@ -26,6 +27,9 @@ import {
 } from './use'
 
 interface Props {
+  props?: RadioGroupProps,
+  cClase?: RadioGroupProps['cClass']
+  cStyle?: RadioGroupProps['cStyle']
   /**
    * 配置名。使用 `useRadioGroupConfigs()` 查看配置数据。使用 `setRadioGroupConfigs()` 进行配置。
    * 默认： `default`
@@ -36,11 +40,6 @@ interface Props {
    * 默认： `undefined`
    */
   value?: RadioGroupProps['value']
-  /**
-   * view 组件的 Attributes 和 Props 。
-   * 默认： `undefined`
-   */
-  viewBind?: RadioGroupProps['viewBind']
   /**
    * 是否禁用。
    * 默认： `undefined`
@@ -84,22 +83,28 @@ const configs = useConfigs()
 
 const valueR = ref<RadioGroupProps['value']>(props.value)
 
-const propsC = computed<Props>(() => mergeProps(configs.value[props.c], props))
+const props1 = computed(() => props.props ? mergeProps(props.props, omitProps(props)) : props)
+const propsC = computed(() => mergeProps(configs.value[props1.value.c!], props1.value))
 const disabledC = computed(() => getPropsBoolean(propsC.value.disabled))
 const pathC = computed(() => propsC.value.path || formItemPath.value)
 const rule = computed<FormRule | undefined>(() => !pathC.value || !formRules.value ? undefined : formRules.value[pathC.value])
 const hasOnChangeValidate = computed(() => hasTrigger(rule.value, 'change'))
-const radioC = computed(() => propsC.value.radio)
+const radioC = computed(() => mergeProps({ cStyle: [{ margin: toCssUnit('10 0') }] }, propsC.value.radio))
 const validateErrors = computed(() => !pathC.value || !formFieldsErrors.value ? undefined : formFieldsErrors.value[pathC.value])
 
-const styles = computed<CSSProperties[]>(() => {
+const style1 = computed<CSSProperties>(() => {
   const style: CSSProperties = {}
   const { direction } = propsC.value
   if (direction) {
     style.flexDirection = direction
   }
-  return [style]
+  return style
 })
+const styleC = computed(() => mergeProps({ x: [style1.value] }, { x: propsC.value.cStyle }).x)
+const classC = computed(() => mergeProps({ x: [
+  'c-radio-group',
+  { 'c-radio-group__disabled': !formDisabled.value && !formItemDisabled.value && disabledC.value }
+] }, { x: propsC.value.cClass }).x)
 
 let index = 0
 const getIndex: RadioGroupGetIndex = () => index ++
@@ -133,26 +138,21 @@ provide(radioGroupInjectionKeyValidateErrors, validateErrors)
 </script>
 
 <template>
-<view
-  class="c-radio-group"
-  :class="[{ 'c-radio-group__disabled': !formDisabled && !formItemDisabled && disabledC }]"
-  :style="styles"
-  v-bind="(propsC.viewBind as any)"
->
-  <c-radio v-for="(item, index) in propsC.items" :key="index" v-bind="item" />
+<view :class="classC" :style="(styleC as any)">
+  <c-radio v-for="(item, index) in propsC.items" :key="index" :props="item" />
   <slot />
 </view>
 </template>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .c-radio-group {
   /* #ifndef APP-NVUE */
   display: flex;
   /* #endif */
 
+  box-sizing: border-box;
   flex-direction: column;
   flex-grow: 1;
-  box-sizing: border-box;
 
   &__disabled {
     opacity: 0.6;

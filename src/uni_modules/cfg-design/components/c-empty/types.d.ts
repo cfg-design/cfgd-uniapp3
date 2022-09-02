@@ -1,16 +1,12 @@
 import type { HTMLAttributes } from 'vue'
-import type { UViewProps } from '../uni.d'
 import type { IconProps } from '../c-icon/types.d'
 import type { ImageProps } from '../c-image/types.d'
 import type { TextProps } from '../c-text/types.d'
 import type { ButtonProps } from '../c-button/types.d'
 
 export interface EmptyConfig {
-  /**
-   * view 组件的 Attributes 和 Props 。
-   * 默认： `undefined`
-   */
-  viewBind?: HTMLAttributes & UViewProps
+  cClass?: string | Record<string, any> | (string | Record<string, any>)[]
+  cStyle?: HTMLAttributes['style']
   /**
    * 图标名； icon 、 image 二选一。
    * 默认： `undefined`

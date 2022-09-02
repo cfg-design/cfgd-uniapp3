@@ -8,9 +8,9 @@
       @click="goPage('colors')"
     />
     <template v-for="(cells, key) in list" :key="key">
-      <c-text c="h5" :text-bind="{ style: [{ padding: '20rpx' }] }">{{ key }}</c-text>
+      <c-text c="h5" :c-style="[{ padding: '20rpx' }]">{{ key }}</c-text>
       <template v-for="(cell, _key) in cells" :key="_key">
-        <c-cell v-bind="cell" right-icon="arrow-right-s-line" @click="goPage(_key)" />
+        <c-cell :props="cell" right-icon="arrow-right-s-line" @click="goPage(_key)" />
         <c-line round />
       </template>
     </template>
@@ -44,8 +44,8 @@ const list: Record<string, Record<string, CellProps>> = {
     input: { label: 'Input 输入框', avatarText: '|', avatarTextProps: { color: colors.value.main, textColor: '#fff' } },
     inputNumber: { label: 'InputNumber 数字输入', avatarText: 'N', avatarTextProps: { color: '#f2f2f2', textColor: colors.value.main } },
     textarea: { label: 'Textarea 多行输入框', avatarText: '_', avatarTextProps: { color: colors.value.main, textColor: '#fff' } },
-    checkbox: { label: 'Checkbox 复选框', avatarText: icons['check-line'], avatarTextProps: { color: colors.value.primary, textColor: '#fff', textProps: { textBind: { style: [{ fontFamily: 'c-icon' }] } } } },
-    radio: { label: 'Radio 单选框', avatarText: icons['check-line'], avatarTextProps: { color: colors.value.primary, round: true, textColor: '#fff', textProps: { textBind: { style: [{ fontFamily: 'c-icon' }] } } } },
+    checkbox: { label: 'Checkbox 复选框', avatarText: icons['check-line'], avatarTextProps: { color: colors.value.primary, textColor: '#fff', textProps: { cStyle: [{ fontFamily: 'c-icon' }] } } },
+    radio: { label: 'Radio 单选框', avatarText: icons['check-line'], avatarTextProps: { color: colors.value.primary, round: true, textColor: '#fff', textProps: { cStyle: [{ fontFamily: 'c-icon' }] } } },
     switch: { label: 'Switch 开关', avatarText: 'S', avatarTextProps: { color: colors.value.primary, textColor: '#fff' } },
   },
   '数据展示组件': {

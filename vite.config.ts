@@ -6,11 +6,13 @@ import { visualizer } from 'rollup-plugin-visualizer'
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
   const config: UserConfig = {
-    base: './',
     plugins: [uni()],
   }
 
   switch (mode) {
+    case 'embed':
+      config.base = './'
+      break
     case 'report':
       config.plugins!.push(
         visualizer(() => ({

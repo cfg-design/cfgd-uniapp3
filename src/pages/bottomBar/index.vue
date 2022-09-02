@@ -2,23 +2,22 @@
 <view class="page">
   <view class="main">
     <c-bottom-bar no-fixed>
-      <c-line color="error" />
+      <c-line color="error" width="10" />
       <c-text>这是 no-fixed 的 bottom-bar</c-text>
-      <c-line color="error" />
+      <c-line color="error" width="10" />
     </c-bottom-bar>
+
     <c-line width="50" color="primary" />
-    <c-bottom-bar bottom="calc(100vh - 204rpx)" no-space :line-props="{ color: 'success'}">
-      <c-line color="error" />
+
+    <c-text>no-space 上</c-text>
+    <c-bottom-bar bottom="calc(100vh - 204rpx)" no-space>
+      <c-line color="error" width="10" />
       <c-text>no-space</c-text>
-      <c-line color="error" />
+      <c-line color="error" width="10" />
     </c-bottom-bar>
+    <c-text>no-space 下</c-text>
+
     <c-line width="50" color="success" />
-    <c-bottom-bar bottom="calc(100vh - 264rpx)" no-border-top :line-props="{ color: 'success'}">
-      <c-line color="error" />
-      <c-text>no-border-top</c-text>
-      <c-line color="error" />
-    </c-bottom-bar>
-    <c-line width="50" color="warning" />
   </view>
   <c-row justify="center">
     <c-text>最底部内容</c-text>

@@ -1,33 +1,33 @@
 <template>
   <view class="page" :style="{ backgroundColor: bgColor }">
-    <MyC text="切换背景颜色" color="error" color2="warning" round @click="bgColor = bgColor ? '' : '#fff'" />
-    <view class="flex">
-      <view>
+    <c-button text="切换背景颜色" color="error" color2="warning" round @click="bgColor = bgColor ? '' : '#333'" />
+    <c-row cols="5">
+      <c-col span="1">
         <template v-for="(_, key) in colors" :key="key">
           <c-button text="按钮" :color="key" />
         </template>
-      </view>
-      <view>
+      </c-col>
+      <c-col span="1">
         <template v-for="(_, key) in colors" :key="key">
           <c-button text="按钮" :color="key" radius="m" />
         </template>
-      </view>
-      <view>
+      </c-col>
+      <c-col span="1">
         <template v-for="(_, key) in colors" :key="key">
           <c-button text="按钮" :color="key" round />
         </template>
-      </view>
-      <view>
+      </c-col>
+      <c-col span="1">
         <template v-for="(_, key) in colors" :key="key">
           <c-button text="按钮" :color="key" plain />
         </template>
-      </view>
-      <view>
+      </c-col>
+      <c-col span="1">
         <template v-for="(_, key) in colors" :key="key">
           <c-button text="按钮" :color="key" color2="#9c00fd" />
         </template>
-      </view>
-    </view>
+      </c-col>
+    </c-row>
     <view class="flex">
       <c-button text="禁用" disabled />
       <c-button v-for="(_, key) in colors" :key="key" :color="key" text="禁用" disabled />
@@ -57,7 +57,6 @@
     </view>
     <c-button v-for="key in ['xs', 'm', '8xl']" :key="key" text="按钮" :size="key" color="primary" icon="search-line" />
     <c-button text="width: 500rpx" width="500rpx" />
-    <MyC text="按钮" color="primary" round plain />
     <c-button v-for="(_, key) in fontSizes" :key="key" text="按钮" :size="key" />
     <c-button text="奇奇怪怪的钮钮" height="200rpx" />
     <c-button height="200rpx">
@@ -76,7 +75,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { pick } from 'ramda'
-import { useColors, useFontSizes, CButton as MyC } from '@/uni_modules/cfg-design'
+import { useColors, useFontSizes } from '@/uni_modules/cfg-design'
 
 const colors = pick(['primary', 'success', 'warning', 'error'])(useColors().value)
 
@@ -84,23 +83,23 @@ const fontSizes = useFontSizes()
 const bgColor = ref('')
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .page {
   padding: 20rpx;
-}
 
-.flex {
-  display: flex;
-  flex-wrap: wrap;
-}
+  :deep(.c-button) {
+    margin: 10rpx;
+  }
 
-.c-button {
-  margin: 10rpx;
-}
+  .flex {
+    display: flex;
+    flex-wrap: wrap;
+  }
 
-.button-center {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  .button-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 }
 </style>

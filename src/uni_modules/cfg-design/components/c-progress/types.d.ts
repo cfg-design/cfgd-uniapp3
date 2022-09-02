@@ -1,14 +1,10 @@
 import type { HTMLAttributes } from 'vue'
-import type { UViewProps } from '../uni.d'
 import type { LineProps } from '../c-line/types.d'
 import type { TextProps } from '../c-text/types.d'
 
 export interface ProgressConfig {
-  /**
-   * view 组件的 Attributes 和 Props 。
-   * 默认： `undefined`
-   */
-  viewBind?: HTMLAttributes & UViewProps
+  cClass?: string | Record<string, any> | (string | Record<string, any>)[]
+  cStyle?: HTMLAttributes['style']
   /**
    * 百分比0~100。
    * 默认： `undefined`

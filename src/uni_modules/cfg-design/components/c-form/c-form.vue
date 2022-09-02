@@ -1,37 +1,29 @@
 <script setup lang="ts">
 import type { ValidateCallback, ValidateFieldsError } from 'async-validator'
-import type { FormProps, FormRules, FormValidateField, ValidationTrigger, FormItemRule } from './types.d'
+import type { FormProps, FormRules, FormValidateField, ValidationTrigger } from './types.d'
 import Schema from 'async-validator'
 import { computed, nextTick, provide, ref } from 'vue'
 import { clone, is, filter, forEachObjIndexed } from 'ramda'
-import { getPropsBoolean, mergeProps } from '../../utils'
-import { useFontSizes, getSize } from '../../styles'
+import { getPropsBoolean, omitProps, mergeProps } from '../../utils'
 import {
   useConfigs,
   formInjectionKeyRules,
-  formInjectionKeySize,
   formInjectionKeyDisabled,
-  formInjectionKeyNoFeedback,
-  formInjectionKeyNoRequireMark,
-  formInjectionKeyNoBorderBottom,
-  formInjectionKeyNoLabel,
-  formInjectionKeyLabel,
+  formInjectionKeyItemConfig,
   formInjectionKeyFieldsErrors,
   formInjectionKeyValidateField,
   triggerIncludes
 } from './use'
 
 interface Props {
+  props?: FormProps
+  cClass?: FormProps['cClass']
+  cStyle?: FormProps['cStyle']
   /**
    * 配置名。使用 `useFormConfigs()` 查看配置数据。使用 `setFormConfigs()` 进行配置。
    * 默认： `default`
    */
   c?: FormProps['c']
-  /**
-   * form 组件的 Attributes 和 Props 。
-   * 默认： `undefined`
-   */
-  formBind?: FormProps['formBind']
   /**
    * 表单数据对象。
    * 默认： `undefined`
@@ -44,40 +36,25 @@ interface Props {
    */
   rules?: FormProps['rules']
   /**
-   * 字体大小。 default 配置为 m。 useFontSizes() 可以查看配置数据。使用 setFontSizes() 进行配置。
+   * c-form-item props。
    * 默认： `undefined`
    */
-  size?: FormProps['size']
+  item?: FormProps['item']
   /**
    * 是否禁用。
    * 默认： `undefined`
    */
   disabled?: FormProps['disabled']
   /**
-   * 是否展示校验反馈。
-   * 默认： `undefined`
+   * 是否返回 formId 用于发送模板消息。
+   * 微信小程序、支付宝小程序。
    */
-  noFeedback?: FormProps['noFeedback']
+  reportSubmit?: boolean
   /**
-   * 是否展示必填的星号。
-   * 默认： `undefined`
+   * 等待一段时间（毫秒数）以确认 formId 是否生效。如果未指定这个参数，formId 有很小的概率是无效的（如遇到网络失败的情况）。指定这个参数将可以检测 formId 是否有效，以这个参数的时间作为这项检测的超时时间。如果失败，将返回 requestFormId:fail 开头的 formId。
+   * 微信小程序2.6.2。
    */
-  noRequireMark?: FormProps['noRequireMark']
-  /**
-   * 是否不显示表单项的下划线边框。
-   * 默认： `undefined`
-   */
-  noBorderBottom?: FormProps['noBorderBottom']
-  /**
-   * 标签设置。
-   * 默认： `undefined`
-   */
-  label?: FormProps['label']
-  /**
-   * 是否展示标签。
-   * 默认： `undefined`
-   */
-  noLabel?: FormProps['noLabel']
+  reportSubmitTimeout?: FormProps['reportSubmitTimeout']
 }
 
 interface Emits {
@@ -88,17 +65,18 @@ interface Emits {
 
 const props = withDefaults(defineProps<Props>(), { c: 'default' })
 const emits = defineEmits<Emits>()
-const fontSizes = useFontSizes()
 const configs = useConfigs()
 
 const rulesR = ref<FormRules>()
 const fieldsErrors = ref<ValidateFieldsError>()
 const noFeedbackR = ref<boolean>(false)
 
-const propsC = computed<Props>(() => mergeProps(configs.value[props.c], props))
-const sizeC = computed<string>(() => getSize(fontSizes.value, propsC.value.size || configs.value.default.size))
+const props1 = computed(() => props.props ? mergeProps(props.props, omitProps(props)) : props)
+const propsC = computed(() => mergeProps(configs.value[props1.value.c!], props1.value))
 const rulesC = computed(() => rulesR.value || propsC.value.rules || {})
 const validator = computed(() => new Schema(rulesC.value))
+const classC = computed(() => mergeProps({ x: ['c-form', { 'c-form__disabled': disabledC.value }] }, { x: propsC.value.cClass }).x)
+const styleC = computed(() => mergeProps({ x: [] }, { x: propsC.value.cStyle }).x)
 
 const modelDefault: Props['value'] = clone(props.value)
 
@@ -174,22 +152,17 @@ const onReset = (e: any) => {
   })
 }
 
-const labelC = computed(() => propsC.value.label)
 const disabledC = computed(() => getPropsBoolean(propsC.value.disabled))
-const noFeedback1 = computed(() => getPropsBoolean(propsC.value.noFeedback))
+const noFeedback1 = computed(() => getPropsBoolean(propsC.value.item?.noFeedback))
 const noFeedbackC = computed(() => noFeedback1.value || noFeedbackR.value)
-const noLabelC = computed(() => getPropsBoolean(propsC.value.noLabel))
-const noRequireMarkC = computed(() => getPropsBoolean(propsC.value.noRequireMark))
-const noBorderBottomC = computed(() => getPropsBoolean(propsC.value.noBorderBottom))
+const itemC = computed(() => ({
+  ...propsC.value.item,
+  noFeedback: noFeedbackC.value
+}))
 
 provide(formInjectionKeyRules, rulesC)
-provide(formInjectionKeySize, sizeC)
+provide(formInjectionKeyItemConfig, itemC)
 provide(formInjectionKeyDisabled, disabledC)
-provide(formInjectionKeyNoFeedback, noFeedbackC)
-provide(formInjectionKeyNoRequireMark, noRequireMarkC)
-provide(formInjectionKeyNoBorderBottom, noBorderBottomC)
-provide(formInjectionKeyNoLabel, noLabelC)
-provide(formInjectionKeyLabel, labelC)
 provide(formInjectionKeyFieldsErrors, fieldsErrors)
 provide(formInjectionKeyValidateField, validateField)
 
@@ -197,10 +170,18 @@ defineExpose({ validate, setRules, validateField, restoreValidation, clear, rese
 </script>
 
 <template>
-<form class="c-form" v-bind="propsC.formBind" :class="[{ 'c-form__disabled': disabledC }]" @submit="onSubmit" @reset="onReset"><slot /></form>
+<form
+  :class="classC"
+  :style="styleC"
+  :report-submit="getPropsBoolean(propsC.reportSubmit)"
+  :report-submit-timeout="propsC.reportSubmitTimeout"
+  @submit="onSubmit"
+  @reset="onReset"
+  ><slot /></form
+>
 </template>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .c-form {
   /* #ifndef APP-NVUE */
   display: flex;

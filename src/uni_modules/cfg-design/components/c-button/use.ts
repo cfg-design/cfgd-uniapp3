@@ -4,9 +4,8 @@ import { mergeRight } from 'ramda'
 
 const configs = ref<Record<string, ButtonConfig>>({
   default: {
-    size: 'm',
-    radius: 's',
-    spinProps: { direction: 'row' }
+    hoverStartTime: 20,
+    hoverStayTime: 70
   },
 })
 

@@ -1,5 +1,4 @@
 import type { HTMLAttributes } from 'vue'
-import type { UViewProps } from '../uni.d'
 import type { IconProps } from '../c-icon/types.d'
 import type { TextProps } from '../c-text/types.d'
 import type { ImageProps } from '../c-image/types.d'
@@ -7,11 +6,8 @@ import type { AvatarProps } from '../c-avatar/types.d'
 import type { AvatarTextProps } from '../c-avatar-text/types.d'
 
 export interface CellConfig {
-  /**
-   * view 组件的 Attributes 和 Props 。
-   * 默认： `undefined`
-   */
-  viewBind?: HTMLAttributes & UViewProps
+  cClass?: string | Record<string, any> | (string | Record<string, any>)[]
+  cStyle?: HTMLAttributes['style']
   /**
    * 左边图标名称或代码。
    * 默认： `undefined`

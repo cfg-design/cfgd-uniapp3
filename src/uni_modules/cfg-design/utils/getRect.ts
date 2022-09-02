@@ -5,7 +5,6 @@ export default (that: ComponentInternalInstance, selector: string, all?: boolean
     uni.createSelectorQuery()
       .in(that)[all ? 'selectAll' : 'select'](selector)
       .boundingClientRect(rect => {
-        rect.height
         all && Array.isArray(rect) && rect.length
           ? resolve(rect)
           : !all && rect

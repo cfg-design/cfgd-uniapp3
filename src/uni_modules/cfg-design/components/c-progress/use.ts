@@ -3,9 +3,7 @@ import { ref } from 'vue'
 import { mergeRight } from 'ramda'
 
 const configs = ref<Record<string, ProgressConfig>>({
-  default: {
-    activeProps: { color: 'primary' }
-  },
+  default: {},
 })
 
 export const setConfigs = (_configs: Record<string, ProgressConfig>) => {

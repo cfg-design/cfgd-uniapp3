@@ -12,11 +12,11 @@
           <c-radio-group c="row" v-model:value="value">
             <c-radio v-for="i in 3" :text="'text' + i" />
           </c-radio-group>
-          <c-text color="error" :text-bind="{ style: [{ alignSelf: 'center' }]}">已选择值: {{ value }}</c-text>
+          <c-text color="error">已选择值: {{ value }}</c-text>
           <c-radio-group c="row" v-model:value="value2" :radio="{ activeType: 'icon' }">
             <c-radio v-for="i in 3" :text="'text' + i" :value="'c-v-' + i" />
           </c-radio-group>
-          <c-text color="error" :text-bind="{ style: [{ alignSelf: 'center' }]}">已选择值: {{ value2 }}</c-text>
+          <c-text color="error">已选择值: {{ value2 }}</c-text>
         </view>
       </c-form-item>
       <c-form-item label="circle" label-placement="top">
@@ -40,12 +40,12 @@
       </c-form-item>
       <c-form-item label="color" label-placement="top">
           <c-row>
-            <c-col>
+            <c-col span="6">
               <c-radio-group v-for="color in ['error', 'warning', 'success', '#7546c9']" :key="color">
                 <c-radio :color="color" :text="color" checked />
               </c-radio-group>
             </c-col>
-            <c-col>
+            <c-col span="6">
               <c-radio-group v-for="color in ['error', 'warning', 'success', '#7546c9']" :key="color" :radio="{ color, activeType: 'icon' }">
                 <c-radio :text="color" checked />
               </c-radio-group>
@@ -92,9 +92,10 @@
       </c-radio-group>
     </view>
   </view>
-  <c-form :label="{ labelPlacement: 'top' }">
+  <c-form :item="{ labelPlacement: 'top' }">
     <c-form-item label="c-radio 禁用">
       <c-radio-group>
+        <c-radio text="正常" />
         <c-radio text="正常" />
         <c-radio text="禁用" disabled />
       </c-radio-group>
@@ -112,7 +113,7 @@
       </c-radio-group>
     </c-form-item>
   </c-form>
-  <c-form :label="{ labelPlacement: 'top' }" disabled>
+  <c-form :item="{ labelPlacement: 'top' }" disabled>
     <c-form-item label="c-form 禁用" disabled>
       <c-radio-group disabled>
         <c-radio text="正常" />
@@ -120,16 +121,15 @@
       </c-radio-group>
     </c-form-item>
     <c-form-item>
-      <MyRadioGroup disabled>
-        <MyRadio text="正常" />
+      <c-radio-group disabled>
+        <c-radio text="正常" />
         <c-radio text="禁用" disabled />
-      </MyRadioGroup>
+      </c-radio-group>
     </c-form-item>
   </c-form>
 </template>
 
 <script setup lang="ts">
-import { CRadio as MyRadio, CRadioGroup as MyRadioGroup } from '@/uni_modules/cfg-design'
 import { ref } from 'vue'
 
 const value = ref<string | number>(1)

@@ -2,26 +2,30 @@
 <view class="page">
   <c-tabs :value="0" :items="items" />
   <c-tabs :value="0" :items="items2" />
-  <c-tabs :value="0" :items="items2" :view-bind="{ style: [{ justifyContent: 'space-around' }] }" />
-  <c-tabs v-for="color in ['error', 'success', 'warning']" :item="{ color }" :value="0" :items="items" />
+  <c-tabs :value="0" :items="items2" :view-props="{ cStyle:[{ justifyContent: 'space-around' }] }" />
+  <c-tabs v-for="color in ['error', 'success', 'warning']" :key="color" :item="{ color }" :value="0" :items="items" />
   <c-tabs :value="0" :items="items3" />
   <c-tabs :value="0" :item="{ activeType: 'bg' }" :items="items" />
   <c-tabs :value="0" :item="{ activeType: 'bg' }" :items="items2" />
   <c-tabs :value="0" :item="{ activeType: 'bg' }" :items="items3" />
-  <c-tabs :value="0" :item="{ activeType: 'bg' }" :items="items3" :view-bind="{ style: [{ justifyContent: 'space-around' }] }" />
+  <c-tabs :value="0" :item="{ activeType: 'bg' }" :items="items3" :view-props="{ cStyle:[{ justifyContent: 'space-around' }] }" />
   <c-tabs v-model:value="modelValue" :items="items4">
     <template #item="{ item, index, active }">
-      <c-tab-item v-if="index == 2" v-bind="item" :value="index">
-        <c-icon  name="search-line" :color="!active ? item.textProps?.color : item.color" />
-        <c-text :color="!active ? item.textProps?.color : item.color">{{ item.text }}</c-text>
-        <c-icon name="search-line" :color="!active ? item.textProps?.color : item.color" />
+      <c-tab-item v-if="index == 2" :props="item" :value="index">
+        <c-row align="center" :c-style="{ flexWrap: 'nowrap' }">
+          <c-icon  name="search-line" :color="!active ? item.textProps?.color : item.color" />
+          <c-text :color="!active ? item.textProps?.color : item.color">{{ item.text }}</c-text>
+          <c-icon name="search-line" :color="!active ? item.textProps?.color : item.color" />
+        </c-row>
       </c-tab-item>
-      <c-tab-item v-else-if="index == 3" v-bind="item" :value="index">
-        <c-icon  name="check-line" :color="!active ? item.textProps?.color : '#fff'" />
-        <c-text :color="!active ? item.textProps?.color : '#fff'">{{ item.text }}</c-text>
-        <c-icon name="check-line" :color="!active ? item.textProps?.color : '#fff'" />
+      <c-tab-item v-else-if="index == 3" :props="item" :value="index">
+        <c-row align="center" :c-style="{ flexWrap: 'nowrap' }">
+          <c-icon  name="check-line" :color="!active ? item.textProps?.color : '#fff'" />
+          <c-text :color="!active ? item.textProps?.color : '#fff'">{{ item.text }}</c-text>
+          <c-icon name="check-line" :color="!active ? item.textProps?.color : '#fff'" />
+        </c-row>
       </c-tab-item>
-      <c-tab-item v-else v-bind="item" :value="index" />
+      <c-tab-item v-else :props="item" :value="index" />
     </template>
   </c-tabs>
   <c-tabs :value="0" :items="items" :item="{ lineProps: { borderStyle: 'dashed' } }" />

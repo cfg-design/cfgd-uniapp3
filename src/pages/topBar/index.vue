@@ -12,7 +12,7 @@
   <view class="title-wrap">
     <c-text c="h3">no-space</c-text>
   </view>
-  <c-top-bar top="380" :line-props="{ color: 'primary' }" no-space>
+  <c-top-bar z-index="999" top="500" :line-props="{ color: 'primary' }" no-space>
     <c-nav-bar title="no-space" />
     <c-line color="error" />
   </c-top-bar>
@@ -22,28 +22,11 @@
   <c-top-bar :line-props="{ color: 'primary' }" no-fixed no-border-bottom>
     <c-tabs :value="0" :items="[{ text: '类型1' }, { text: '类型2' }, { text: '类型3' }, { text: 'c-top-bar + c-tabs' }]" />
   </c-top-bar>
-  <view class="title-wrap">
-    <c-text c="h3">滚动到特定位置固定</c-text>
-  </view>
-  <c-top-bar top="240" :no-fixed="noFixed">
-    <c-nav-bar title="滚动到特定位置固定" />
-    <c-line color="error" />
-  </c-top-bar>
-  <c-line width="10" color="primary" />
 </view>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
-import { onPageScroll } from "@dcloudio/uni-app"
-
-const noFixed = ref(true)
-
 const goBack = () => uni.navigateBack()
-
-onPageScroll(({ scrollTop }) => {
-  noFixed.value = scrollTop < 256
-})
 </script>
 
 <style lang="scss">

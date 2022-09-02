@@ -4,11 +4,7 @@ import { ref } from 'vue'
 import { mergeRight } from 'ramda'
 
 const configs = ref<Record<string, FormItemConfig>>({
-  default: {
-    rightIconProps: {
-      color: 'tertiary'
-    }
-  },
+  default: {},
 })
 
 export const setConfigs = (_configs: Record<string, FormItemConfig>) => {

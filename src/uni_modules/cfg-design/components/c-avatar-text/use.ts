@@ -3,11 +3,7 @@ import { ref } from 'vue'
 import { mergeRight } from 'ramda'
 
 const configs = ref<Record<string, AvatarTextConfig>>({
-  default: {
-    color: '#fff',
-    radius: 'm',
-    size: 100
-  },
+  default: {},
 })
 
 export const setConfigs = (_configs: Record<string, AvatarTextConfig>) => {

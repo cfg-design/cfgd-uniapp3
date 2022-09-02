@@ -4,9 +4,7 @@ import { ref } from 'vue'
 import { mergeRight } from 'ramda'
 
 const configs = ref<Record<string, RowConfig>>({
-  default: {
-    cols: 12,
-  },
+  default: {},
 })
 
 export const setConfigs = (_configs: Record<string, RowConfig>) => {
@@ -17,3 +15,4 @@ export const useConfigs = () => configs
 
 export const rowInjectionKeyGutter: InjectionKey<Ref<[string, string]>> = Symbol()
 export const rowInjectionKeyCols: InjectionKey<Ref<number>> = Symbol()
+export const rowInjectionKeyWidth: InjectionKey<Ref<number>> = Symbol()

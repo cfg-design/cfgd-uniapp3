@@ -3,7 +3,7 @@ import { ref } from 'vue'
 import { mergeRight } from 'ramda'
 
 const configs = ref<Record<string, LineConfig>>({
-  default: { color: '#ebedf0', borderStyle: 'solid' },
+  default: {},
 })
 
 export const setConfigs = (_configs: Record<string, LineConfig>) => {

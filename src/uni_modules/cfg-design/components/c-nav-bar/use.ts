@@ -5,7 +5,7 @@ import { mergeRight } from 'ramda'
 const configs = ref<Record<string, NavBarConfig>>({
   default: {},
   dark: {
-    viewBind: { style: [{ backgroundColor: '#202124' }]},
+    cStyle: [{ backgroundColor: '#202124' }],
     leftIconProps: { color: '#fff' },
     leftTextProps: { color: '#fff' },
     titleProps: { color: '#fff' }

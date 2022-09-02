@@ -1,12 +1,8 @@
-import type { HTMLAttributes, CSSProperties } from 'vue'
-import type { UViewProps } from '../uni.d'
+import type { CSSProperties, HTMLAttributes } from 'vue'
 
 export interface LineConfig {
-  /**
-   * view 组件的 Attributes 和 Props 。
-   * 默认： `undefined`
-   */
-  viewBind?: HTMLAttributes & UViewProps
+  cClass?: string | Record<string, any> | (string | Record<string, any>)[]
+  cStyle?: HTMLAttributes['style']
   /**
    * 线条长度。
    * 默认： `undefined`

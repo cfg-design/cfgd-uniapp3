@@ -22,14 +22,13 @@
       <c-col>
         <c-image :src="scr" width="200" height="200" mode="aspectFill" round />
         <c-image width="200" height="200" radius="0 100 100 100" />
-        <MyC width="200" height="200" radius="s l" />
       </c-col>
     </c-row>
   </view>
 </template>
 
 <script setup lang="ts">
-import { useRadius, CImage as MyC } from '@/uni_modules/cfg-design'
+import { useRadius } from '@/uni_modules/cfg-design'
 
 const radius = useRadius()
 

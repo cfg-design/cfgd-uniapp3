@@ -3,16 +3,14 @@ import type { CSSProperties } from 'vue'
 import type { TextareaProps } from './types.d'
 import type { ValidationTrigger, FormRule } from '../c-form/types.d'
 import { computed, inject, ref, watch } from 'vue'
-import { getPropsBoolean, mergeProps } from '../../utils'
+import { getPropsBoolean, omitProps, mergeProps } from '../../utils'
 import { useFontSizes, useColors, useRadius, getSize, getSizes, toCssUnit } from '../../styles'
 import {
   hasTrigger,
   formInjectionKeyRules,
-  formInjectionKeySize,
   formInjectionKeyDisabled,
   formInjectionKeyValidateField,
   formInjectionKeyFieldsErrors,
-  formInjectionKeyNoFeedback
 } from '../c-form/use'
 import {
   formItemInjectionKeySize,
@@ -23,85 +21,39 @@ import {
 import { useConfigs } from './use'
 
 interface Props {
+  props?: TextareaProps
+  cClass?: TextareaProps['cClass']
+  cStyle?: TextareaProps['cStyle']
   /**
    * 配置名。使用 `useTextareaConfigs()` 查看配置数据。使用 `setTextareaConfigs()` 进行配置。
    * 默认： `default`
    */
   c?: TextareaProps['c']
   /**
-   * view 组件的 Attributes 和 Props 。
-   * 默认： `undefined`
-   */
-  viewBind?: TextareaProps['viewBind']
-  /**
-   * textarea 组件的 Attributes 和 Props 。
-   * 默认： `undefined`
-   */
-  textareaBind?: TextareaProps['textareaBind']
-  /**
-   * 输入框的内容。
-   * 默认： `undefined`
-   */
-  value?: TextareaProps['value']
-  /**
    * 字体的大小。
    * 默认： `undefined`
    */
   size?: TextareaProps['size']
-  /**
-   * 输入框为空时占位符。
-   * 默认： `undefined`
-   */
-  placeholder?: TextareaProps['placeholder']
   /**
    * 高度。
    * 默认： `undefined`
    */
   height?: TextareaProps['height']
   /**
-   * 是否自动增高，设置auto-height时，height不生效。
-   * 默认： `undefined`
-   */
-  /**
-   * 是否禁用。
-   * 默认： `undefined`
-   */
-  autoHeight?: TextareaProps['autoHeight']
-  /**
-   * 是否禁用。
-   * 默认： `undefined`
-   */
-  disabled?: TextareaProps['disabled']
-  /**
    * 是否只读。
    * 默认： `undefined`
    */
   readonly?: TextareaProps['readonly']
-  /**
-   * 最大输入长度，设置为 -1 的时候不限制最大长度。
-   * 默认： `undefined`
-   */
-  maxlength?: TextareaProps['maxlength']
   /**
    * 是否显示输入字数统计。
    * 默认： `undefined`
    */
   showCount?: TextareaProps['showCount']
   /**
-   * view 组件的 Attributes 和 Props 。
-   * 默认： `undefined`
-   */
-  countViewBind?: TextareaProps['countViewBind']
-  /**
    * 输入字数统计的 c-text Props 。
    * 默认： `undefined`
    */
-  countProps?: TextareaProps['countProps']
-  /**
-   * 自动获取焦点。
-   * 默认： `undefined`
-   */
-  autoFocus?: TextareaProps['autoFocus']
+  countTextProps?: TextareaProps['countTextProps']
   /**
    * 是否显示边框。
    * 默认： `undefined`
@@ -113,7 +65,7 @@ interface Props {
    */
   borderBottom?: TextareaProps['borderBottom']
   /**
-   * 圆角值。 default 配置为 `s`。 `useRadius()` 可以查看配置数据。使用 `setRadius()` 进行配置。
+   * 圆角值。 `useRadius()` 可以查看配置数据。使用 `setRadius()` 进行配置。
    * 默认： `undefined`
    */
   radius?: TextareaProps['radius']
@@ -127,6 +79,110 @@ interface Props {
    * 默认： `undefined`
    */
   noFeedback?: TextareaProps['noFeedback']
+  /**
+   * 输入框的内容
+   */
+  value?: TextareaProps['value']
+  /**
+   * 输入框为空时占位符
+   */
+  placeholder?: TextareaProps['placeholder']
+  /**
+   * 指定 placeholder 的样式
+   */
+  placeholderStyle?: TextareaProps['placeholderStyle']
+  /**
+   * 指定 placeholder 的样式类，注意页面或组件的style中写了scoped时，需要在类名使用`:deep`。
+   * 字节跳动小程序、飞书小程序、快手小程序不支持
+   */
+  placeholderClass?: TextareaProps['placeholderClass']
+  /**
+   * 是否禁用
+   */
+  disabled?: TextareaProps['disabled']
+  /**
+   * 最大输入长度，设置为 -1 的时候不限制最大长度
+   */
+  maxlength?: TextareaProps['maxlength']
+  /**
+   * 获取焦点。
+   * 在 H5 平台能否聚焦以及软键盘是否跟随弹出，取决于当前浏览器本身的实现。nvue 页面不支持，需使用组件的 focus()、blur() 方法控制焦点
+   */
+  focus?: TextareaProps['focus']
+  /**
+   * 自动聚焦，拉起键盘。
+   * 京东小程序
+   */
+  autoFocus?: TextareaProps['autoFocus']
+  /**
+   * 是否自动增高，设置auto-height时，style.height不生效。
+   */
+  autoHeight?: TextareaProps['autoHeight']
+  /**
+   * 如果 textarea 是在一个 position:fixed 的区域，需要显示指定属性 fixed 为 true。
+   * 微信小程序、百度小程序、字节跳动小程序、飞书小程序、QQ小程序、快手小程序、京东小程序
+   */
+  fixed?: TextareaProps['fixed']
+  /**
+   * 指定光标与键盘的距离，单位 px 。取 textarea 距离底部的距离和 cursor-spacing 指定的距离的最小值作为光标与键盘的距离。
+   * App、微信小程序、百度小程序、字节跳动小程序、飞书小程序、QQ小程序、京东小程序
+   */
+  cursorSpacing?: TextareaProps['cursorSpacing']
+  /**
+   * 指定focus时的光标位置。
+   * 微信小程序、App、H5、百度小程序、字节跳动小程序、飞书小程序、QQ小程序、京东小程序
+   */
+  cursor?: TextareaProps['cursor']
+  /**
+   * 设置键盘右下角按钮的文字
+   * 微信小程序基础库2.13.0+、App-vue和H5(2.9.9+，且要求设备webview内核Chrome81+、Safari13.7+)
+   */
+  confirmType?: TextareaProps['confirmType']
+  /**
+   * 点击键盘右下角按钮时是否保持键盘不收起。
+   * App(3.3.7+)、H5 (3.3.7+)、微信小程序 (基础库 2.16.0+)、百度小程序 (基础库 3.130.1+)、快手小程序
+   */
+  confirmHold?: TextareaProps['confirmHold']
+  /**
+   * 是否显示键盘上方带有”完成“按钮那一栏。
+   * 微信小程序、百度小程序、QQ小程序、京东小程序
+   */
+  showConfirmBar?: TextareaProps['showConfirmBar']
+  /**
+   * 光标起始位置，自动聚焦时有效，需与selection-end搭配使用。
+   * 微信小程序、App、H5、百度小程序、字节跳动小程序、飞书小程序、QQ小程序、京东小程序
+   */
+  selectionStart?: TextareaProps['selectionStart']
+  /**
+   * 光标结束位置，自动聚焦时有效，需与selection-start搭配使用。
+   * 微信小程序、App、H5、百度小程序、字节跳动小程序、飞书小程序、QQ小程序、京东小程序
+   */
+  selectionEnd?: TextareaProps['selectionEnd']
+  /**
+   * 键盘弹起时，是否自动上推页面。
+   * App-Android（softinputMode 为 adjustResize 时无效）、微信小程序、百度小程序、QQ小程序、京东小程序
+   */
+  adjustPosition?: TextareaProps['adjustPosition']
+  /**
+   * 是否去掉 iOS 下的默认内边距。
+   * 微信小程序2.10.0、飞书小程序 3.46
+   */
+  disableDefaultPadding?: TextareaProps['disableDefaultPadding']
+  /**
+   * focus时，点击页面的时候不收起键盘。
+   * 微信小程序2.8.2
+   */
+  holdKeyboard?: boolean
+  /**
+   * 键盘收起时，是否自动失去焦点。
+   * App-vue 3.0.0+ ，App-nvue不支持
+   */
+  autoBlur?: boolean
+  /**
+   * 是否忽略组件内对文本合成系统事件的处理。为 false 时将触发 compositionstart、compositionend、compositionupdate 事件，且在文本合成期间会触发 input 事件。
+   * App-vue (3.4.4+)、H5 (3.4.4+)、App-nvue不支持
+   */
+  ignoreCompositionEvent?: boolean
 }
 
 interface Emits {
@@ -140,11 +196,9 @@ interface Emits {
 }
 
 const formRules = inject(formInjectionKeyRules, ref())
-const formSize = inject(formInjectionKeySize, ref(''))
 const formDisabled = inject(formInjectionKeyDisabled, ref())
 const formValidateField = inject(formInjectionKeyValidateField, undefined)
 const formFieldsErrors = inject(formInjectionKeyFieldsErrors, ref())
-const formNoFeedback = inject(formInjectionKeyNoFeedback, ref())
 const formItemSize = inject(formItemInjectionKeySize, ref(''))
 const formItemDisabled = inject(formItemInjectionKeyDisabled, ref())
 const formItemPath = inject(formItemInjectionKeyPath, ref())
@@ -161,16 +215,13 @@ const valueR = ref(props.value)
 const isFocus = ref(getPropsBoolean(props.autoFocus))
 const textareaRef = ref(null) as any
 
-const propsC = computed<Props>(() => mergeProps(configs.value[props.c], props))
+const props1 = computed(() => props.props ? mergeProps(props.props, omitProps(props)) : props)
+const propsC = computed(() => mergeProps(configs.value[props1.value.c!], props1.value))
 const pathC = computed(() => propsC.value.path || formItemPath.value)
 const rule = computed<FormRule | undefined>(() => !pathC.value || !formRules.value ? undefined : formRules.value[pathC.value])
 const validateErrors = computed(() => !pathC.value || !formFieldsErrors.value ? undefined : formFieldsErrors.value[pathC.value])
 const size1 = computed<string | undefined>(() => getSize(fontSizes.value, propsC.value.size))
-const sizeC = computed<string>(() => size1.value
-  || formItemSize.value
-  || formSize.value
-  || toCssUnit(fontSizes.value.m)
-)
+const sizeC = computed<string>(() => size1.value || formItemSize.value || toCssUnit(fontSizes.value.m))
 const autoHeightC = computed(() => getPropsBoolean(propsC.value.autoHeight))
 const disabled1 = computed(() => getPropsBoolean(propsC.value.disabled))
 const disabledC = computed<boolean>(() => disabled1.value || formDisabled.value || formItemDisabled.value || false)
@@ -179,9 +230,11 @@ const borderC = computed(() => getPropsBoolean(propsC.value.border))
 const borderBottomC = computed(() => getPropsBoolean(propsC.value.borderBottom))
 const showCountC = computed(() => getPropsBoolean(propsC.value.showCount))
 const maxlengthC = computed(() => propsC.value.maxlength || 140)
-const radiusC = computed(() => getSizes(radiuses.value, propsC.value.radius))
-const noFeedbackC = computed<boolean>(() => getPropsBoolean(propsC.value.noFeedback) || formItemNoFeedback.value || formNoFeedback.value || false)
+const radius1 = computed(() => propsC.value.radius !== undefined ? propsC.value.radius : 's')
+const radiusC = computed(() => getSizes(radiuses.value, radius1.value))
+const noFeedbackC = computed<boolean>(() => getPropsBoolean(propsC.value.noFeedback) || formItemNoFeedback.value || false)
 const countSize = computed(() => sizeC.value.replace(/\d+/, (v) => Math.floor(Number(v) * 0.9) + ''))
+const textareaClass = computed(() => mergeProps({ x: ['c-textarea__textarea'] }, { x: propsC.value.cClass }).x)
 
 const textareaStyle1 = computed<CSSProperties>(() => {
   const result: CSSProperties = {
@@ -189,17 +242,23 @@ const textareaStyle1 = computed<CSSProperties>(() => {
     fontSize: sizeC.value
   }
 
-  if (!autoHeightC.value) {
+  if (!autoHeightC.value && propsC.value.height) {
     result.height = propsC.value.height
   }
 
   if (borderC.value) {
     result.borderWidth = '1px'
     result.borderRadius = radiusC.value
-    result.padding = `calc(${sizeC.value} * 0.65`
+    result.padding = `calc(${sizeC.value} * 0.65)`
+    // #ifdef MP
+    result.minHeight = `calc(${sizeC.value} * 0.65 * 2 + ${sizeC.value} * 1.4)`
+    // #endif
   } else if (borderBottomC.value) {
-    result.paddingBottom = `calc(${sizeC.value} * 0.4`
+    result.paddingBottom = `calc(${sizeC.value} * 0.4)`
     result.borderBottomWidth = '1px'
+    // #ifdef MP
+    result.minHeight = `calc(${sizeC.value} * 0.4 + ${sizeC.value} * 1.4)`
+    // #endif
   }
 
   return result
@@ -213,15 +272,21 @@ const textareaStyle2 = computed<CSSProperties>(() => {
   }
   return result
 })
-const textareaStyles = computed<CSSProperties[]>(() => [textareaStyle1.value, textareaStyle2.value])
+const textareaStyles = computed(() => mergeProps({ x: propsC.value.cStyle }, { x: [textareaStyle1.value, textareaStyle2.value] }).x)
 
 const placeholderStyle = computed<string>(() => {
-  let style = propsC.value.textareaBind?.placeholderStyle || ''
+  let style = propsC.value.placeholderStyle || ''
   if (style && !/;$/.test(style)) {
     style += ';'
   }
   return `${style}font-size: ${sizeC.value};color: ${colors.value.placeholder};`
 })
+
+const styles = computed(() => mergeProps({ x: [] }, { x: propsC.value.cStyle }).x)
+const classC = computed(() => mergeProps({ x: [
+  'c-textarea',
+  { 'c-textarea__disabled': !formDisabled.value && !formItemDisabled.value && disabled1.value }
+] }, { x: propsC.value.cClass }).x)
 
 const hasOnInputValidate = computed(() => hasTrigger(rule.value, 'input'))
 const hasOnChangeValidate = computed(() => hasTrigger(rule.value, 'change'))
@@ -279,67 +344,85 @@ defineExpose({ focus })
 </script>
 
 <template>
-<view
-  class="c-textarea"
-  :class="[{ 'c-textarea__disabled': !formDisabled && !formItemDisabled && disabled1 }]"
-  v-bind="(propsC.viewBind as any)"
->
+<view :class="classC" :style="(styles as any)">
   <textarea
     ref="textareaRef"
-    class="c-textarea__textarea"
     v-model="valueR"
-    v-bind="propsC.textareaBind"
+    :class="textareaClass"
     :style="textareaStyles"
     :auto-height="autoHeightC"
     :focus="isFocus"
-    :placeholder="propsC.placeholder"
     :placeholder-style="placeholderStyle"
     :disabled="readonlyC"
     :maxlength="maxlengthC"
+    :placeholder="propsC.placeholder || '请输入'"
+    :placeholder-class="propsC.placeholderClass"
+    :auto-focus="propsC.autoFocus"
+    :fixed="propsC.fixed"
+    :cursor-spacing="propsC.cursorSpacing"
+    :cursor="propsC.cursor"
+    :confirm-type="propsC.confirmType"
+    :confirm-hold="propsC.confirmHold"
+    :show-confirm-bar="propsC.showConfirmBar"
+    :selection-start="propsC.selectionStart"
+    :selection-end="propsC.selectionEnd"
+    :adjust-position="propsC.adjustPosition"
+    :disable-default-padding="propsC.disableDefaultPadding"
+    :hold-keyboard="propsC.holdKeyboard"
+    :auto-blur="propsC.autoBlur"
+    :ignore-composition-event="propsC.ignoreCompositionEvent"
     @input="onInput"
     @focus="onFocus"
     @blur="onBlur"
     @confirm="onConfirm"
     @keyboardheightchange="onKeyboardheightchange"
   />
-  <view v-if="showCountC && maxlengthC" class="c-textarea__count" v-bind="(propsC.countViewBind as any)">
+  <view v-if="showCountC && maxlengthC" class="c-textarea__count-wrap">
     <slot name="count" :value="valueR">
-      <c-text :size="countSize" v-bind="propsC.countProps">{{ valueR?.length || 0 }} / {{ maxlengthC }}</c-text>
+      <c-text :props="{ size: countSize, color: 'secondary', ...propsC.countTextProps }">{{ valueR?.length || 0 }} / {{ maxlengthC }}</c-text>
     </slot>
   </view>
 </view>
 </template>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .c-textarea {
   /* #ifndef APP-NVUE */
   display: flex;
   /* #endif */
 
+  box-sizing: border-box;
   position: relative;
   flex-grow: 1;
-  box-sizing: border-box;
 
-  &__disabled {
-    opacity: 0.6;
-    cursor: no-drop;
+  &__ {
+    &disabled {
+      opacity: 0.6;
+      cursor: no-drop;
+    }
+
+    &textarea {
+      border-width: 0;
+      border-style: solid;
+      border-color: #d9d9d9;
+      flex-grow: 1;
+      width: auto;
+      box-sizing: border-box;
+    }
+
+    &count-wrap {
+      /* #ifndef APP-NVUE */
+      display: flex;
+      /* #endif */
+
+      box-sizing: border-box;
+      position: absolute;
+      right: 10rpx;
+      bottom: 8rpx;
+      border-radius: 16rpx;
+      pointer-events: none;
+    }
   }
 
-  &__textarea {
-    border-width: 0;
-    border-style: solid;
-    border-color: #d9d9d9;
-    flex-grow: 1;
-    width: auto;
-    box-sizing: border-box;
-  }
-
-  &__count {
-    position: absolute;
-    right: 10rpx;
-    bottom: 8rpx;
-    border-radius: 16rpx;
-    pointer-events: none;
-  }
 }
 </style>

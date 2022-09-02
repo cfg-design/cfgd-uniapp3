@@ -4,7 +4,8 @@ import type { ValidationTrigger, FormRule } from '../c-form/types.d'
 import type { CheckboxGroupProps, CheckboxGroupGetIndex, CheckboxGroupCheck } from './types.d'
 import { computed, provide, inject, ref, watch } from 'vue'
 import { filter, difference } from 'ramda'
-import { getPropsBoolean, mergeProps } from '../../utils'
+import { getPropsBoolean, omitProps, mergeProps } from '../../utils'
+import { toCssUnit } from '../../styles'
 import {
   hasTrigger,
   formInjectionKeyRules,
@@ -25,6 +26,9 @@ import {
 } from './use'
 
 interface Props {
+  props?: CheckboxGroupProps
+  cClase?: CheckboxGroupProps['cClass']
+  cStyle?: CheckboxGroupProps['cStyle']
   /**
    * 配置名。使用 `useCheckboxGroupConfigs()` 查看配置数据。使用 `setCheckboxGroupConfigs()` 进行配置。
    * 默认： `default`
@@ -35,11 +39,6 @@ interface Props {
    * 默认： `undefined`
    */
   value?: CheckboxGroupProps['value']
-  /**
-   * view 组件的 Attributes 和 Props 。
-   * 默认： `undefined`
-   */
-  viewBind?: CheckboxGroupProps['viewBind']
   /**
    * 是否禁用。
    * 默认： `undefined`
@@ -78,21 +77,27 @@ const configs = useConfigs()
 
 const valueR = ref<CheckboxGroupProps['value']>(props.value)
 
-const propsC = computed<Props>(() => mergeProps(configs.value[props.c], props))
+const props1 = computed(() => props.props ? mergeProps(props.props, omitProps(props)) : props)
+const propsC = computed(() => mergeProps(configs.value[props1.value.c!], props1.value))
 const disabledC = computed(() => getPropsBoolean(propsC.value.disabled))
 const pathC = computed(() => propsC.value.path || formItemPath.value)
 const rule = computed<FormRule | undefined>(() => !pathC.value || !formRules.value ? undefined : formRules.value[pathC.value])
 const hasOnChangeValidate = computed(() => hasTrigger(rule.value, 'change'))
-const checkboxC = computed(() => propsC.value.checkbox)
+const checkboxC = computed(() => mergeProps({ cStyle: [{ margin: toCssUnit('10 0') }] }, propsC.value.checkbox))
 
-const styles = computed<CSSProperties[]>(() => {
+const style1 = computed<CSSProperties>(() => {
   const style: CSSProperties = {}
   const { direction } = propsC.value
   if (direction) {
     style.flexDirection = direction
   }
-  return [style]
+  return style
 })
+const styleC = computed(() => mergeProps({ x: [style1.value] }, { x: propsC.value.cStyle }).x)
+const classC = computed(() => mergeProps({ x: [
+  'c-checkbox-group',
+  { 'c-checkbox-group__disabled': !formDisabled.value && !formItemDisabled.value && disabledC.value }]
+}, { x: propsC.value.cClass }).x)
 
 let index = 0
 const getIndex: CheckboxGroupGetIndex = () => index ++
@@ -138,23 +143,18 @@ provide(checkboxGroupInjectionKeyValue, valueR)
 </script>
 
 <template>
-<view
-  class="c-checkbox-group"
-  :class="[{ 'c-checkbox-group__disabled': !formDisabled && !formItemDisabled && disabledC }]"
-  :style="styles"
-  v-bind="(propsC.viewBind as any)"
-><slot /></view>
+<view :class="classC" :style="(styleC as any)"><slot /></view>
 </template>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .c-checkbox-group {
   /* #ifndef APP-NVUE */
   display: flex;
   /* #endif */
 
+  box-sizing: border-box;
   flex-direction: column;
   flex-grow: 1;
-  box-sizing: border-box;
 
   &__disabled {
     opacity: 0.6;

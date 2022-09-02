@@ -1,27 +1,19 @@
 import type { HTMLAttributes } from 'vue'
-import type { UViewProps, ULabelProps } from '../uni.d'
 import type { IconProps } from '../c-icon/types.d'
 import type { TextProps } from '../c-text/types.d'
 import type { LineProps } from '../c-line/types.d'
 
 export interface FormItemConfig {
+  cClass?: string | Record<string, any> | (string | Record<string, any>)[]
+  cStyle?: HTMLAttributes['style']
+  labelClass?: string | Record<string, any> | (string | Record<string, any>)[]
+  labelStyle?: HTMLAttributes['style']
+  mainClass?: string | Record<string, any> | (string | Record<string, any>)[]
+  mainStyle?: HTMLAttributes['style']
+  contentClass?: string | Record<string, any> | (string | Record<string, any>)[]
+  contentStyle?: HTMLAttributes['style']
   /**
-   * view 组件的 Attributes 和 Props 。
-   * 默认： `undefined`
-   */
-  viewBind?: HTMLAttributes & UViewProps
-  /**
-   * view 组件的 Attributes 和 Props 。
-   * 默认： `undefined`
-   */
-  mainBind?: HTMLAttributes & UViewProps
-  /**
-   * view 组件的 Attributes 和 Props 。
-   * 默认： `undefined`
-   */
-  contentBind?: HTMLAttributes & UViewProps
-  /**
-   * 字体大小。 default 配置为 m。 useFontSizes() 可以查看配置数据。使用 setFontSizes() 进行配置。
+   * 字体大小。 useFontSizes() 可以查看配置数据。使用 setFontSizes() 进行配置。
    * 默认： `undefined`
    */
   size?: string | number
@@ -46,20 +38,10 @@ export interface FormItemConfig {
    */
   labelWidth?: string | number
   /**
-   * 标签的 align-self 和 align-items。
+   * 绑定控件的 id 。
    * 默认： `undefined`
    */
-  labelAlign?: string
-  /**
-   * 标签的 justify-content。
-   * 默认： `undefined`
-   */
-  labelJustify?: string
-  /**
-   * label 组件的 Attributes 和 Props 。
-   * 默认： `undefined`
-   */
-  labelBind?: HTMLAttributes & ULabelProps
+  labelFor?: string
   /**
    * 标签文字 c-text props 。
    * 默认： `undefined`

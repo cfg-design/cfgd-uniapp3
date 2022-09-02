@@ -3,11 +3,7 @@ import { ref } from 'vue'
 import { mergeRight } from 'ramda'
 
 const configs = ref<Record<string, TabItemConfig>>({
-  default: {
-    color: 'primary',
-    badgeProps: { color: 'error', size: 'xs', round: true },
-    lineProps: { width: 4, round: true }
-  }
+  default: {}
 })
 
 export const setConfigs = (_configs: Record<string, TabItemConfig>) => {

@@ -3,13 +3,7 @@ import { ref } from 'vue'
 import { mergeRight } from 'ramda'
 
 const configs = ref<Record<string, BadgeConfig>>({
-  default: {
-    color: 'primary',
-    radius: 'xs',
-    textColor: '#fff',
-    size: 's',
-    textProps: { textBind: { class: 'c-badge', style: [{ alignItems: 'center', justifyContent: 'center', lineHeight: 1.25 }] } }
-  },
+  default: {},
 })
 
 export const setConfigs = (_configs: Record<string, BadgeConfig>) => {

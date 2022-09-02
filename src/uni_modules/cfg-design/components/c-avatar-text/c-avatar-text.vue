@@ -3,22 +3,20 @@ import type { CSSProperties } from 'vue'
 import type { AvatarTextProps } from './types.d'
 import { computed } from 'vue'
 import { useColors, useRadius, useFontSizes, getSize, getSizes } from '../../styles'
-import { getPropsBoolean, mergeProps } from '../../utils'
+import { getPropsBoolean, omitProps, mergeProps } from '../../utils'
 import { useConfigs } from './use'
 
 interface Props {
+  props?: AvatarTextProps
+  cClase?: AvatarTextProps['cClass']
+  cStyle?: AvatarTextProps['cStyle']
   /**
    * 配置名。使用 `useAvatarTextConfigs()` 查看配置数据。使用 `setAvatarTextConfigs()` 进行配置。
    * 默认： `default`
    */
   c?: AvatarTextProps['c']
   /**
-   * view 组件的 Attributes 和 Props 。
-   * 默认： `undefined`
-   */
-  viewBind?: AvatarTextProps['viewBind']
-  /**
-   * 背景颜色。 default 配置为 `#fff`。 `useColors()` 可以查看配置数据。使用 `setColors()` 进行配置。
+   * 背景颜色。 `useColors()` 可以查看配置数据。使用 `setColors()` 进行配置。
    * 默认： `undefined`
    */
   color?: AvatarTextProps['color']
@@ -38,12 +36,12 @@ interface Props {
    */
   textProps?: AvatarTextProps['textProps']
   /**
-   * 头像大小。 default 配置为 `100rpx`。
+   * 头像大小。
    * 默认： `undefined`
    */
   size?: AvatarTextProps['size']
   /**
-   * 圆角值。 default 配置为 `m`。 `useRadius()` 可以查看配置数据。使用 `setRadius()` 进行配置。
+   * 圆角值。 `useRadius()` 可以查看配置数据。使用 `setRadius()` 进行配置。
    * 默认： `undefined`
    */
   radius?: AvatarTextProps['radius']
@@ -60,40 +58,44 @@ const colors = useColors()
 const radiuses = useRadius()
 const fontSizes = useFontSizes()
 
-const propsC = computed<Props>(() => mergeProps(configs.value[props.c], props))
-const colorC = computed<CSSProperties['color']>(() => {
+const props1 = computed(() => props.props ? mergeProps(props.props, omitProps(props)) : props)
+const propsC = computed(() => mergeProps(configs.value[props1.value.c!], props1.value))
+const colorC = computed(() => {
   const { color } = propsC.value
-  return color ? colors.value[color] || color : configs.value.default.color
+  return color ? colors.value[color] || color : '#fff'
 })
-const sizeC = computed(() => getSize(fontSizes.value, propsC.value.size || configs.value.default.size))
+const sizeC = computed(() => getSize(fontSizes.value, propsC.value.size || 100))
 const fontSize = computed(() => sizeC.value ? `calc(${sizeC.value} * 0.5)` : undefined)
-const radiusC = computed(() => getSizes(radiuses.value, propsC.value.radius))
+const radius1 = computed(() => propsC.value.radius !== undefined ? propsC.value.radius : 'm')
+const radius2 = computed(() => getSizes(radiuses.value, radius1.value))
 const roundC = computed(() => getPropsBoolean(propsC.value.round))
-const radiusC2 = computed(() => roundC.value ? '9999px' : radiusC.value)
-const viewStyle = computed<CSSProperties[]>(() => [{
+const radiusC = computed(() => roundC.value ? '9999px' : radius2.value)
+const style = computed<CSSProperties>(() => ({
   backgroundColor: colorC.value,
-  borderRadius: radiusC2.value,
+  borderRadius: radiusC.value,
   width: sizeC.value,
   height: sizeC.value,
-}])
+}))
+const styleC = computed(() => mergeProps({ x: [style.value] }, { x: propsC.value.cStyle }).x)
+const classC = computed(() => mergeProps({ x: ['c-avatar-text'] }, { x: propsC.value.cClass }).x)
 </script>
 
 <template>
-<view class="c-avatar-text" v-bind="(propsC.viewBind as any)" :style="viewStyle">
-  <c-text v-bind="{ size: fontSize, ...propsC.textProps }" :color="propsC.textColor">{{ propsC.text }}<slot v-if="!propsC.text" /></c-text>
+<view :class="classC" :style="(styleC as any)">
+  <c-text :props="{ size: fontSize, ...propsC.textProps }" :color="propsC.textColor">{{ propsC.text }}<slot v-if="!propsC.text" /></c-text>
 </view>
 </template>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .c-avatar-text {
   /* #ifndef APP-NVUE */
   display: flex;
   /* #endif */
+  box-sizing: border-box;
 
   position: relative;
   align-items: center;
   justify-content: center;
-  box-sizing: border-box;
   overflow: hidden;
   flex-shrink: 0;
 }

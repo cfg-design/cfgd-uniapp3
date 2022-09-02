@@ -1,32 +1,40 @@
 <template>
   <view class="page">
-    <view style="display: flex">
-      <view>
-        <c-avatar />
-        <c-avatar size="160rpx" />
-        <c-avatar :size="160" icon="home-smile-2-line" />
-        <c-avatar src="./" size="160" />
-        <c-avatar-text text="A" />
-        <MyC />
-      </view>
-      <view>
-        <c-avatar :src="scr" size="160" round />
-        <c-avatar v-for="(_, key) in radius" :key="key" :src="scr" size="160" :radius="key" />
-        <c-avatar :src="scr" size="160" radius="0 80 80" />
-        <c-avatar size="160" radius="s l" />
-      </view>
-      <view>
-        <c-avatar-text v-for="_, key in colors" :key="key" :color="key" text-color="#fff">A</c-avatar-text>
-      </view>
-      <view>
-        <c-avatar-text v-for="_, key in colors" :key="key" :color="key" text-color="#fff" round>A</c-avatar-text>
-      </view>
-    </view>
+    <c-row gutter="10">
+      <c-col>
+        <c-row gutter="10" vertical>
+          <c-col><c-avatar /></c-col>
+          <c-col><c-avatar size="160rpx" round /></c-col>
+          <c-col><c-avatar :size="160" :image-props="{ iconProps: { name: 'user-5-fill' } }" /></c-col>
+          <c-col><c-avatar src="./" size="160" /></c-col>
+          <c-col><c-avatar-text text="A" /></c-col>
+          <c-col><c-avatar-text text="A" size="160" round text-color="primary" /></c-col>
+        </c-row>
+      </c-col>
+      <c-col>
+        <c-row gutter="10" vertical>
+          <c-col><c-avatar :src="scr" size="160" round /></c-col>
+          <c-col v-for="(_, key) in radius" :key="key"><c-avatar :src="scr" size="160" :radius="key" /></c-col>
+          <c-col><c-avatar :src="scr" size="160" radius="0 80 80" /></c-col>
+          <c-col><c-avatar size="160" radius="s l" /></c-col>
+        </c-row>
+      </c-col>
+      <c-col>
+        <c-row gutter="10" vertical>
+          <c-col v-for="_, key in colors" :key="key"><c-avatar-text :color="key" text-color="#fff">A</c-avatar-text></c-col>
+        </c-row>
+      </c-col>
+      <c-col>
+        <c-row gutter="10" vertical>
+          <c-col v-for="_, key in colors" :key="key"><c-avatar-text :color="key" text-color="#fff" round>A</c-avatar-text></c-col>
+        </c-row>
+      </c-col>
+    </c-row>
   </view>
 </template>
 
 <script setup lang="ts">
-import { useRadius, useColors, CAvatar as MyC } from '@/uni_modules/cfg-design'
+import { useRadius, useColors } from '@/uni_modules/cfg-design'
 
 const radius = useRadius()
 const colors = useColors()
@@ -36,18 +44,7 @@ const scr = 'http://pic.kaiweixin.cn/upload/micropay/goods/picture/201606/02-161
 
 <style lang="scss">
 .page {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 1px 0 50rpx;
+  padding: 50rpx;
   background-color: #000a;
-}
-
-.c-avatar {
-  margin: 10rpx;
-}
-
-.c-avatar-text {
-  margin: 10rpx;
 }
 </style>

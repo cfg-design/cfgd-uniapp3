@@ -17,9 +17,11 @@
 import { useColors } from '@/uni_modules/cfg-design'
 const colors = useColors()
 
-const onClick = (name: string) => {
-  uni.showToast({ title: '复制颜色名成功', icon: 'none' })
-  navigator.clipboard.writeText(name)
+const onClick = (data: string) => {
+  uni.setClipboardData({
+    data,
+    success: () => uni.showToast({ title: '复制颜色名成功', icon: 'none' })
+  })
 }
 </script>
 

@@ -1,19 +1,16 @@
 import type { HTMLAttributes } from 'vue'
 import type { UTextProps } from '../uni.d'
 
-export interface TextConfig {
+export interface TextConfig extends UTextProps {
+  cClass?: string | Record<string, any> | (string | Record<string, any>)[]
+  cStyle?: HTMLAttributes['style']
   /**
-   * text 组件的 Attributes 和 Props 。
-   * 默认： undefined
-   */
-  textBind?: HTMLAttributes & UTextProps
-  /**
-   * 字体颜色。 default 配置为 main。 useColors() 可以查看配置数据。使用 setColors() 进行配置。
+   * 字体颜色。 useColors() 可以查看配置数据。使用 setColors() 进行配置。
    * 默认： undefined
    */
   color?: string
   /**
-   * 字体大小。 default 配置为 m。 useFontSizes() 可以查看配置数据。使用 setFontSizes() 进行配置。
+   * 字体大小。 useFontSizes() 可以查看配置数据。使用 setFontSizes() 进行配置。
    * 默认： undefined
    */
   size?: string | number

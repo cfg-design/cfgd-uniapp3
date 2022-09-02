@@ -1,22 +1,20 @@
 <script setup lang="ts">
-import type { CSSProperties } from 'vue'
+import type { CSSProperties, HTMLAttributes } from 'vue'
 import type { ButtonProps } from './types.d'
 import { computed } from 'vue'
 import { useColors, useRadius, useFontSizes, getSize, getSizes, toCssUnit } from '../../styles'
-import { getPropsBoolean, mergeProps } from '../../utils'
+import { getPropsBoolean, omitProps, mergeProps } from '../../utils'
 import { useConfigs } from './use'
 
 interface Props {
+  props?: ButtonProps
+  cClase?: ButtonProps['cClass']
+  cStyle?: ButtonProps['cStyle']
   /**
    * 配置名。使用 `useButtonConfigs()` 查看配置数据。使用 `setButtonConfigs()` 进行配置。
    * 默认： `default`
    */
   c?: ButtonProps['c']
-  /**
-   * button 组件的 Attributes 和 Props 。
-   * 默认： `undefined`
-   */
-  buttonBind?: ButtonProps['buttonBind']
   /**
    * 用于 form 组件，点击分别会触发 form 组件的 submit/reset 事件
    * 默认： `undefined`
@@ -33,7 +31,7 @@ interface Props {
    */
   color2?: ButtonProps['color2']
   /**
-   * 字体大小。 default 配置为 m。 useFontSizes() 可以查看配置数据。使用 setFontSizes() 进行配置。
+   * 字体大小。 useFontSizes() 可以查看配置数据。使用 setFontSizes() 进行配置。
    * 默认： undefined
    */
   size?: ButtonProps['size']
@@ -53,7 +51,7 @@ interface Props {
    */
   text?: ButtonProps['text']
   /**
-   * 文字的颜色。 default 配置为 `#fff`。详情查看 c-text props.color
+   * 文字的颜色。详情查看 c-text props.color
    * 默认： `undefined`
    */
   textColor?: ButtonProps['textColor']
@@ -73,7 +71,7 @@ interface Props {
    */
   iconProps?: ButtonProps['iconProps']
   /**
-   * 圆角值。 default 配置为 `s`。 `useRadius()` 可以查看配置数据。使用 `setRadius()` 进行配置。
+   * 圆角值。 `useRadius()` 可以查看配置数据。使用 `setRadius()` 进行配置。
    * 默认： `undefined`
    */
   radius?: ButtonProps['radius']
@@ -102,6 +100,81 @@ interface Props {
    * 默认： `undefined`
    */
   plain?: ButtonProps['plain']
+  /**
+   * 开放能力。
+   */
+  openType?: ButtonProps['openType']
+  /**
+   * 指定按钮按下去的样式类。当 hover-class="none" 时，没有点击态效果。
+   * App-nvue 平台暂不支持。
+   */
+  hoverClass?: ButtonProps['hoverClass']
+  /**
+   * 按住后多久出现点击态，单位毫秒。
+   */
+  hoverStartTime?: ButtonProps['hoverStartTime']
+  /**
+   * 手指松开后点击态保留时间，单位毫秒。
+   */
+  hoverStayTime?: ButtonProps['hoverStayTime']
+  /**
+   * 打开 APP 时，向 APP 传递的参数，open-type=launchApp时有效。
+   * 微信小程序、QQ小程序。
+   */
+  appParameter?: ButtonProps['appParameter']
+  /**
+   * 指定是否阻止本节点的祖先节点出现点击态。
+   * 微信小程序。
+   */
+  hoverStopPropagation?: ButtonProps['hoverStopPropagation']
+  /**
+   * 指定返回用户信息的语言，zh_CN 简体中文，zh_TW 繁体中文，en 英文。
+   * 微信小程序。
+   */
+  lang?: ButtonProps['lang']
+  /**
+   * 会话来源，open-type="contact"时有效。
+   * 微信小程序。
+   */
+  sessionFrom?: ButtonProps['sessionFrom']
+  /**
+   * 会话内消息卡片标题，open-type="contact"时有效。
+   * 微信小程序。
+   */
+  sendMessageTitle?: ButtonProps['sendMessageTitle']
+  /**
+   * 会话内消息卡片点击跳转小程序路径，open-type="contact"时有效	。
+   * 微信小程序。
+   */
+  sendMessagePath?: ButtonProps['sendMessagePath']
+  /**
+   * 会话内消息卡片图片，open-type="contact"时有效。
+   * 微信小程序。
+   */
+  sendMessageImg?: ButtonProps['sendMessageImg']
+  /**
+   * 是否显示会话内消息卡片，设置此参数为 true，用户进入客服会话会在右下角显示"可能要发送的小程序"提示，用户点击后可以快速发送小程序消息，open-type="contact"时有效。
+   * 微信小程序。
+   */
+  showMessageCard?: ButtonProps['showMessageCard']
+  /**
+   * 打开群资料卡时，传递的群号。
+   * open-type="openGroupProfile"。
+   * QQ小程序。
+   */
+  groupId?: ButtonProps['groupId']
+  /**
+   * 打开频道页面时，传递的频道号。
+   * open-type="openGroupProfile"。
+   * QQ小程序。
+   */
+  guildId?: ButtonProps['guildId']
+  /**
+   * 打开公众号资料卡时，传递的号码。
+   * open-type="openGroupProfile"。
+   * QQ小程序。
+   */
+  publicId?: ButtonProps['publicId']
 }
 
 interface Emits {
@@ -115,7 +188,8 @@ const colors = useColors()
 const fontSizes = useFontSizes()
 const radiuses = useRadius()
 
-const propsC = computed<Props>(() => mergeProps(configs.value[props.c], props))
+const props1 = computed(() => props.props ? mergeProps(props.props, omitProps(props)) : props)
+const propsC = computed(() => mergeProps(configs.value[props1.value.c!], props1.value))
 const colorC1 = computed<CSSProperties['color']>(() => {
   const { color } = propsC.value
   return color ? colors.value[color] || color : undefined
@@ -124,34 +198,65 @@ const colorC2 = computed<CSSProperties['color']>(() => {
   const { color2 } = propsC.value
   return color2 ? colors.value[color2] || color2 : undefined
 })
-const sizeC = computed(() => getSize(fontSizes.value, propsC.value.size || configs.value.default.size))
-const radiusC1 = computed(() => getSizes(radiuses.value, propsC.value.radius))
+const sizeC = computed(() => getSize(fontSizes.value, propsC.value.size || 'm'))
+const radius1 = computed(() => propsC.value.radius !== undefined ? propsC.value.radius : 's')
+const radius2 = computed(() => getSizes(radiuses.value, radius1.value))
 const roundC = computed(() => getPropsBoolean(propsC.value.round))
-const radiusC = computed(() => roundC.value ? '9999px' : radiusC1.value)
+const radiusC = computed(() => roundC.value ? '9999px' : radius2.value)
 const plainC = computed(() => getPropsBoolean(propsC.value.plain))
 const loadingC = computed(() => getPropsBoolean(propsC.value.loading))
 const disabledC = computed(() => getPropsBoolean(propsC.value.disabled))
 const height = computed(() => toCssUnit(propsC.value.height) || `calc(${sizeC.value} * 2.5)`)
 const padding = computed(() => `calc(${sizeC.value} * 0.75)`)
 const spanWidth = computed(() => sizeC.value.replace(/\d+/, (v) => Math.floor(Number(v) * 0.3) + ''))
-const fontColorC = computed<CSSProperties['color']>(() => propsC.value.textColor || (colorC1.value ? plainC.value ? colorC1.value : '#fff' : colors.value.main))
-const backgroundColor = computed<CSSProperties['background-color']>(() => plainC.value ? 'transparent' : (colorC1.value || '#fff'))
-const backgroundImage = computed<CSSProperties['background-image']>(() => plainC.value
+const fontColorC = computed(() => propsC.value.textColor || (colorC1.value ? plainC.value ? colorC1.value : '#fff' : colors.value.main))
+const hoverClassC = computed(() => {
+  const hoverClassD = 'c-button__click'
+  const { hoverClass } = propsC.value
+  return hoverClass && hoverClass != 'none' ? `${hoverClassD} ${hoverClass}` : hoverClassD
+})
+const backgroundColor = computed(() => plainC.value ? 'transparent' : (colorC1.value || '#fff'))
+const backgroundImage = computed(() => plainC.value
   ? undefined
   : colorC2.value
   ? `linear-gradient(to right, ${colorC1.value}, ${colorC2.value})`
   : undefined
 )
 
-const styles = computed<CSSProperties[]>(() => {
-  const result: CSSProperties = {
-    width: toCssUnit(propsC.value.width),
-    height: height.value,
-    paddingRight: padding.value,
-    paddingLeft: padding.value,
-    borderRadius: radiusC.value,
-    backgroundImage: backgroundImage.value,
-    backgroundColor: backgroundColor.value,
+const textStyle = computed(() => {
+  const result: CSSProperties = {}
+  if (propsC.value.icon && propsC.value.text) {
+    result.marginLeft = spanWidth.value
+  }
+  return result
+})
+
+const style1 = computed<CSSProperties>(() => {
+  const result: CSSProperties = {}
+
+  if (propsC.value.width) {
+    result.width = toCssUnit(propsC.value.width)
+  }
+
+  if (height.value) {
+    result.height = height.value
+  }
+
+  if (padding.value) {
+    result.paddingRight = padding.value
+    result.paddingLeft = padding.value
+  }
+
+  if (radiusC.value) {
+    result.borderRadius = radiusC.value
+  }
+
+  if (backgroundImage.value) {
+    result.backgroundImage = backgroundImage.value
+  }
+
+  if (backgroundColor.value) {
+    result.backgroundColor = backgroundColor.value
   }
 
   if (plainC.value) {
@@ -160,39 +265,56 @@ const styles = computed<CSSProperties[]>(() => {
     result.borderWidth = '0'
   }
 
-  return [result]
+  return result
 })
+
+const styleC = computed(() => mergeProps({ x: [style1.value] }, { x: propsC.value.cStyle }).x)
+
+const classC = computed(() => mergeProps({ x: ['c-button', { 'c-button__disabled': disabledC.value }] }, { x: propsC.value.cClass }).x)
 
 const onClick = (e: MouseEvent) => emits('click', e)
 </script>
 
 <template>
 <button
-  class="c-button"
-  hover-class="c-button__click"
-  v-bind="(propsC.buttonBind as any)"
-  :form-type="propsC.formType"
-  :style="(styles as any)"
-  :class="[{ 'c-button__disabled': disabledC }]"
+  :class="classC"
+  :style="styleC"
+  :hover-class="hoverClassC"
+  :type="(propsC.type as any)"
   :disabled="disabledC || propsC.loading"
+  :form-type="propsC.formType"
+  :open-type="propsC.openType"
+  :hover-start-time="propsC.hoverStartTime || 20"
+  :hover-stay-time="propsC.hoverStayTime || 70"
+  :app-parameter="propsC.appParameter"
+  :hover-stop-propagation="getPropsBoolean(propsC.hoverStopPropagation)"
+  :lang="propsC.lang"
+  :session-from="propsC.sessionFrom"
+  :send-message-title="propsC.sendMessageTitle"
+  :send-message-path="propsC.sendMessagePath"
+  :send-message-img="propsC.sendMessageImg"
+  :show-message-card="getPropsBoolean(propsC.showMessageCard)"
+  :group-id="propsC.groupId"
+  :guild-id="propsC.guildId"
+  :public-id="propsC.publicId"
   @click="onClick"
 >
-  <c-spin v-if="loadingC" :icon-size="sizeC" :color="fontColorC" :tip-size="propsC.size" v-bind="propsC.spinProps" />
+  <c-spin v-if="loadingC" :props="{ size: sizeC, color: fontColorC, direction: 'row', ...propsC.spinProps }" />
   <template v-else-if="propsC.text || propsC.icon">
-    <c-icon v-if="propsC.icon" :size="sizeC" :color="fontColorC" v-bind="propsC.iconProps" :name="propsC.icon" />
-    <text v-if="propsC.text && propsC.icon" :style="([{ width: spanWidth }] as any)" />
-    <c-text v-if="propsC.text" v-bind="propsC.textProps" :size="propsC.size" :color="fontColorC">{{ propsC.text }}</c-text>
+    <c-icon v-if="propsC.icon" :props="{ size: sizeC, color: fontColorC, ...propsC.iconProps }" :name="propsC.icon"/>
+    <c-text v-if="propsC.text" :props="propsC.textProps" :size="propsC.size" :color="fontColorC" :c-style="textStyle">{{ propsC.text }}</c-text>
   </template>
   <template v-else><slot /></template>
 </button>
 </template>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .c-button {
   /* #ifndef APP-NVUE */
   display: flex;
   /* #endif */
 
+  flex-direction: row;
   align-items: center;
   justify-content: center;
   box-sizing: border-box;
@@ -206,7 +328,10 @@ const onClick = (e: MouseEvent) => emits('click', e)
 
   &::after,
   &::before {
+    /* #ifndef APP-NVUE */
     display: none;
+    /* #endif */
+    opacity: 0;
   }
 
   &::after {
@@ -226,8 +351,12 @@ const onClick = (e: MouseEvent) => emits('click', e)
 
   &__click {
     &::after {
-      display: block;
+      /* #ifndef APP-NVUE */
+      display: flex;
+      /* #endif */
+
       content: ' ';
+      opacity: 1;
       background-color: rgba(0, 0, 0, 0.1);
     }
   }

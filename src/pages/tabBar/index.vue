@@ -3,30 +3,29 @@
   <c-tab-bar :value="0" :items="items" />
   <c-tab-bar :value="0" :items="items2" />
   <c-tab-bar :value="0" :items="items3" />
-  <c-tab-bar :value="0" :items="items">
+  <c-tab-bar :value="0" :items="items3" />
+  <c-tab-bar :value="0" :items="items" c-class="lll">
     <template #item="{ item, index, active }">
       <view v-if="index === 1" style="display: flex; flex-grow: 1; justify-content: center; width: 100%">
-        <c-avatar-text color="error" size="70">
-          <c-icon name="add-line" color="#fff" size="50" />
-        </c-avatar-text>
+        <c-avatar-text color="error" size="70" text="+" text-color="#fff" :text-props="{ size: 50, cStyle: { marginBottom: '4rpx', lineHeight: '50rpx', height: '50rpx' } }" />
       </view>
       <!-- 如果 item.value 为 undefined, 需要设置 :value="index" , active 值不会出错 -->
-      <c-tab-bar-item v-else v-bind="item" :value="index" />
+      <c-tab-bar-item v-else :props="item" :value="index" />
     </template>
   </c-tab-bar>
   <c-tab-bar v-model:value="modelValue" :items="items">
     <template #item="{ item, index, active }">
-      <c-avatar-text
-        v-if="index === 1"
-        :view-bind="{ style: [{ marginTop: '-50rpx' }] }"
-        :color="active ? 'error' : '#000'"
-        text="A"
-        text-color="#fff"
-        round
-        @click="modelValue = index"
-      />
+      <view v-if="index === 1" @click="modelValue = index">
+        <c-avatar-text
+          :c-style="[{ marginTop: '-50rpx' }]"
+          :color="active ? 'error' : '#000'"
+          text="A"
+          text-color="#fff"
+          round
+        />
+      </view>
       <!-- 如果 item.value 为 undefined, 需要设置 :value="index" , active 值不会出错 -->
-      <c-tab-bar-item v-else v-bind="item" :value="index" />
+      <c-tab-bar-item v-else :props="item" :value="index" :c-style="{ width: '320rpx' }" />
     </template>
   </c-tab-bar>
   <c-tab-bar v-for="color in ['error', 'warning', 'success', '#7546c9']" :key="color" :item="{ color }" :value="0" :items="items" />

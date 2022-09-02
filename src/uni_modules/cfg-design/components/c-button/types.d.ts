@@ -4,17 +4,9 @@ import type { TextProps } from '../c-text/types.d'
 import type { IconProps } from '../c-icon/types.d'
 import type { SpinProps } from '../c-spin/types.d'
 
-export interface ButtonConfig {
-  /**
-   * button 组件的 Attributes 和 Props 。
-   * 默认： `undefined`
-   */
-  buttonBind?: HTMLAttributes & UButtonProps
-  /**
-   * 用于 form 组件，点击分别会触发 form 组件的 submit/reset 事件
-   * 默认： `undefined`
-   */
-  formType?: UButtonProps['formType']
+export interface ButtonConfig extends UButtonProps {
+  cClass?: string | Record<string, any> | (string | Record<string, any>)[]
+  cStyle?: HTMLAttributes['style']
   /**
    * 颜色。 useColors() 可以查看配置数据。使用 setColors() 进行配置。
    * 默认： undefined
@@ -26,7 +18,7 @@ export interface ButtonConfig {
    */
   color2?: string
   /**
-   * 字体大小。 default 配置为 m。 useFontSizes() 可以查看配置数据。使用 setFontSizes() 进行配置。
+   * 字体大小。 useFontSizes() 可以查看配置数据。使用 setFontSizes() 进行配置。
    * 默认： undefined
    */
   size?: string | number
@@ -46,7 +38,7 @@ export interface ButtonConfig {
    */
   text?: string
   /**
-   * 文字的颜色。 default 配置为 `#fff`。详情查看 c-text props.color
+   * 文字的颜色。详情查看 c-text props.color
    * 默认： `undefined`
    */
   textColor?: string
@@ -66,35 +58,20 @@ export interface ButtonConfig {
    */
   iconProps?: IconProps
   /**
-   * 圆角值。 default 配置为 `s`。 `useRadius()` 可以查看配置数据。使用 `setRadius()` 进行配置。
+   * 圆角值。 `useRadius()` 可以查看配置数据。使用 `setRadius()` 进行配置。
    * 默认： `undefined`
    */
-  radius?: string
+  radius?: string | number
   /**
    * 是否显示为圆形。
    * 默认： `undefined`
    */
   round?: boolean
   /**
-   * 是否禁用。
-   * 默认： `undefined`
-   */
-  disabled?: boolean
-  /**
-   * 是否加载。
-   * 默认： `undefined`
-   */
-  loading?: boolean
-  /**
    * 详情查看 c-spin props
    * 默认： `undefined`
    */
   spinProps?: SpinProps
-  /**
-   * 是否镂空。
-   * 默认： `undefined`
-   */
-  plain?: boolean
 }
 
 export interface ButtonProps extends ButtonConfig {

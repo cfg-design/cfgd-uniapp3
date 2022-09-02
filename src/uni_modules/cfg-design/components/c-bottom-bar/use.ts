@@ -3,8 +3,7 @@ import { ref } from 'vue'
 import { mergeRight } from 'ramda'
 
 const configs = ref<Record<string, BottomBarConfig>>({
-  default: {
-  },
+  default: {},
 })
 
 export const setConfigs = (_configs: Record<string, BottomBarConfig>) => {

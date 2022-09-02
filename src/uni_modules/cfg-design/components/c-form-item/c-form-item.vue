@@ -1,20 +1,15 @@
 <script setup lang="ts">
 import type { CSSProperties } from 'vue'
-import type { FormItemProps } from './types.d'
+import type { FormItemProps, FormItemConfig } from './types.d'
 import type { FormRule, FormItemRule } from '../c-form/types.d'
 import { computed, provide, inject, ref  } from 'vue'
 import { is, find } from 'ramda'
 import { useFontSizes, getSize, toCssUnit } from '../../styles'
-import { getPropsBoolean, mergeProps } from '../../utils'
+import { getPropsBoolean, omitProps, mergeProps } from '../../utils'
 import {
   formInjectionKeyRules,
-  formInjectionKeySize,
+  formInjectionKeyItemConfig,
   formInjectionKeyDisabled,
-  formInjectionKeyNoFeedback,
-  formInjectionKeyNoRequireMark,
-  formInjectionKeyNoBorderBottom,
-  formInjectionKeyNoLabel,
-  formInjectionKeyLabel,
   formInjectionKeyFieldsErrors,
 } from '../c-form/use'
 import {
@@ -26,28 +21,22 @@ import {
 } from './use'
 
 interface Props {
+  props?: FormItemProps
+  cClass?: FormItemProps['cClass']
+  cStyle?: FormItemProps['cStyle']
+  labelClass?: FormItemProps['labelClass']
+  labelStyle?: FormItemProps['labelStyle']
+  mainClassClass?: FormItemProps['mainClass']
+  mainStyleStyle?: FormItemProps['mainStyle']
+  contentClass?: FormItemProps['contentClass']
+  contentStyle?: FormItemProps['contentStyle']
   /**
    * 配置名。使用 `useFormItemConfigs()` 查看配置数据。使用 `setFormItemConfigs()` 进行配置。
    * 默认： `default`
    */
   c?: FormItemProps['c']
   /**
-   * view 组件的 Attributes 和 Props 。
-   * 默认： `undefined`
-   */
-  viewBind?: FormItemProps['viewBind']
-  /**
-   * view 组件的 Attributes 和 Props 。
-   * 默认： `undefined`
-   */
-  mainBind?: FormItemProps['mainBind']
-  /**
-   * view 组件的 Attributes 和 Props 。
-   * 默认： `undefined`
-   */
-  contentBind?: FormItemProps['contentBind']
-  /**
-   * 字体大小。 default 配置为 m。 useFontSizes() 可以查看配置数据。使用 setFontSizes() 进行配置。
+   * 字体大小。 useFontSizes() 可以查看配置数据。使用 setFontSizes() 进行配置。
    * 默认： `undefined`
    */
   size?: FormItemProps['size']
@@ -72,20 +61,10 @@ interface Props {
    */
   labelWidth?: FormItemProps['labelWidth']
   /**
-   * 标签的 align-self 和 align-items。
+   * 绑定控件的 id 。
    * 默认： `undefined`
    */
-  labelAlign?: FormItemProps['labelAlign']
-  /**
-   * 标签的 justify-content。
-   * 默认： `undefined`
-   */
-  labelJustify?: FormItemProps['labelJustify']
-  /**
-   * label 组件的 Attributes 和 Props 。
-   * 默认： `undefined`
-   */
-  labelBind?: FormItemProps['labelBind']
+  labelFor?: FormItemProps['labelFor']
   /**
    * 标签文字 c-text props 。
    * 默认： `undefined`
@@ -145,13 +124,8 @@ interface Emits {
 const findRequired = find<FormItemRule>((item) => !!item.required)
 
 const formRules = inject(formInjectionKeyRules, ref())
-const formSize = inject(formInjectionKeySize, ref(''))
+const formItemProps = inject(formInjectionKeyItemConfig, ref({}))
 const formDisabled = inject(formInjectionKeyDisabled, ref(false))
-const formNoFeedback = inject(formInjectionKeyNoFeedback, ref(false))
-const formNoRequireMark = inject(formInjectionKeyNoRequireMark, ref(false))
-const formNoBorderBottom = inject(formInjectionKeyNoBorderBottom, ref(false))
-const formNoLabel = inject(formInjectionKeyNoLabel, ref(false))
-const formLabel = inject(formInjectionKeyLabel, ref())
 const formFieldsErrors = inject(formInjectionKeyFieldsErrors, ref())
 
 const props = withDefaults(defineProps<Props>(), { c: 'default' })
@@ -159,8 +133,9 @@ const emits = defineEmits<Emits>()
 const fontSizes = useFontSizes()
 const configs = useConfigs()
 
-const props1 = computed<Props>(() => mergeProps(configs.value[props.c], { ...formLabel.value }))
-const propsC = computed<Props>(() => mergeProps(props1.value, props))
+const props1 = computed(() => props.props ? mergeProps(props.props, omitProps(props)) : props)
+const props2 = computed(() => mergeProps<FormItemConfig>(configs.value[props1.value.c!], formItemProps.value))
+const propsC = computed(() => mergeProps(props2.value, props1.value))
 const pathC = computed(() => propsC.value.path)
 const ruleItem = computed<FormRule | undefined>(() => !pathC.value || !formRules.value ? undefined : formRules.value[pathC.value])
 const required = computed(() => is(Array, ruleItem.value)
@@ -170,17 +145,20 @@ const required = computed(() => is(Array, ruleItem.value)
   : false
 )
 const size1 = computed(() => getSize(fontSizes.value, propsC.value.size))
-const sizeC = computed(() => size1.value || formSize.value || toCssUnit(fontSizes.value.m))
+const sizeC = computed(() => size1.value || toCssUnit(fontSizes.value.m))
 const rightIconSize = computed(() => sizeC.value.replace(/\d+/, (v) => Math.floor(Number(v) * 1.2) + ''))
 const disabledC = computed(() => getPropsBoolean(propsC.value.disabled))
-const noFeedbackC = computed<boolean>(() => getPropsBoolean(propsC.value.noFeedback) || formNoFeedback.value)
-const noRequireMarkC = computed<boolean>(() => getPropsBoolean(propsC.value.noRequireMark) || formNoRequireMark.value)
-const noBorderBottomC = computed<boolean>(() => getPropsBoolean(propsC.value.noBorderBottom) || formNoBorderBottom.value)
+const noFeedbackC = computed<boolean>(() => getPropsBoolean(propsC.value.noFeedback))
+const noRequireMarkC = computed<boolean>(() => getPropsBoolean(propsC.value.noRequireMark))
+const noBorderBottomC = computed<boolean>(() => getPropsBoolean(propsC.value.noBorderBottom))
 const labelWidthC = computed(() => toCssUnit(propsC.value.labelWidth))
-const noLabelC = computed<boolean>(() => getPropsBoolean(propsC.value.noLabel) || formNoLabel.value)
+const noLabelC = computed<boolean>(() => getPropsBoolean(propsC.value.noLabel))
+
+const classC = computed(() => mergeProps({ x: ['c-form-item', { 'c-form-item__disabled': !formDisabled.value && disabledC.value }] }, { x: propsC.value.cClass }).x)
+const styleC = computed(() => mergeProps({ x: [] }, { x: propsC.value.cStyle }).x)
 
 // main
-const mainStyles = computed<CSSProperties[]>(() => {
+const mainStyle1 = computed(() => {
   const result: CSSProperties = {}
 
   if (propsC.value.labelPlacement === 'top') {
@@ -188,49 +166,46 @@ const mainStyles = computed<CSSProperties[]>(() => {
     result.alignItems = 'stretch'
   }
 
-  return [result]
+  return result
 })
-const mainBindC = computed(() => mergeProps(propsC.value.mainBind, { style: mainStyles.value } ))
+const mainStyleC = computed(() => mergeProps({ x: [mainStyle1.value] }, { x: propsC.value.mainStyle }).x)
+const mainclassC = computed(() => mergeProps({ x: ['c-form-item__main'] }, { x: propsC.value.mainClass }).x)
 
 // label
-const labelStyles = computed<CSSProperties[]>(() => {
-  const result: CSSProperties = {}
-  const { labelPlacement, labelAlign, labelJustify } = propsC.value
+const labelStyle1 = computed(() => {
+  const style: CSSProperties = {}
 
-  if (labelPlacement === 'top') {
-    result.marginBottom = toCssUnit(8)
+  if (propsC.value.labelPlacement === 'top') {
+    style.marginBottom = toCssUnit(8)
   } else if (labelWidthC.value) {
-    result.width = labelWidthC.value
+    style.width = labelWidthC.value
+    style.flexShrink = 0
   }
 
-  if (labelAlign) {
-    result.alignSelf = labelAlign
-    result.alignItems = labelAlign
-  }
-
-  if (labelJustify) {
-    result.justifyContent = labelJustify
-  }
-
-  return [result]
+  return style
 })
+const labelStyleC = computed(() => mergeProps({ x: [labelStyle1.value] }, { x: propsC.value.labelStyle }).x)
+const labelClass = computed(() => mergeProps({ x: ['c-form-item__label'] }, { x: propsC.value.labelClass }).x)
+
+// content
+const contentStyleC = computed(() => mergeProps({ x: [] }, { x: propsC.value.contentStyle }).x)
+const contentClass = computed(() => mergeProps({ x: ['c-form-item__content'] }, { x: propsC.value.contentClass }).x)
 
 // error
 const validateErrors = computed(() => !pathC.value || !formFieldsErrors.value ? undefined : formFieldsErrors.value[pathC.value])
 const errMsg = computed(() => validateErrors.value ? validateErrors.value[0]?.message : undefined)
-const errorStyles = computed<CSSProperties[]>(() => {
+const errorStyle = computed(() => {
   const result: CSSProperties = {}
   if (labelWidthC.value) {
     result.marginLeft = labelWidthC.value
   }
-  return [result]
+  return result
 })
-const errorPropsC = computed(() => mergeProps(propsC.value.errorProps, {
-  textBind: {
-    class: ['c-form-item__error'],
-    style: errorStyles.value
-  }
-}))
+const errorPropsC = computed(() => mergeProps({
+  color: 'error',
+  cClass: ['c-form-item__error'],
+  cStyle: [errorStyle.value]
+}, propsC.value.errorProps))
 
 const onClick = (e: MouseEvent) => emits('click', e)
 
@@ -241,43 +216,42 @@ provide(formItemInjectionKeyNoFeedback, noFeedbackC)
 </script>
 
 <template>
-<view
-  class="c-form-item"
-  v-bind="(propsC.viewBind as any)"
-  :class="[{ 'c-form-item__disabled': !formDisabled && disabledC }]"
-  @click="onClick"
->
-  <view class="c-form-item__main" v-bind="(mainBindC as any)">
+<view :class="classC" :style="(styleC as any)" @click="onClick">
+  <view :class="mainclassC" :style="(mainStyleC as any)">
     <slot v-if="!noLabelC" name="label">
       <label
          v-if="!noRequireMarkC && required || propsC.label"
-        class="c-form-item__label"
-        v-bind="propsC.labelBind"
-        :style="labelStyles"
+        :for="propsC.labelFor"
+        :class="labelClass"
+        :style="labelStyleC"
       >
         <c-text
           v-if="!noRequireMarkC && required"
-          v-bind="{ textBind: { class: ['c-form-item__required-mark'] } }"
           color="error"
+          c-class="c-form-item__required-mark"
           :size="sizeC"
           >*</c-text
         >
-        <c-text v-bind="propsC.labelTextProps" :size="sizeC">{{ propsC.label }}</c-text>
+        <c-text :props="{ size: sizeC, ...propsC.labelTextProps }">{{ propsC.label }}</c-text>
       </label>
     </slot>
-    <view class="c-form-item__content" v-bind="(propsC.contentBind as any)">
+    <view :class="contentClass" :style="(contentStyleC as any)">
       <slot><text><!-- 左右布局，不能没有元素 --></text></slot>
-      <c-icon v-if="propsC.rightIcon" v-bind="propsC.rightIconProps" :name="propsC.rightIcon" :size="rightIconSize" />
+      <c-icon
+        v-if="propsC.rightIcon"
+        :props="{ color: 'tertiary', name: propsC.rightIcon, size: rightIconSize, ...propsC.rightIconProps }"
+      />
     </view>
   </view>
   <slot v-if="!noFeedbackC && errMsg" name="error" :err-msg="errMsg">
-    <c-text color="error" v-bind="(errorPropsC as any)">{{ errMsg }}</c-text>
+    <c-text :props="errorPropsC">{{ errMsg }}</c-text
+    >
   </slot>
-  <c-line v-if="!noBorderBottomC" v-bind="propsC.lineProps" />
+  <c-line v-if="!noBorderBottomC" :props="propsC.lineProps" />
 </view>
 </template>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .c-form-item {
   /* #ifndef APP-NVUE */
   display: flex;
@@ -305,8 +279,9 @@ provide(formItemInjectionKeyNoFeedback, noFeedbackC)
     /* #endif */
 
     flex-direction: row;
-    align-items: center;
     box-sizing: border-box;
+    flex-direction: row;
+    align-items: center;
     padding: 20rpx 0;
   }
 
@@ -326,10 +301,10 @@ provide(formItemInjectionKeyNoFeedback, noFeedbackC)
     /* #endif */
 
     flex-direction: row;
+    box-sizing: border-box;
     align-items: center;
     justify-content: space-between;
     flex-grow: 1;
-    box-sizing: border-box;
   }
 }
 </style>

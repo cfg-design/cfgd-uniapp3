@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { TabsProps, TabsGetIndex, TabsUpdateValue } from './types.d'
 import { computed, provide, ref, watch } from 'vue'
-import { mergeProps } from '../../utils'
+import { omitProps, mergeProps } from '../../utils'
 import {
   useConfigs,
   tabsInjectionKeyGetIndex,
@@ -11,23 +11,21 @@ import {
 } from './use'
 
 interface Props {
+  props?: TabsProps
+  cClass?: TabsProps['cClass']
+  cStyle?: TabsProps['cStyle']
   /**
    * 配置名。使用 `useTabsConfigs()` 查看配置数据。使用 `setTabsConfigs()` 进行配置。
    * 默认： `default`
    */
   c?: TabsProps['c']
   /**
-   * view 组件的 Attributes 和 Props 。
-   * 默认： `undefined`
-   */
-  viewBind?: TabsProps['viewBind']
-  /**
    * 选中的值。
    * 默认： `undefined`
    */
   value?: TabsProps['value']
   /**
-   * c-tab-item props 一些配置，有效属性 `viewBind`, `dotBind`, `textProps`, `badgeProps`, `color` , `lineProps`, `activeType`。
+   * c-tab-item TabItemConfig 。
    * 默认： `undefined`
    */
   item?: TabsProps['item']
@@ -47,8 +45,13 @@ const emits = defineEmits<Emits>()
 const configs = useConfigs()
 
 const valueR = ref<TabsProps['value']>(props.value)
-const propsC = computed<Props>(() => mergeProps(configs.value[props.c], props))
+
+const props1 = computed(() => props.props ? mergeProps(props.props, omitProps(props)) : props)
+const propsC = computed(() => mergeProps(configs.value[props1.value.c!], props1.value))
 const itemC = computed(() => propsC.value.item)
+
+const styles = computed(() => mergeProps({ x: [] }, { x: propsC.value.cStyle }).x)
+const classC = computed(() => mergeProps({ x: ['c-tabs'] }, { x: propsC.value.cClass }).x)
 
 let index = 0
 const getIndex: TabsGetIndex = () => index ++
@@ -69,7 +72,7 @@ provide(tabsInjectionKeyItem, itemC)
 </script>
 
 <template>
-<view class="c-tabs" v-bind="(propsC.viewBind as any)">
+<view :class="classC" :style="(styles as any)">
   <template v-for="(item, index) in propsC.items" :key="index">
     <slot
       name="item"
@@ -77,23 +80,24 @@ provide(tabsInjectionKeyItem, itemC)
       :item="item"
       :active="item.value !== undefined ? item.value === valueR : index === valueR"
     >
-      <c-tab-item v-bind="item" />
+      <c-tab-item :props="item" />
     </slot>
   </template>
 </view>
 </template>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .c-tabs {
   /* #ifndef APP-NVUE */
   display: flex;
   /* #endif */
 
+  box-sizing: border-box;
+  flex-direction: row;
   flex-wrap: nowrap;
   overflow-x: auto;
   padding: 10rpx 16rpx 0 16rpx;
   width: 100%;
-  box-sizing: border-box;
   background-color: #fff;
 }
 </style>

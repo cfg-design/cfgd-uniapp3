@@ -1,22 +1,18 @@
 <script setup lang="ts">
-import type { CSSProperties } from 'vue'
 import type { LoadMoreProps } from './types.d'
 import { computed } from 'vue'
-import { useColors, toCssUnit } from '../../styles'
-import { getPropsBoolean, mergeProps } from '../../utils'
+import { getPropsBoolean, omitProps, mergeProps } from '../../utils'
 import { useConfigs } from './use'
 
 interface Props {
+  props?: LoadMoreProps
+  cClase?: LoadMoreProps['cClass']
+  cStyle?: LoadMoreProps['cStyle']
   /**
    * 配置名。使用 `useLindConfigs()` 查看配置数据。使用 `setLindConfigs()` 进行配置。
    * 默认： `default`
    */
   c?: LoadMoreProps['c']
-  /**
-   * view 组件的 Attributes 和 Props 。
-   * 默认： `undefined`
-   */
-  viewBind?: LoadMoreProps['viewBind']
   /**
    * 是否加载中。
    * 默认： `undefined`
@@ -67,44 +63,44 @@ const props = withDefaults(defineProps<Props>(), { c: 'default' })
 const emits = defineEmits<Emits>()
 const configs = useConfigs()
 
-const propsC = computed<Props>(() => mergeProps(configs.value[props.c], props))
+const props1 = computed(() => props.props ? mergeProps(props.props, omitProps(props)) : props)
+const propsC = computed(() => mergeProps(configs.value[props1.value.c!], props1.value))
 const loadingC = computed(() => getPropsBoolean(propsC.value.loading))
 const noMore = computed(() => getPropsBoolean(propsC.value.noMore))
-const textC = computed(() => loadingC.value ? propsC.value.loadingText : noMore.value ? propsC.value.noMoreText : propsC.value.text)
+const textC = computed(() => loadingC.value
+  ? propsC.value.loadingText || '正在加载'
+  : noMore.value
+  ? propsC.value.noMoreText || '没有更多了'
+  : propsC.value.text || '加载更多'
+)
+const linePropsC = computed(() => mergeProps({ length: '160', color: 'placeholder', cStyle: [{ flexShrink: 1, margin: '0 30rpx' }] }, propsC.value.lineProps))
+const textPropsC = computed(() => mergeProps({ cStyle: [{ whiteSpace: 'nowrap' }] }, propsC.value.textProps))
+const spinPropsC = computed(() => mergeProps({ color: 'main', size: 'l', cStyle: [{ marginRight: '20rpx' }] }, propsC.value.spinProps))
+const styleC = computed(() => mergeProps({ x: [] }, { x: propsC.value.cStyle }).x)
+const classC = computed(() => mergeProps({ x: ['c-load-more'] }, { x: propsC.value.cClass }).x)
 
 const onClick = () => !loadingC.value && !noMore.value && emits('load-more')
 </script>
 
 <template>
-<view class="c-load-more" v-bind="(propsC.viewBind as any)" @click="onClick">
-  <c-line v-bind="propsC.lineProps" />
-  <c-spin v-if="loadingC" color="main" v-bind="propsC.spinProps" />
-  <c-text v-bind="propsC.textProps">{{ textC }}</c-text>
-  <c-line v-bind="propsC.lineProps" />
+<view :class="classC" :style="(styleC as any)" @click="onClick">
+  <c-line :props="linePropsC" />
+  <c-spin v-if="loadingC" :props="spinPropsC" />
+  <c-text :props="textPropsC">{{ textC }}</c-text>
+  <c-line :props="linePropsC" />
 </view>
 </template>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .c-load-more {
   /* #ifndef APP-NVUE */
   display: flex;
   /* #endif */
 
+  box-sizing: border-box;
+  flex-direction: row;
   align-items: center;
   justify-content: center;
   padding: 30rpx;
-
-  :deep(.c-line) {
-    flex-shrink: 1;
-    margin: 0 30rpx;
-  }
-
-  :deep(.c-spin) {
-    margin-right: 20rpx;
-  }
-
-  :deep(.c-text) {
-    white-space: nowrap;
-  }
 }
 </style>

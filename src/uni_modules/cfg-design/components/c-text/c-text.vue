@@ -3,28 +3,26 @@ import type { CSSProperties } from 'vue'
 import type { TextProps } from './types.d'
 import { computed } from 'vue'
 import { useColors, useFontSizes } from '../../styles'
-import { getPropsBoolean, mergeProps } from '../../utils'
+import { getPropsBoolean, omitProps, mergeProps } from '../../utils'
 import { getSize } from '../../styles'
 import { useConfigs } from './use'
 
 interface Props {
+  props?: TextProps
+  cClass?: TextProps['cClass']
+  cStyle?: TextProps['cStyle']
   /**
    * 配置名。使用 `useTextConfigs()` 查看配置数据。使用 `setTextConfigs()` 进行配置。
    * 默认： `default`
    */
   c?: TextProps['c']
   /**
-   * text 组件的 Attributes 和 Props 。
-   * 默认： `undefined`
-   */
-  textBind?: TextProps['textBind']
-  /**
-   * 字体颜色。 default 配置为 `main`。 `useColors()` 可以查看配置数据。使用 `setColors()` 进行配置。
+   * 字体颜色。 `useColors()` 可以查看配置数据。使用 `setColors()` 进行配置。
    * 默认： `undefined`
    */
   color?: TextProps['color']
   /**
-   * 字体大小。 default 配置为 `m`。 `useFontSizes()` 可以查看配置数据。使用 `setFontSizes()` 进行配置。
+   * 字体大小。 `useFontSizes()` 可以查看配置数据。使用 `setFontSizes()` 进行配置。
    * 默认： `undefined`
    */
   size?: TextProps['size']
@@ -53,6 +51,26 @@ interface Props {
    * 默认： undefined
    */
   lines?: TextProps['lines']
+  /**
+   * 文本是否可选。
+   * App、H5、快手小程序
+   */
+  selectable?: boolean
+  /**
+   * 文本是否可选。
+   * 微信小程序
+   */
+  userSelect?: boolean
+  /**
+   * 显示连续空格。
+   * App、H5、微信小程序
+   */
+  space?: TextProps['space']
+  /**
+   * 是否解码。
+   * App、H5、微信小程序
+   */
+  decode?: boolean
 }
 
 const props = withDefaults(defineProps<Props>(), { c: 'default' })
@@ -60,14 +78,15 @@ const colors = useColors()
 const fontSizes = useFontSizes()
 const configs = useConfigs()
 
-const propsC = computed<Props>(() => mergeProps(configs.value[props.c], props))
+const props1 = computed(() => props.props ? mergeProps(props.props, omitProps(props)) : props)
+const propsC = computed(() => mergeProps(configs.value[props1.value.c!], props1.value))
 
 const colorC = computed<CSSProperties['color']>(() => {
   const { color } = propsC.value
   return color ? colors.value[color] || color : colors.value.main
 })
 
-const sizeC = computed(() => getSize(fontSizes.value, propsC.value.size || fontSizes.value.m))
+const sizeC = computed(() => getSize(fontSizes.value, propsC.value.size || 'm'))
 const fontWeight = computed<number>(() => getPropsBoolean(propsC.value.strong) ? 500 : 0)
 const fontStyle = computed<string>(() => getPropsBoolean(propsC.value.italic) ? 'italic' : '')
 const textDecoration = computed<string>(() => {
@@ -75,7 +94,7 @@ const textDecoration = computed<string>(() => {
   return getPropsBoolean(underline) ? 'underline' : getPropsBoolean(del) ? 'line-through' : ''
 })
 
-const styles = computed<CSSProperties[]>(() => {
+const styleC = computed(() => {
   const style: CSSProperties = {
     color: colorC.value,
     fontSize: sizeC.value,
@@ -105,22 +124,27 @@ const styles = computed<CSSProperties[]>(() => {
     // #endif
   }
 
-  return [style]
+  return mergeProps({ x: [style] }, { x: propsC.value.cStyle }).x
 })
+const classC = computed(() => mergeProps({ x: ['c-text'] }, { x: propsC.value.cClass }).x)
 </script>
 
 <template>
-  <text class="c-text" v-bind="propsC.textBind" :style="(styles as any)"><slot /></text>
+  <text
+    :class="classC"
+    :style="(styleC as any)"
+    :selectable="getPropsBoolean(propsC.selectable)"
+    :user-select="getPropsBoolean(propsC.userSelect)"
+    :space="propsC.space"
+    :decode="getPropsBoolean(propsC.decode)"
+    ><slot /></text>
 </template>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .c-text {
   /* #ifndef APP-NVUE */
   display: flex;
   /* #endif */
-
-  flex-direction: row;
   box-sizing: border-box;
-  line-height: 1.2;
 }
 </style>

@@ -1,12 +1,11 @@
 <template>
   <view class="page">
-    <MyC text="标签" round />
     <view v-for="(_, key) in colors" :key="key" class="flex">
       <c-tag text="标签" :color="key" />
       <c-tag text="标签" :color="key" plain round />
       <c-tag text="标签" :color="key" plain closable />
-      <c-tag text="标签" :color="key" icon="user-5-line" plain round />
-      <c-tag text="标签" :color="key" icon="user-5-line" />
+      <c-tag text="标签" :color="key" icon="user-5-line" radius="0 30 0 30" plain />
+      <c-tag text="标签" :color="key" icon="user-5-line" radius="30 0 30 0" />
     </view>
     <view class="flex">
       <c-tag
@@ -25,7 +24,7 @@
 </template>
 
 <script setup lang="ts">
-import { useColors, useFontSizes, CTag as MyC } from '@/uni_modules/cfg-design'
+import { useColors, useFontSizes } from '@/uni_modules/cfg-design'
 
 const colors = useColors()
 const fontSizes = useFontSizes()

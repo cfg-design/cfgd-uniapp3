@@ -1,22 +1,18 @@
 import type { HTMLAttributes } from 'vue'
-import type { UViewProps } from '../uni'
 import type { TextProps } from '../c-text/types'
 import type { IconProps } from './../c-icon/types.d'
 import type { BadgeProps } from './../c-badge/types.d'
 
 export interface TabBarItemConfig {
-  /**
-   * view 组件的 Attributes 和 Props 。
-   * 默认： `undefined`
-   */
-  viewBind?: HTMLAttributes & UViewProps
+  cClass?: string | Record<string, any> | (string | Record<string, any>)[]
+  cStyle?: HTMLAttributes['style']
   /**
    * 选中的值。
    * 默认： `undefined`
    */
   value?: string | number
   /**
-   * 颜色。 default 配置为 `primary`。 `useColors()` 可以查看配置数据。使用 `setColors()` 进行配置。
+   * 颜色。 `useColors()` 可以查看配置数据。使用 `setColors()` 进行配置。
    * 默认： `undefined`
    */
   color?: string
@@ -65,11 +61,6 @@ export interface TabBarItemConfig {
    * 默认： `undefined`
    */
   dot?: boolean
-  /**
-   * view 组件的 Attributes 和 Props 。
-   * 默认： `undefined`
-   */
-  dotBind?: HTMLAttributes & UViewProps
 }
 
 export interface TabBarItemProps extends TabBarItemConfig {

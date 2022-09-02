@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { TabBarItemProps } from './types.d'
 import { computed, inject, ref } from 'vue'
-import { mergeProps, getPropsBoolean } from '../../utils/props'
+import { mergeProps, omitProps, getPropsBoolean } from '../../utils/props'
 import {
   tabBarInjectionKeyValue,
   tabBarInjectionKeyGetIndex,
@@ -12,23 +12,21 @@ import { useColors } from '../../styles'
 import { useConfigs } from './use'
 
 interface Props {
+  props?: TabBarItemProps
+  cClass?: TabBarItemProps['cClass']
+  cStyle?: TabBarItemProps['cStyle']
   /**
    * 配置名。使用 useTabBarItemConfigs() 查看配置数据。使用 setTabBarItemConfigs() 进行配置。
    * 默认： default
    */
   c?: TabBarItemProps['c']
   /**
-   * view 组件的 Attributes 和 Props 。
-   * 默认： `undefined`
-   */
-  viewBind?: TabBarItemProps['viewBind']
-  /**
    * 选中的值。
    * 默认： `undefined`
    */
   value?: TabBarItemProps['value']
   /**
-   * 颜色。 default 配置为 `primary`。 `useColors()` 可以查看配置数据。使用 `setColors()` 进行配置。
+   * 颜色。 `useColors()` 可以查看配置数据。使用 `setColors()` 进行配置。
    * 默认： `undefined`
    */
   color?: TabBarItemProps['color']
@@ -77,11 +75,6 @@ interface Props {
    * 默认： `undefined`
    */
   dot?: TabBarItemProps['dot']
-  /**
-   * view 组件的 Attributes 和 Props 。
-   * 默认： `undefined`
-   */
-  dotBind?: TabBarItemProps['dotBind']
 }
 
 interface Emits {
@@ -100,20 +93,31 @@ const emits = defineEmits<Emits>()
 const colors = useColors()
 const configs = useConfigs()
 
-const props1 = computed<Props>(() => mergeProps(configs.value[props.c], { ...tabBarItem.value }))
-const propsC = computed<Props>(() => mergeProps(props1.value, props))
+const props1 = computed(() => props.props ? mergeProps(props.props, omitProps(props)) : props)
+const props2 = computed(() => mergeProps(configs.value[props1.value.c!], { ...tabBarItem.value }))
+const propsC = computed(() => mergeProps(props2.value, props1.value))
 const valueC = computed(() => propsC.value.value !== undefined ? propsC.value.value : index)
+const colorC = computed(() => propsC.value.color || 'primary')
 const active = computed(() => valueC.value === tabBarValue.value)
 const activeIconC = computed(() => propsC.value.activeIcon || propsC.value.icon)
 const activeIconPropsC = computed(() => {
-  const { activeIconProps, iconProps, color } = propsC.value
+  const { activeIconProps, iconProps } = propsC.value
 
-  return { ...iconProps, ...activeIconProps, color: activeIconProps?.color || color }
+  return { ...iconProps, ...activeIconProps, color: activeIconProps?.color || colorC.value }
 })
 const iconC = computed(() => active.value ? activeIconC.value : propsC.value.icon)
 const iconPropsC = computed(() => active.value ? activeIconPropsC.value : propsC.value.iconProps)
 const dotC = computed(() => getPropsBoolean(propsC.value.dot))
-const dotBindC = computed(() => mergeProps<Props['dotBind']>({ style: [{ backgroundColor: colors.value.error }]}, propsC.value.dotBind))
+
+const styles = computed(() => mergeProps({ x: [] }, { x: propsC.value.cStyle }).x)
+const classC = computed(() => mergeProps({ x: ['c-tab-bar-item'] }, { x: propsC.value.cClass }).x)
+
+const badgePropsC = computed(() => mergeProps({
+  color: 'error',
+  size: 'xs',
+  round: true,
+  textProps: { cStyle: [{ position: 'absolute', top: '-4rpx', right: '-4rpx' }] }
+}, propsC.value.badgeProps))
 
 const onClick = (e: any) => {
   tabBarUpdateValue && tabBarUpdateValue(valueC.value)
@@ -122,46 +126,53 @@ const onClick = (e: any) => {
 </script>
 
 <template>
-<view class="c-tab-bar-item" v-bind="(propsC.viewBind as any)" @click="onClick">
+<view :class="classC" :style="(styles as any)" @click="onClick">
   <view v-if="iconC" class="c-tab-bar-item__icon_wrap">
-    <c-icon v-bind="iconPropsC" :name="iconC" />
-    <view v-if="dotC" class="c-tab-bar-item__dot" v-bind="(dotBindC as any)"></view>
-    <c-badge v-else-if="propsC.badge" v-bind="propsC.badgeProps" :text="propsC.badge" />
+    <c-icon :props="{ size: '7xl', color: 'secondary', ...iconPropsC }" :name="iconC" />
+    <view v-if="dotC" class="c-tab-bar-item__dot" :style="{ backgroundColor: colors.error }"></view>
+    <c-badge v-else-if="propsC.badge" :props="badgePropsC" :text="propsC.badge" />
   </view>
-  <c-text v-if="propsC.text" v-bind="propsC.textProps" :color="active ? propsC.color : propsC.textProps?.color">{{ propsC.text }}</c-text>
+  <c-text v-if="propsC.text" :props="{ color: 'secondary', ...propsC.textProps }" :color="active ? colorC : undefined">{{ propsC.text }}</c-text>
 </view>
 </template>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .c-tab-bar-item {
   /* #ifndef APP-NVUE */
   display: flex;
   /* #endif */
 
+  box-sizing: border-box;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   flex-grow: 1;
   width: 100%;
-  box-sizing: border-box;
 
-  &__icon_wrap {
-    position: relative;
+  &__ {
+    &icon_wrap {
+      /* #ifndef APP-NVUE */
+      display: flex;
+      /* #endif */
 
-    :deep(.c-badge) {
+      box-sizing: border-box;
+      position: relative;
+    }
+
+    &dot {
+      /* #ifndef APP-NVUE */
+      display: flex;
+      /* #endif */
+
+      box-sizing: border-box;
       position: absolute;
-      top: -4rpx;
-      right: -4rpx;
+      top: 0;
+      right: 0;
+      width: 12rpx;
+      height: 12rpx;
+      border-radius: 100%;
     }
   }
 
-  &__dot {
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: 12rpx;
-    height: 12rpx;
-    border-radius: 100%;
-  }
 }
 </style>

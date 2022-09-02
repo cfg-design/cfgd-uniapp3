@@ -1,12 +1,11 @@
 <script setup lang="ts">
 import type { CSSProperties } from 'vue'
 import type { InputNumberProps } from './types.d'
-import { computed, inject, ref, nextTick } from 'vue'
-import { getPropsBoolean, mergeProps } from '../../utils'
+import { computed, inject, ref, nextTick, watch } from 'vue'
+import { getPropsBoolean, omitProps, mergeProps } from '../../utils'
 import { useFontSizes, useColors, useRadius, getSize, getSizes, toCssUnit } from '../../styles'
 import CInput from '../c-input/c-input.vue'
 import {
-  formInjectionKeySize,
   formInjectionKeyDisabled,
 } from '../c-form/use'
 import {
@@ -16,16 +15,14 @@ import {
 import { useConfigs } from './use'
 
 interface Props {
+  props?: InputNumberProps
+  cClass?: InputNumberProps['cClass']
+  cStyle?: InputNumberProps['cStyle']
   /**
    * 配置名。使用 `useInputNumberConfigs()` 查看配置数据。使用 `setInputNumberConfigs()` 进行配置。
    * 默认： `default`
    */
   c?: InputNumberProps['c']
-  /**
-   * view 组件的 Attributes 和 Props 。
-   * 默认： `undefined`
-   */
-  viewBind?: InputNumberProps['viewBind']
   /**
    * 输入框的内容。
    * 默认： `undefined`
@@ -77,7 +74,7 @@ interface Props {
    */
   disabled?: InputNumberProps['disabled']
   /**
-   * 圆角值。 default 配置为 `s`。 `useRadius()` 可以查看配置数据。使用 `setRadius()` 进行配置。
+   * 圆角值。 `useRadius()` 可以查看配置数据。使用 `setRadius()` 进行配置。
    * 默认： `undefined`
    */
   radius?: InputNumberProps['radius']
@@ -94,7 +91,6 @@ interface Emits {
   (e: 'minus', v: number): void
 }
 
-const formSize = inject(formInjectionKeySize, ref(''))
 const formDisabled = inject(formInjectionKeyDisabled, ref(false))
 const formItemSize = inject(formItemInjectionKeySize, ref(''))
 const formItemDisabled = inject(formItemInjectionKeyDisabled, ref(false))
@@ -111,7 +107,8 @@ const inputRef = ref<InstanceType<typeof CInput>>()
 const valueC = computed(() => props.value || 0)
 const inputValue = ref(valueC.value + '')
 
-const propsC = computed<Props>(() => mergeProps(configs.value[props.c], props))
+const props1 = computed(() => props.props ? mergeProps(props.props, omitProps(props)) : props)
+const propsC = computed(() => mergeProps(configs.value[props1.value.c!], props1.value))
 const stepC = computed(() => propsC.value.step || 1)
 const colorC = computed<CSSProperties['color']>(() => propsC.value.color || '#f2f2f2')
 const textColorC = computed(() => {
@@ -119,12 +116,13 @@ const textColorC = computed(() => {
   return !!color && !!colors.value[color] ? '#fff' : colors.value.main
 })
 const size1 = computed(() => getSize(fontSizes.value, propsC.value.size))
-const sizeC = computed<string>(() => size1.value || formItemSize.value || formSize.value || toCssUnit(fontSizes.value.m))
+const sizeC = computed<string>(() => size1.value || formItemSize.value || toCssUnit(fontSizes.value.m))
 const disabled1 = computed(() => getPropsBoolean(propsC.value.disabled))
 const disabledC = computed<boolean>(() => disabled1.value || formDisabled.value || formItemDisabled.value || false)
-const radius1 = computed(() => getSizes(radiuses.value, propsC.value.radius))
+const radius1 = computed(() => propsC.value.radius !== undefined ? propsC.value.radius : 's')
+const radius2 = computed(() => getSizes(radiuses.value, radius1.value))
 const roundC = computed(() => getPropsBoolean(propsC.value.round))
-const radiusC = computed(() => roundC.value ? '9999px' : radius1.value)
+const radiusC = computed(() => roundC.value ? '9999px' : radius2.value)
 const minusDisable = computed(() => {
   const { min } = propsC.value
   return min !== undefined && valueC.value <= min
@@ -133,19 +131,42 @@ const plusDisable = computed(() => {
   const { max } = propsC.value
   return max !== undefined && valueC.value >= max
 })
+const buttonProps = computed<Props['plusButtonProps']>(() => ({
+  radius: 0,
+  size: sizeC.value,
+  color: colorC.value,
+  textColor: textColorC.value,
+}))
 
-const viewStyles = computed<CSSProperties[]>(() => [{
+const style1 = computed<CSSProperties[]>(() => [{
   borderRadius: radiusC.value
 }])
+const styleC = computed(() => mergeProps({ x: [style1.value] }, { x: propsC.value.cStyle }).x)
+const classC = computed(() => mergeProps({ x: ['c-input-number'] }, { x: propsC.value.cClass }).x)
 
-const inputWidthStyles = computed<CSSProperties[]>(() => [{
-  width: `calc(${sizeC.value} * 4)`
-}])
-const inputViewBind = computed(() => mergeProps(propsC.value.inputProps?.viewBind, { style: inputWidthStyles.value }))
+const inputStyle = computed<CSSProperties>(() => ({
+  width: `calc(${sizeC.value} * 4)`,
+  margin: '0 4rpx',
+}))
+const inputPropsC = computed(() => mergeProps({
+  radius: 0,
+  inputAlign: 'center',
+  size: sizeC.value,
+  bgColor: colorC.value,
+  disabled: disabledC.value,
+  cStyle: [inputStyle.value],
+  placeholder: ' ',
+}, propsC.value.inputProps))
 
 const handleInfiniteSeries = (v: number) => {
-  const str = v + ''
+  let str = v + ''
   if (!/\./.test(str)) return v
+
+  let symbol = ''
+  if (str[0] === '-') {
+    str = str.replace('-', '')
+    symbol = '-'
+  }
 
   const [p, d] = str.split('.')
   let d2 = Math.round(Number(d.replace(/(.{5})$/, '.$1'))) + '00000'
@@ -155,7 +176,7 @@ const handleInfiniteSeries = (v: number) => {
     d2 = (d2 + '').replace(/^./, '')
   }
 
-  return Number(p2 + '.' + d2)
+  return Number(symbol + p2 + '.' + d2)
 }
 
 const handleValue = (v?: number) => {
@@ -176,7 +197,10 @@ const updateValue = (v: number, type?: 'plus' | 'minus') => {
   const uVal = handleValue(v)
   if (props.value !== uVal) {
     emits('update:value', uVal)
-    type && emits(type as 'plus', uVal)
+    if (type) {
+      emits(type as 'plus', uVal)
+      return
+    }
   }
 
   if (uVal != v) {
@@ -203,61 +227,51 @@ const onUpdateValue = (v?: string) => v && updateValue(Number(v))
 
 const onInputBlur = ({ detail }: { detail: { value: string }}) => updateValue(Number(detail.value) || 0)
 
+watch(() => valueC.value, (v) => updateValue(v))
+
 defineExpose({ inputRef })
 </script>
 
 <template>
-<view
-  class="c-input-number"
-  :style="viewStyles"
-  v-bind="(propsC.viewBind as any)"
->
+<view :class="classC" :style="(styleC as any)">
   <c-button
-    radius="0"
-    :size="sizeC"
-    :color="colorC"
-    :text-color="textColorC"
-    v-bind="propsC.minusButtonProps"
+    :props="{
+      icon: 'subtract-line',
+      ...buttonProps,
+      ...propsC.minusButtonProps
+    }"
     :disabled="disabledC || minusDisable"
     @click="subtract"
   />
   <c-input
     ref="inputRef"
-    radius="0"
-    input-align="center"
-    :size="sizeC"
-    :bg-color="colorC"
-    v-bind="propsC.inputProps"
-    :view-bind="inputViewBind"
+    :props="inputPropsC"
     :value="inputValue"
-    :disabled="disabledC"
     type="number"
     @update:value="onUpdateValue"
     @blur="onInputBlur"
   />
   <c-button
-    radius="0"
-    :size="sizeC"
-    :color="colorC"
-    :text-color="textColorC"
-    v-bind="propsC.plusButtonProps"
+    :props="{
+      icon: 'add-line',
+      ...buttonProps,
+      ...propsC.plusButtonProps
+    }"
     :disabled="disabledC || plusDisable"
     @click="add"
   />
 </view>
 </template>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .c-input-number {
   /* #ifndef APP-NVUE */
   display: flex;
   /* #endif */
 
+  box-sizing: border-box;
+  flex-direction: row;
   align-items: stretch;
   overflow: hidden;
-
-  :deep(.c-input) {
-    margin: 0 4rpx;
-  }
 }
 </style>

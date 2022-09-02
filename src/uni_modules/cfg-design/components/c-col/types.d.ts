@@ -1,22 +1,13 @@
-import type { HTMLAttributes, CSSProperties } from 'vue'
-import type { UViewProps } from '../uni.d'
+import type { HTMLAttributes } from 'vue'
 
 export interface ColConfig {
-  /**
-   * view 组件的 Attributes 和 Props 。
-   * 默认： `undefined`
-   */
-  viewBind?: HTMLAttributes & UViewProps
+  cClass?: string | Record<string, any> | (string | Record<string, any>)[]
+  cStyle?: HTMLAttributes['style']
   /**
    * 栅格占据的列数。
    * 默认： `undefined`
    */
   span?: string | number
-  /**
-   * 当前组件对齐方式（相对 flex 父级）。
-   * 默认： `undefined`
-   */
-  alignSelf?: CSSProperties['align-self']
 }
 
 export interface ColProps extends ColConfig {

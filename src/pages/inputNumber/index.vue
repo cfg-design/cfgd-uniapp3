@@ -8,7 +8,7 @@
         <c-input-number v-model:value="num2" :step="0.1" />
     </c-form-item>
     <c-form-item label="async">
-        <c-input-number :value="asyncNum" :disabled="loading" @minus="asyncUpdate" @plus="asyncUpdate" />
+        <c-input-number :value="asyncNum" :disabled="loading" :input-props="{ readonly: true }" @minus="asyncUpdate" @plus="asyncUpdate" />
     </c-form-item>
   </c-form>
   <view class="main">
@@ -32,9 +32,16 @@
         <c-input-number radius="s l" />
       </c-col>
       <c-col span="auto">
+        <c-input-number radius="m" :input-props="{ cStyle: 'margin: 0' }" round />
+      </c-col>
+      <c-col span="auto">
+        <c-input-number radius="s l" :input-props="{ cStyle: 'margin: 0' }" />
+      </c-col>
+      <c-col span="auto">
         <c-input-number disabled />
       </c-col>
     </c-row>
+    <view style="padding:10rpx"></view>
     <c-row align="flex-start" gutter="20" vertical>
       <c-col v-for="size in ['xs', 's', 'm', 'l', 'xl']" :key="size">
         <c-input-number :size="size" />
@@ -70,7 +77,7 @@ const asyncUpdate = (v: number) => {
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .page {
   padding-top: 1px;
 }

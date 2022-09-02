@@ -5,16 +5,13 @@ import { mergeRight } from 'ramda'
 import { toCssUnit } from '../../styles'
 
 const configs = ref<Record<string, CheckboxGroupConfig>>({
-  default: { checkbox: { viewBind: { style: [{ margin: toCssUnit('10 0') }] } } },
+  default: {},
   row: {
     direction: 'row',
-    checkbox: { viewBind: { style: [{ margin: toCssUnit('10 20 10 0') }] } }
+    checkbox: { cStyle: [{ margin: toCssUnit('10 20 10 0') }] }
   },
   right: {
-    checkbox: {
-      viewBind: { style: [{ margin: toCssUnit('10 0') }] },
-      iconWrapBind: { style: [{ order: 2 }]}
-    }
+    checkbox: { cStyle: { justifyContent: 'space-between' }, iconWrapStyle: [{ order: 2, marginRight: '0' }] }
   }
 })
 

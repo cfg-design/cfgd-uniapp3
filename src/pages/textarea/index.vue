@@ -37,8 +37,8 @@
       <c-form-item label-placement="top" label="自动高度3">
         <c-textarea auto-height border-bottom />
       </c-form-item>
-      <c-row :cols="2" gutter="10rpx">
-        <c-col>
+      <c-row gutter="10rpx">
+        <c-col span="6">
           <c-form-item label="禁用" label-placement="top">
             <view class="textareas">
               <c-textarea height="100rpx" disabled />
@@ -47,7 +47,7 @@
             </view>
           </c-form-item>
         </c-col>
-        <c-col>
+        <c-col span="6">
           <c-form-item label="只读" label-placement="top">
             <view class="textareas">
               <c-textarea height="100rpx" readonly />
@@ -57,15 +57,11 @@
           </c-form-item>
         </c-col>
       </c-row>
-      <c-form-item>
-        <MyC placeholder="手动引入" />
-      </c-form-item>
     </c-form>
   </view>
 </template>
 
 <script setup lang="ts">
-import { CTextarea as MyC } from '@/uni_modules/cfg-design'
 </script>
 
 <style lang="scss">

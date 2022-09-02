@@ -1,20 +1,18 @@
 <script setup lang="ts">
 import type { CellProps } from './types.d'
 import { computed } from 'vue'
-import { getPropsBoolean, mergeProps } from '../../utils'
+import { getPropsBoolean, omitProps, mergeProps } from '../../utils'
 import { useConfigs } from './use'
 
 interface Props {
+  props?: CellProps
+  cClase?: CellProps['cClass']
+  cStyle?: CellProps['cStyle']
   /**
    * 配置名。使用 `useCellConfigs()` 查看配置数据。使用 `setCellConfigs()` 进行配置。
    * 默认： `default`
    */
   c?: CellProps['c']
-  /**
-   * view 组件的 Attributes 和 Props 。
-   * 默认： `undefined`
-   */
-  viewBind?: CellProps['viewBind']
   /**
    * 左边图标名称或代码。
    * 默认： `undefined`
@@ -110,53 +108,55 @@ const props = withDefaults(defineProps<Props>(), { c: 'default' })
 const emits = defineEmits<Emits>()
 const configs = useConfigs()
 
-const propsC = computed<Props>(() => mergeProps(configs.value[props.c], props))
-const hoverClass = computed<string | undefined>(() => !getPropsBoolean(propsC.value.noClick) ? 'c-cell-click' : undefined)
+const props1 = computed(() => props.props ? mergeProps(props.props, omitProps(props)) : props)
+const propsC = computed(() => mergeProps(configs.value[props1.value.c!], props1.value))
+const hoverClass = computed<string | undefined>(() => !getPropsBoolean(propsC.value.noClick) ? 'c-cell__click' : undefined)
+const styleC = computed(() => mergeProps({ x: [] }, { x: propsC.value.cStyle }).x)
+const classC = computed(() => mergeProps({ x: ['c-cell'] }, { x: propsC.value.cClass }).x)
 
 const onClick = (e: MouseEvent) => emits('click', e)
 </script>
 
 <template>
-<view class="c-cell" :hover-class="hoverClass" v-bind="(propsC.viewBind as any)" @click="onClick">
+<view :class="classC" :hover-class="hoverClass" :style="(styleC as any)" @click="onClick">
   <slot name="left">
-    <c-icon v-if="propsC.icon" v-bind="propsC.iconProps" :name="propsC.icon" />
-    <c-image v-if="propsC.image" v-bind="propsC.imageProps" :src="propsC.image" />
-    <c-avatar v-if="propsC.avatar" v-bind="propsC.avatarProps" :src="propsC.avatar" />
-    <c-avatar-text v-if="propsC.avatarText" v-bind="propsC.avatarTextProps" :text="propsC.avatarText" />
+    <c-icon v-if="propsC.icon" :props="propsC.iconProps" :name="propsC.icon" />
+    <c-image v-if="propsC.image" :props="propsC.imageProps" :src="propsC.image" />
+    <c-avatar v-if="propsC.avatar" :props="propsC.avatarProps" :src="propsC.avatar" />
+    <c-avatar-text v-if="propsC.avatarText" :props="propsC.avatarTextProps" :text="propsC.avatarText" />
   </slot>
-  <view class="flex-1">
+  <view style="flex: 1">
     <slot name="label">
-      <c-text v-if="propsC.label" v-bind="propsC.labelProps">{{ propsC.label }}</c-text>
+      <c-text v-if="propsC.label" :props="propsC.labelProps">{{ propsC.label }}</c-text>
     </slot>
     <slot name="brief">
-      <c-text v-if="propsC.brief" v-bind="propsC.briefProps">{{ propsC.brief }}</c-text>
+      <c-text v-if="propsC.brief" :props="propsC.briefProps">{{ propsC.brief }}</c-text>
     </slot>
   </view>
   <slot>
-    <c-text v-if="propsC.value" v-bind="propsC.valueProps">{{ propsC.value }}</c-text>
+    <c-text v-if="propsC.value" :props="propsC.valueProps">{{ propsC.value }}</c-text>
   </slot>
   <slot name="right">
-    <c-icon v-if="propsC.rightIcon" v-bind="propsC.rightIconProps" :name="propsC.rightIcon" />
+    <c-icon v-if="propsC.rightIcon" :props="propsC.rightIconProps" :name="propsC.rightIcon" />
   </slot>
 </view>
 </template>
 
-<style lang="scss">
-.c-cell {
+<style lang="scss" scoped>
+.c-cell{
   /* #ifndef APP-NVUE */
   display: flex;
   /* #endif */
 
+  box-sizing: border-box;
   flex-direction: row;
   align-items: center;
-  box-sizing: border-box;
+  padding: 20rpx;
+  min-height: 100rpx;
   background-color: #fff;
 
-  &-click {
+  &__click {
     background-color: #ebedf0;
   }
-}
-.flex-1 {
-  flex: 1;
 }
 </style>

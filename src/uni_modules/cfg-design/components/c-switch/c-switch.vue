@@ -1,15 +1,13 @@
 <script setup lang="ts">
-import type { CSSProperties, HTMLAttributes } from 'vue'
+import type { CSSProperties } from 'vue'
 import type { ValidationTrigger, FormRule } from '../c-form/types.d'
 import type { SwitchProps } from './types.d'
 import { computed, inject, ref, watch } from 'vue'
-import { getPropsBoolean, mergeProps } from '../../utils'
+import { getPropsBoolean, omitProps, mergeProps } from '../../utils'
 import { useFontSizes, useColors, useRadius, getSize, getSizes, toCssUnit } from '../../styles'
 import {
   hasTrigger,
-  formInjectionKeySize,
   formInjectionKeyDisabled,
-  formInjectionKeyNoFeedback,
   formInjectionKeyRules,
   formInjectionKeyFieldsErrors,
   formInjectionKeyValidateField
@@ -23,28 +21,26 @@ import {
 import { useConfigs } from './use'
 
 interface Props {
+  props?: SwitchProps
+  cClass?: SwitchProps['cClass']
+  cStyle?: SwitchProps['cStyle']
   /**
    * 配置名。使用 `useSwitchConfigs()` 查看配置数据。使用 `setSwitchConfigs()` 进行配置。
    * 默认： `default`
    */
   c?: SwitchProps['c']
   /**
-   * view 组件的 Attributes 和 Props 。
-   * 默认： `undefined`
-   */
-  viewBind?: SwitchProps['viewBind']
-  /**
-   * 颜色。 default 配置为 `primary`。 `useColors()` 可以查看配置数据。使用 `setColors()` 进行配置。
+   * 颜色。 `useColors()` 可以查看配置数据。使用 `setColors()` 进行配置。
    * 默认： `undefined`
    */
   color?: SwitchProps['color']
   /**
-   * 背景颜色。 default 配置为 `primary`。 `useColors()` 可以查看配置数据。使用 `setColors()` 进行配置。
+   * 背景颜色。 `useColors()` 可以查看配置数据。使用 `setColors()` 进行配置。
    * 默认： `undefined`
    */
   bgColor?: SwitchProps['bgColor']
   /**
-   * 字体大小。 default 配置为 m。 useFontSizes() 可以查看配置数据。使用 setFontSizes() 进行配置。
+   * 字体大小。 useFontSizes() 可以查看配置数据。使用 setFontSizes() 进行配置。
    * 默认： undefined
    */
   size?: SwitchProps['size']
@@ -99,12 +95,12 @@ interface Props {
    */
   loading?: SwitchProps['loading']
   /**
-   * 滑动块，view 组件的 Attributes 和 Props 。
+   * 文字 c-spin props 。
    * 默认： `undefined`
    */
-  sliderBind?: SwitchProps['sliderBind']
+  spinProps?: SwitchProps['spinProps']
   /**
-   * 圆角值。 default 配置为 `s`。 `useRadius()` 可以查看配置数据。使用 `setRadius()` 进行配置。
+   * 圆角值。 `useRadius()` 可以查看配置数据。使用 `setRadius()` 进行配置。
    * 默认： `undefined`
    */
   radius?: SwitchProps['radius']
@@ -130,9 +126,7 @@ interface Emits {
 }
 
 const formRules = inject(formInjectionKeyRules, ref())
-const formSize = inject(formInjectionKeySize, ref(''))
 const formDisabled = inject(formInjectionKeyDisabled, ref(false))
-const formNoFeedback = inject(formInjectionKeyNoFeedback, ref(false))
 const formFieldsErrors = inject(formInjectionKeyFieldsErrors, ref())
 const formValidateField = inject(formInjectionKeyValidateField, undefined)
 const formItemSize = inject(formItemInjectionKeySize, ref(''))
@@ -149,7 +143,8 @@ const configs = useConfigs()
 
 const valueR = ref(props.value)
 
-const propsC = computed<Props>(() => mergeProps(configs.value[props.c], props))
+const props1 = computed(() => props.props ? mergeProps(props.props, omitProps(props)) : props)
+const propsC = computed(() => mergeProps(configs.value[props1.value.c!], props1.value))
 const colorC = computed<string>(() => {
   const { color } = propsC.value
   return color ? colors.value[color] || color : colors.value.primary
@@ -172,7 +167,7 @@ const readonlyC = computed(() => getPropsBoolean(propsC.value.readonly))
 const disabled1 = computed(() => getPropsBoolean(propsC.value.disabled))
 const disabledC = computed<boolean>(() => disabled1.value || formItemDisabled.value || formDisabled.value)
 const size1 = computed(() => getSize(fontSizes.value, propsC.value.size))
-const sizeC = computed<string>(() => size1.value || formItemSize.value || formSize.value || toCssUnit(fontSizes.value.m))
+const sizeC = computed<string>(() => size1.value || formItemSize.value || toCssUnit(fontSizes.value.m))
 const widthC = computed<string>(() => `calc(${sizeC.value} * 3.2)`)
 const heightC = computed<string>(() => `calc(${sizeC.value} * 1.6)`)
 const loadingSizeC = computed<string>(() => `calc(${sizeC.value} * 1.2)`)
@@ -184,18 +179,13 @@ const paddingRightC = computed<string>(() => `calc(${sizeC.value} * 2.1)`)
 const radius1 = computed(() => getSizes(radiuses.value, propsC.value.radius))
 const roundC = computed(() => getPropsBoolean(propsC.value.round))
 const radiusC = computed(() => roundC.value ? '9999px' : radius1.value)
-const noFeedbackC = computed<boolean>(() => getPropsBoolean(propsC.value.noFeedback) || formItemNoFeedback.value || formNoFeedback.value)
+const noFeedbackC = computed<boolean>(() => getPropsBoolean(propsC.value.noFeedback) || formItemNoFeedback.value)
 const pathC = computed(() => propsC.value.path || formItemPath.value)
 const rule = computed<FormRule | undefined>(() => !pathC.value || !formRules.value ? undefined : formRules.value[pathC.value])
 const validateErrors = computed(() => !pathC.value || !formFieldsErrors.value ? undefined : formFieldsErrors.value[pathC.value])
 const hasOnChangeValidate = computed(() => hasTrigger(rule.value, 'change'))
 
-const viewClasses = computed<HTMLAttributes['class']>(() => [{
-  'c-switch__disabled': !formDisabled.value && !formItemDisabled.value && disabled1.value,
-  'c-switch__avtive': isActive.value
-}])
-
-const viewStyles = computed<CSSProperties[]>(() => {
+const style1 = computed<CSSProperties>(() => {
   const style: CSSProperties = {
     borderRadius: radiusC.value,
     minWidth: widthC.value,
@@ -207,8 +197,16 @@ const viewStyles = computed<CSSProperties[]>(() => {
     style.borderWidth = '1px'
     style.borderColor = colors.value.error
   }
-  return [style]
+  return style
 })
+const styleC = computed(() => mergeProps({ x: [style1.value] }, { x: propsC.value.cStyle }).x)
+const classC = computed(() => mergeProps({ x: [
+  'c-switch',
+  {
+    'c-switch__disabled': !formDisabled.value && !formItemDisabled.value && disabled1.value,
+    'c-switch__avtive': isActive.value
+  }
+] }, { x: propsC.value.cClass }).x)
 
 const leftStyle = computed<CSSProperties>(() => ({
   paddingLeft: paddingLeftC.value,
@@ -258,39 +256,34 @@ watch(() => valueR.value, changeValidate)
 </script>
 
 <template>
-<view
-  class="c-switch"
-  :class="viewClasses"
-  v-bind="(propsC.viewBind as any)"
-  :style="viewStyles"
-  @click="check"
+<view :class="classC" :style="(styleC as any)" @click="check"
 >
-  <view class="c-switch__placeholder" :style="([leftStyle] as any)">
-    <c-text v-bind="propsC.checkedTextProps" :size="sizeC">{{ propsC.checkedText }}</c-text>
-    <c-text v-bind="propsC.unCheckedTextProps" :size="sizeC">{{ propsC.unCheckedText }}</c-text>
+  <view class="c-switch__placeholder" :style="leftStyle">
+    <c-text :props="propsC.checkedTextProps" :size="sizeC">{{ propsC.checkedText }}</c-text>
+    <c-text :props="propsC.unCheckedTextProps" :size="sizeC">{{ propsC.unCheckedText }}</c-text>
   </view>
   <view class="c-switch__rail">
-    <view class="c-switch__rail-left" :style="([leftStyle] as any)">
-      <c-text v-bind="propsC.checkedTextProps" :size="sizeC">{{ propsC.checkedText }}</c-text>
+    <view class="c-switch__rail-left" :style="leftStyle">
+      <c-text :props="propsC.checkedTextProps" :size="sizeC">{{ propsC.checkedText }}</c-text>
     </view>
-    <view class="c-switch__slider" v-bind="propsC.sliderBind" :style="(sliderStyles as any)">
-      <c-spin v-if="loadingC" :icon-size="loadingSizeC" />
+    <view class="c-switch__slider" :style="(sliderStyles as any)">
+      <c-spin v-if="loadingC" :props="{ size: loadingSizeC, color: propsC.color, ...propsC.spinProps }" />
     </view>
-    <view class="c-switch__rail-right" :style="([rightStyle] as any)">
-      <c-text v-bind="propsC.unCheckedTextProps" :size="sizeC">{{ propsC.unCheckedText }}</c-text>
+    <view class="c-switch__rail-right" :style="rightStyle">
+      <c-text :props="propsC.unCheckedTextProps" :size="sizeC">{{ propsC.unCheckedText }}</c-text>
     </view>
   </view>
 </view>
 </template>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .c-switch {
   /* #ifndef APP-NVUE */
   display: flex;
   /* #endif */
 
-  position: relative;
   box-sizing: border-box;
+  position: relative;
   overflow: hidden;
   border-width: 0;
   border-style: solid;
@@ -302,41 +295,61 @@ watch(() => valueR.value, changeValidate)
   }
 
   &__placeholder {
+    /* #ifndef APP-NVUE */
+    display: flex;
+    /* #endif */
+
+    flex-direction: column;
+    box-sizing: border-box;
     opacity: 0;
     overflow: hidden;
   }
 
   &__rail {
+    /* #ifndef APP-NVUE */
+    display: flex;
+    /* #endif */
+
+    box-sizing: border-box;
     position: absolute;
     top: 0;
     left: -100%;
-    display: flex;
+    flex-direction: row;
     align-items: center;
     width: 200%;
     height: 100%;
     transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
+    &-left,
+    &-right {
+      /* #ifndef APP-NVUE */
+      display: flex;
+      /* #endif */
+
+      box-sizing: border-box;
+      align-items: center;
+      justify-content: center;
+      width: 50%;
+      height: 100%;
+    }
+
     &-left {
       opacity: 0;
       transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
-
-    &-left,
-    &-right {
-      display: flex;
-      align-items: center;
-      width: 50%;
-      height: 100%;
-    }
   }
 
   &__slider {
+    /* #ifndef APP-NVUE */
+    display: flex;
+    /* #endif */
+
+    box-sizing: border-box;
     position: absolute;
     top: 0;
     left: 50%;
     bottom: 0;
     flex-shrink: 0;
-    display: flex;
     align-items: center;
     justify-content: center;
     margin: auto;

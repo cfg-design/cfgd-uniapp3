@@ -3,16 +3,14 @@ import type { CSSProperties } from 'vue'
 import type { FormRule, ValidationTrigger } from '../c-form/types.d'
 import type { CheckboxProps } from './types.d'
 import { computed, inject, ref, watch } from 'vue'
-import { getPropsBoolean, mergeProps } from '../../utils'
+import { getPropsBoolean, omitProps, mergeProps } from '../../utils'
 import { useFontSizes, useColors, useRadius, getSize, getSizes, toCssUnit } from '../../styles'
 import {
   hasTrigger,
   formInjectionKeyRules,
-  formInjectionKeySize,
   formInjectionKeyDisabled,
   formInjectionKeyValidateField,
   formInjectionKeyFieldsErrors,
-  formInjectionKeyNoFeedback
 } from '../c-form/use'
 import {
   formItemInjectionKeySize,
@@ -30,28 +28,28 @@ import {
 import { useConfigs } from './use'
 
 interface Props {
+  props?: CheckboxProps
+  cClase?: CheckboxProps['cClass']
+  cStyle?: CheckboxProps['cStyle']
+  iconWrapClase?: CheckboxProps['iconWrapClass']
+  iconWrapStyle?: CheckboxProps['iconWrapStyle']
   /**
    * 配置名。使用 `useCheckboxConfigs()` 查看配置数据。使用 `setCheckboxConfigs()` 进行配置。
    * 默认： `default`
    */
   c?: CheckboxProps['c']
   /**
-   * view 组件的 Attributes 和 Props 。
-   * 默认： `undefined`
-   */
-  viewBind?: CheckboxProps['viewBind']
-  /**
    * 勾选框的类型， undefined | default: 背景上色， icon: icon 勾上色。
    * 默认： `undefined`
    */
   activeType?: CheckboxProps['activeType']
   /**
-   * 颜色。 default 配置为 `primary`。 `useColors()` 可以查看配置数据。使用 `setColors()` 进行配置。
+   * 颜色。 `useColors()` 可以查看配置数据。使用 `setColors()` 进行配置。
    * 默认： `undefined`
    */
   color?: CheckboxProps['color']
   /**
-   * 字体大小。 default 配置为 m。 useFontSizes() 可以查看配置数据。使用 setFontSizes() 进行配置。
+   * 字体大小。 useFontSizes() 可以查看配置数据。使用 setFontSizes() 进行配置。
    * 默认： undefined
    */
   size?: CheckboxProps['size']
@@ -75,11 +73,6 @@ interface Props {
    * 默认： `undefined`
    */
   readonly?: CheckboxProps['readonly']
-  /**
-   * 勾选的边框，view 组件的 Attributes 和 Props 。
-   * 默认： `undefined`
-   */
-  iconWrapBind?: CheckboxProps['iconWrapBind']
   /**
    * icon 勾，详情查看 c-icon props 。
    * 默认： `undefined`
@@ -106,7 +99,7 @@ interface Props {
    */
   borderBottom?: CheckboxProps['borderBottom']
   /**
-   * 圆角值。 default 配置为 `s`。 `useRadius()` 可以查看配置数据。使用 `setRadius()` 进行配置。
+   * 圆角值。 `useRadius()` 可以查看配置数据。使用 `setRadius()` 进行配置。
    * 默认： `undefined`
    */
   radius?: CheckboxProps['radius']
@@ -132,11 +125,9 @@ interface Emits {
 }
 
 const formRules = inject(formInjectionKeyRules, ref())
-const formSize = inject(formInjectionKeySize, ref(''))
 const formDisabled = inject(formInjectionKeyDisabled, ref(false))
 const formValidateField = inject(formInjectionKeyValidateField, null)
 const formFieldsErrors = inject(formInjectionKeyFieldsErrors, ref())
-const formNoFeedback = inject(formInjectionKeyNoFeedback, ref(false))
 const formItemSize = inject(formItemInjectionKeySize, ref(''))
 const formItemDisabled = inject(formItemInjectionKeyDisabled, ref(false))
 const formItemPath = inject(formItemInjectionKeyPath, ref())
@@ -158,8 +149,9 @@ const configs = useConfigs()
 
 const checkedR = ref(getPropsBoolean(props.checked))
 
-const props1 = computed<Props>(() => mergeProps(configs.value[props.c], { ...checkboxGroupCheckbox.value }))
-const propsC = computed<Props>(() => mergeProps(props1.value, props))
+const props1 = computed(() => props.props ? mergeProps(props.props, omitProps(props)) : props)
+const props2 = computed(() => mergeProps(configs.value[props1.value.c!], { ...checkboxGroupCheckbox.value }))
+const propsC = computed(() => mergeProps(props2.value, props1.value))
 const valueC = computed(() => props.value || index)
 const colorC = computed<CSSProperties['color']>(() => {
   const { color } = propsC.value
@@ -169,18 +161,19 @@ const readonlyC = computed(() => getPropsBoolean(propsC.value.readonly))
 const disabled1 = computed(() => getPropsBoolean(propsC.value.disabled))
 const disabledC = computed<boolean>(() => disabled1.value || checkboxGroupDisabled.value || formItemDisabled.value || formDisabled.value)
 const size1 = computed(() => getSize(fontSizes.value, propsC.value.size))
-const sizeC = computed<string>(() => size1.value || formItemSize.value || formSize.value || toCssUnit(fontSizes.value.m))
+const sizeC = computed<string>(() => size1.value || formItemSize.value || toCssUnit(fontSizes.value.m))
 const iconSize = computed(() => sizeC.value.replace(/\d+/, (v) => Math.floor(Number(v) * 1.2) + ''))
 const borderC = computed(() => getPropsBoolean(propsC.value.border))
 const borderBottomC = computed(() => getPropsBoolean(propsC.value.borderBottom))
-const radius1 = computed(() => getSizes(radiuses.value, propsC.value.radius))
+const radius1 = computed(() => propsC.value.radius !== undefined ? propsC.value.radius : 's')
+const radius2 = computed(() => getSizes(radiuses.value, radius1.value))
 const roundC = computed(() => getPropsBoolean(propsC.value.round))
-const radiusC = computed(() => roundC.value ? '9999px' : radius1.value)
+const radiusC = computed(() => roundC.value ? '9999px' : radius2.value)
 const pathC = computed(() => propsC.value.path || formItemPath.value)
 const rule = computed<FormRule | undefined>(() => !pathC.value || !formRules.value ? undefined : formRules.value[pathC.value])
 const hasOnChangeValidate = computed(() => hasTrigger(rule.value, 'change'))
 const validateErrors = computed(() => !pathC.value || !formFieldsErrors.value ? undefined : formFieldsErrors.value[pathC.value])
-const noFeedbackC = computed<boolean>(() => getPropsBoolean(propsC.value.noFeedback) || formItemNoFeedback.value || formNoFeedback.value)
+const noFeedbackC = computed<boolean>(() => getPropsBoolean(propsC.value.noFeedback) || formItemNoFeedback.value)
 
 const viewStyle1 = computed(() => {
   const style: CSSProperties = {}
@@ -204,9 +197,13 @@ const viewStyle2 = computed<CSSProperties>(() => {
   return style
 })
 
-const viewStyles = computed<CSSProperties[]>(() => [viewStyle1.value, viewStyle2.value])
+const styleC = computed(() => mergeProps({ x: [viewStyle1.value, viewStyle2.value] }, { x: propsC.value.cStyle }).x)
+const classC = computed(() => mergeProps({ x: [
+  'c-checkbox',
+  { 'c-checkbox__disabled': !formDisabled.value && !formItemDisabled.value && !checkboxGroupDisabled.value && disabled1.value }
+] }, { x: propsC.value.cClass }).x)
 
-const iconColor = computed(() => propsC.value.activeType === 'icon' ? colorC.value : propsC.value.iconProps?.color)
+const iconColor = computed(() => propsC.value.activeType === 'icon' ? colorC.value : propsC.value.iconProps?.color || '#fff')
 const iconWrapSize = computed(() => `calc(${sizeC.value} * 1.4)`)
 const iconWrapSizeStyle = computed<CSSProperties>(() => ({
     width: iconWrapSize.value,
@@ -221,7 +218,8 @@ const iconWrapStyleBorderColor = computed<CSSProperties>(() => ({
 }))
 const iconWrapStyleBgColor = computed<CSSProperties>(() => ({ backgroundColor: iconWrapColor.value }))
 
-const iconWrapStyles = computed<CSSProperties[]>(() => [iconWrapSizeStyle.value, iconWrapStyleBgColor.value, iconWrapStyleBorderColor.value])
+const iconWrapStyleC = computed(() => mergeProps({ x: [iconWrapSizeStyle.value, iconWrapStyleBgColor.value, iconWrapStyleBorderColor.value] }, { x: propsC.value.iconWrapStyle }).x)
+const iconWrapClassC = computed(() => mergeProps({ x: ['c-checkbox__icon-wrap'] }, { x: propsC.value.iconWrapClass }).x)
 
 const validate = (trigger: ValidationTrigger, time?: number) => {
   clearTimeout(validate.timer)
@@ -260,36 +258,27 @@ watch(() => checkboxGroupValue?.value, (val) => {
 </script>
 
 <template>
-<view
-  class="c-checkbox"
-  :class="[{ 'c-checkbox__disabled': !formDisabled && !formItemDisabled && !checkboxGroupDisabled && disabled1 }]"
-  v-bind="(propsC.viewBind as any)"
-  :style="viewStyles"
-  @click="check"
->
-  <view
-    class="c-checkbox__icon-wrap"
-    v-bind="(propsC.iconWrapBind as any)"
-    :style="iconWrapStyles"
-  >
-    <c-icon v-if="checkedR" v-bind="propsC.iconProps" :size="iconSize" :color="iconColor" />
+<view :class="classC" :style="(styleC as any)" @click="check">
+  <view :class="iconWrapClassC" :style="(iconWrapStyleC as any)">
+    <c-icon v-if="checkedR" :props="{ name: 'check-line', size: iconSize, ...propsC.iconProps }" :color="iconColor" />
   </view>
   <view class="c-checkbox__text-wrap">
     <slot>
-      <c-text v-if="propsC.text" v-bind="propsC.textProps" :size="sizeC">{{ propsC.text }}</c-text>
+      <c-text v-if="propsC.text" :props="{ size: sizeC, ...propsC.textProps }">{{ propsC.text }}</c-text>
     </slot>
   </view>
 </view>
 </template>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .c-checkbox {
   /* #ifndef APP-NVUE */
   display: flex;
   /* #endif */
-
-  align-items: center;
   box-sizing: border-box;
+
+  flex-direction: row;
+  align-items: center;
   border-width: 0;
   border-style: solid;
   border-color: #d9d9d9;
@@ -303,10 +292,10 @@ watch(() => checkboxGroupValue?.value, (val) => {
     /* #ifndef APP-NVUE */
     display: flex;
     /* #endif */
+    box-sizing: border-box;
 
     align-items: center;
     justify-content: center;
-    box-sizing: border-box;
     margin-right: 10rpx;
     border-width: 1px;
     border-style: solid;
@@ -318,7 +307,9 @@ watch(() => checkboxGroupValue?.value, (val) => {
     /* #ifndef APP-NVUE */
     display: flex;
     /* #endif */
+    box-sizing: border-box;
 
+    flex-direction: row;
     flex-grow: 1;
   }
 }

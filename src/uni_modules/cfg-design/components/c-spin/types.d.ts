@@ -1,29 +1,25 @@
-import type { HTMLAttributes, CSSProperties } from 'vue'
-import type { UViewProps } from '../uni.d'
+import type { CSSProperties, HTMLAttributes } from 'vue'
 import type { IconProps } from '../c-icon/types.d'
 import type { TextProps } from '../c-text/types.d'
 
 export interface SpinConfig {
+   cClass?: string | Record<string, any> | (string | Record<string, any>)[]
+   cStyle?: HTMLAttributes['style']
    /**
-    * view 组件的 Attributes 和 Props 。
-    * 默认： `undefined`
-    */
-   viewBind?: HTMLAttributes & UViewProps
-   /**
-    * 图标和文案的颜色。 default 配置为 `primary`。详情查看 c-text props.color
+    * 图标和文案的颜色。`useColors()` 可以查看配置数据。使用 `setColors()` 进行配置。
     * 默认： `undefined`
     */
    color?: string
    /**
-    * 旋转图标名称或代码。 default 配置为 `loading`
+    * 图标大小。`useFontSizes()` 可以查看配置数据。使用 setFontSizes() 进行配置。
+    * 默认： `undefined`
+    */
+   size?: string | number
+   /**
+    * 旋转图标名称或代码。
     * 默认： `undefined`
     */
    icon?: string
-   /**
-    * 图标大小。 default 配置为 `5xl`。详情查看 c-text props.size
-    * 默认： `undefined`
-    */
-   iconSize?: string | number
    /**
     * 详情查看 c-icon props
     * 默认： `undefined`
@@ -34,11 +30,6 @@ export interface SpinConfig {
     * 默认： `undefined`
     */
    tip?: string
-   /**
-    * 文案大小。详情查看 c-text props.size
-    * 默认： `undefined`
-    */
-   tipSize?: string | number
    /**
     * 详情查看 c-text props
     * 默认： `undefined`

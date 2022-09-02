@@ -3,10 +3,7 @@ import { ref } from 'vue'
 import { mergeRight } from 'ramda'
 
 const configs = ref<Record<string, EmptyConfig>>({
-  default: {
-    text: '数据为空',
-    icon: 'empty-data'
-  },
+  default: {},
   search: {
     text: '没有搜索结果',
     icon: 'empty-search'

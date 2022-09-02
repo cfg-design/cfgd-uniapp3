@@ -2,7 +2,7 @@
 import type { CSSProperties } from 'vue'
 import type { TabItemProps } from './types.d'
 import { computed, inject, ref } from 'vue'
-import { mergeProps, getPropsBoolean } from '../../utils/props'
+import { mergeProps, omitProps, getPropsBoolean } from '../../utils/props'
 import {
   tabsInjectionKeyValue,
   tabsInjectionKeyGetIndex,
@@ -13,23 +13,21 @@ import { useColors, toCssUnit } from '../../styles'
 import { useConfigs } from './use'
 
 interface Props {
+  props?: TabItemProps
+  cClass?: TabItemProps['cClass']
+  cStyle?: TabItemProps['cStyle']
   /**
    * 配置名。使用 useTabItemConfigs() 查看配置数据。使用 setTabItemConfigs() 进行配置。
    * 默认： default
    */
   c?: TabItemProps['c']
   /**
-   * view 组件的 Attributes 和 Props 。
-   * 默认： `undefined`
-   */
-  viewBind?: TabItemProps['viewBind']
-  /**
    * 选中的值。
    * 默认： `undefined`
    */
   value?: TabItemProps['value']
   /**
-   * 颜色。 default 配置为 `primary`。 `useColors()` 可以查看配置数据。使用 `setColors()` 进行配置。
+   * 颜色。 `useColors()` 可以查看配置数据。使用 `setColors()` 进行配置。
    * 默认： `undefined`
    */
   color?: TabItemProps['color']
@@ -64,11 +62,6 @@ interface Props {
    */
   dot?: TabItemProps['dot']
   /**
-   * view 组件的 Attributes 和 Props 。
-   * 默认： `undefined`
-   */
-  dotBind?: TabItemProps['dotBind']
-  /**
    * 详情 c-line props 。
    * 默认： `undefined`
    */
@@ -91,26 +84,54 @@ const emits = defineEmits<Emits>()
 const colors = useColors()
 const configs = useConfigs()
 
-const props1 = computed<Props>(() => mergeProps(configs.value[props.c], { ...tabItem.value }))
-const propsC = computed<Props>(() => mergeProps(props1.value, props))
+const props1 = computed(() => props.props ? mergeProps(props.props, omitProps(props)) : props)
+const props2 = computed(() => mergeProps(configs.value[props1.value.c!], { ...tabItem.value }))
+const propsC = computed(() => mergeProps(props2.value, props1.value))
 const colorC = computed<Props['color']>(() => {
   const { color } = propsC.value
-  return color && colors.value[color] || color
+  return color ? colors.value[color] || color : colors.value.primary
 })
 const valueC = computed(() => propsC.value.value !== undefined ? propsC.value.value : index)
 const active = computed(() => valueC.value === tabsValue.value)
 const dotC = computed(() => getPropsBoolean(propsC.value.dot))
-const dotBindC = computed(() => mergeProps<Props['dotBind']>({ style: [{ backgroundColor: colors.value.error }]}, propsC.value.dotBind))
 const textColorC = computed(() => active.value
   ? propsC.value.activeType !== 'bg'
     ? propsC.value.color
     : '#fff'
   : propsC.value.textProps?.color
 )
-const viewStyles = computed<CSSProperties[]>(() => [{
-  paddingBottom: toCssUnit(propsC.value.lineProps?.width),
-  backgroundColor: active.value && propsC.value.activeType === 'bg' ? colorC.value : ''
-}])
+const style1 = computed(() => {
+  const style: CSSProperties = {}
+  if (propsC.value.activeType === 'bg'){
+    style.marginBottom = toCssUnit(propsC.value.lineProps?.width || 4)
+    if (active.value) {
+      style.backgroundColor = colorC.value
+    }
+  }
+  return style
+})
+
+const styles = computed(() => mergeProps({ x: [style1.value] }, { x: propsC.value.cStyle }).x)
+const classC = computed(() => mergeProps({ x: ['c-tab-item'] }, { x: propsC.value.cClass }).x)
+
+const textPropsC = computed(() => mergeProps({
+  color: textColorC.value,
+  cStyle: [{ textAlign: 'center', whiteSpace: 'nowrap' }]
+}, propsC.value.textProps))
+
+const badgePropsC = computed(() => mergeProps({
+  color: 'error',
+  size: 'xs',
+  round: true,
+  textProps: { cStyle: [{ position: 'absolute', top: '-6rpx', left: 'calc(100% - 6rpx)' }] }
+}, propsC.value.badgeProps))
+
+const linePropsC = computed(() => mergeProps({
+  color: colorC.value,
+  width: 4,
+  length: '100%',
+  round: true
+}, propsC.value.lineProps))
 
 const onClick = (e: any) => {
   tabsUpdateValue && tabsUpdateValue(valueC.value)
@@ -119,67 +140,60 @@ const onClick = (e: any) => {
 </script>
 
 <template>
-<view class="c-tab-item" :style="viewStyles" v-bind="(propsC.viewBind as any)" @click="onClick">
+<view :class="classC" :style="(styles as any)" @click="onClick">
   <view class="c-tab-item__content">
     <slot>
-      <c-text v-bind="propsC.textProps" :color="textColorC">{{ propsC.text }}</c-text>
+      <c-text :props="textPropsC">{{ propsC.text }}</c-text>
     </slot>
-    <view v-if="dotC" class="c-tab-item__dot" v-bind="(dotBindC as any)"></view>
-    <c-badge v-else-if="propsC.badge" v-bind="propsC.badgeProps" :text="propsC.badge" />
-    <c-line v-if="active && propsC.activeType !== 'bg'" :color="propsC.color" v-bind="propsC.lineProps" />
+    <view v-if="dotC" class="c-tab-item__dot" :style="{ backgroundColor: colors.error }"></view>
+    <c-badge v-else-if="propsC.badge" :props="badgePropsC" :text="propsC.badge" />
   </view>
+  <c-line v-if="active && propsC.activeType !== 'bg'" :props="linePropsC" />
 </view>
 </template>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .c-tab-item {
   /* #ifndef APP-NVUE */
   display: flex;
   /* #endif */
 
+  box-sizing: border-box;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  align-items: stretch;
+  justify-content: space-between;
   margin: 0 4rpx;
   padding: 0 20rpx;
   border-radius: 9999px;
-  box-sizing: border-box;
+  position: relative;
 
-  &__content {
-    /* #ifndef APP-NVUE */
-    display: flex;
-    /* #endif */
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    padding: 6rpx 0;
+  &__{
+    &content {
+      /* #ifndef APP-NVUE */
+      display: flex;
+      /* #endif */
 
-    :deep(.c-badge) {
+      box-sizing: border-box;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 6rpx 0;
+      position: relative;
+    }
+
+    &dot {
+      /* #ifndef APP-NVUE */
+      display: flex;
+      /* #endif */
+
+      box-sizing: border-box;
       position: absolute;
-      top: -6rpx;
-      left: calc(100% - 6rpx);
+      top: 0;
+      right: -6rpx;
+      width: 12rpx;
+      height: 12rpx;
+      border-radius: 100%;
     }
-
-    :deep(.c-line) {
-      position: absolute;
-      top: 100%;
-      bottom: 0;
-      width: 100%;
-    }
-
-    :deep(.c-text) {
-      text-align: center;
-      white-space: nowrap;
-    }
-  }
-
-  &__dot {
-    position: absolute;
-    top: 0;
-    right: -6rpx;
-    width: 12rpx;
-    height: 12rpx;
-    border-radius: 100%;
   }
 }
 </style>

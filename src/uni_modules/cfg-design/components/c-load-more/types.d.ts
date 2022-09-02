@@ -1,15 +1,11 @@
 import type { HTMLAttributes } from 'vue'
-import type { UViewProps } from '../uni.d'
 import type { TextProps } from '../c-text/types.d'
 import type { LineProps } from '../c-line/types.d'
 import type { SpinProps } from '../c-spin/types.d'
 
 export interface LoadMoreConfig {
-  /**
-   * view 组件的 Attributes 和 Props 。
-   * 默认： `undefined`
-   */
-  viewBind?: HTMLAttributes & UViewProps
+  cClass?: string | Record<string, any> | (string | Record<string, any>)[]
+  cStyle?: HTMLAttributes['style']
   /**
    * 是否加载中。
    * 默认： `undefined`

@@ -3,7 +3,7 @@ import { ref } from 'vue'
 import { mergeRight } from 'ramda'
 
 const configs = ref<Record<string, IconConfig>>({
-  default: { family: 'c-icon', textProps: { textBind: { class: ['c-icon'] } } },
+  default: {},
 })
 
 const icons = ref<Record<string, string>>({})

@@ -8,9 +8,7 @@ const configs = ref<Record<string, TagConfig>>({
     radius: 's',
     textColor: '#fff',
     size: 'm',
-    viewBind: { style: [{ alignItems: 'center', justifyContent: 'center' }] },
-    iconProps: { textProps: { textBind: { class: ['c-tag__icon'] } } },
-    closeViewBind: { style: [{ backgroundColor: '#c6c7cb' }] },
+    closeViewProps: { cStyle: [{ backgroundColor: '#c6c7cb' }] },
     closeIconProps: { name: 'close-line', color: '#fff' }
   },
 })

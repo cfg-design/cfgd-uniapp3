@@ -1,6 +1,6 @@
 <template>
 <view class="page">
-  <c-empty :view-bind="{ style: [{ minHeight: '100vw' }] }" />
+  <c-empty :view-props="{ cStyle: [{ minHeight: '100vw' }] }" />
   <c-line color="primary" />
   <c-empty c="search" />
   <c-line color="primary" />

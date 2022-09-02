@@ -8,7 +8,6 @@
       <c-badge radius="xs m">99+</c-badge>
       <c-badge radius="0 s s">99+</c-badge>
       <c-badge radius="0 20 20">99+</c-badge>
-      <MyC text="8" round />
       <c-badge color="error" size="xs">最小微标</c-badge>
     </view>
     <view class="flex">
@@ -18,7 +17,7 @@
 </template>
 
 <script setup lang="ts">
-import { useColors, CBadge as MyC } from '@/uni_modules/cfg-design'
+import { useColors } from '@/uni_modules/cfg-design'
 
 const colors = useColors()
 </script>

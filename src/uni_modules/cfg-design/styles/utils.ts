@@ -1,9 +1,10 @@
+import { is } from 'ramda'
 import config from '../config'
 
 export declare type Sizes = Record<string, string | number>
 
 export const toCssUnit = (value?: number | string): string => {
-  if (!value) return ''
+  if (!value && value !== 0) return ''
 
   value = value + ''
 
@@ -13,7 +14,7 @@ export const toCssUnit = (value?: number | string): string => {
 export const getSize = (sizes: Sizes, value?: number | string) => toCssUnit(sizes[value + ''] || value)
 
 export const getSizes = (sizes: Sizes, value?: number | string): string => {
-  if (!value) return ''
+  if (!value && value !== 0) return ''
 
   value = value + ''
 

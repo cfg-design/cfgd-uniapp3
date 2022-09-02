@@ -1,12 +1,14 @@
 {
   "id": "cfg-design",
-  "displayName": "Cfg Design of Uniapp",
-  "version": "1.0.0",
+  "displayName": "Cfg Design of Uniapp3",
+  "version": "1.0.0-alpha",
   "description": "一个可配置的 ui",
   "keywords": [
+    "cfg",
     "cfgd",
     "cfg-design",
-    "ui"
+    "ui",
+    "design"
 ],
   "repository": "",
   "engines": {
@@ -40,8 +42,8 @@
     "encrypt": [],
     "platforms": {
       "cloud": {
-        "tcb": "y",
-        "aliyun": "y"
+        "tcb": "x",
+        "aliyun": "x"
       },
       "client": {
         "Vue": {
@@ -67,11 +69,11 @@
         },
         "小程序": {
           "微信": "y",
-          "阿里": "y",
-          "百度": "y",
-          "字节跳动": "y",
-          "QQ": "y",
-          "钉钉": "y",
+          "阿里": "x",
+          "百度": "x",
+          "字节跳动": "x",
+          "QQ": "x",
+          "钉钉": "x",
           "快手": "x",
           "飞书": "x",
           "京东": "x",
