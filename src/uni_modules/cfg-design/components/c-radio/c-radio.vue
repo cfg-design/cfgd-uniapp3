@@ -129,12 +129,13 @@ const fontSizes = useFontSizes()
 const radiuses = useRadius()
 const configs = useConfigs()
 
-const checkedR = ref(getPropsBoolean(props.checked))
-
 const props1 = computed(() => props.props ? mergeProps(props.props, omitProps(props)) : props)
 const props2 = computed(() => mergeProps(configs.value[props1.value.c!], { ...radioGroupRadio.value }))
 const propsC = computed(() => mergeProps(props2.value, props1.value))
-const valueC = computed(() => props.value || index)
+
+const valueC = computed(() => propsC.value.value || index)
+const checkedR = ref(getPropsBoolean(propsC.value.checked))
+
 const colorC = computed<CSSProperties['color']>(() => {
   const { color } = propsC.value
   return color ? colors.value[color] || color : colors.value.primary
@@ -206,7 +207,7 @@ watch(() => radioGroupValue.value, (val) => {
   checkedR.value = val === valueC.value
 })
 
-if (getPropsBoolean(props.checked)) {
+if (getPropsBoolean(propsC.value.checked)) {
   radioGroupUpdateValue && radioGroupUpdateValue(valueC.value)
 } else if (radioGroupValue.value !== undefined) {
   checkedR.value = radioGroupValue.value === valueC.value
@@ -220,7 +221,7 @@ if (getPropsBoolean(props.checked)) {
   </view>
   <view class="c-radio__text-wrap">
     <slot>
-      <c-text v-if="propsC.text" :props="{ size: sizeC, ...propsC.textProps }">{{ propsC.text }}</c-text>
+      <c-text v-if="propsC.text" :props="{ size: sizeC, ...propsC.textProps }" :text="propsC.text" />
     </slot>
   </view>
 </view>

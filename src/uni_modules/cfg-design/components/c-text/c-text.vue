@@ -17,6 +17,11 @@ interface Props {
    */
   c?: TextProps['c']
   /**
+   * 文字。
+   * 默认： undefined
+   */
+  text?: TextProps['text']
+  /**
    * 字体颜色。 `useColors()` 可以查看配置数据。使用 `setColors()` 进行配置。
    * 默认： `undefined`
    */
@@ -137,7 +142,7 @@ const classC = computed(() => mergeProps({ x: ['c-text'] }, { x: propsC.value.cC
     :user-select="getPropsBoolean(propsC.userSelect)"
     :space="propsC.space"
     :decode="getPropsBoolean(propsC.decode)"
-    ><slot /></text>
+    >{{ propsC.text }}<slot v-if="!propsC.text" /></text>
 </template>
 
 <style lang="scss" scoped>

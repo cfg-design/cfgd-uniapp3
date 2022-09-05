@@ -1,7 +1,7 @@
 {
   "id": "cfg-design",
   "displayName": "Cfg Design of Uniapp3",
-  "version": "1.0.0-alpha",
+  "version": "1.0.2-alpha",
   "description": "一个可配置的 ui",
   "keywords": [
     "cfg",
@@ -10,15 +10,11 @@
     "ui",
     "design"
 ],
-  "repository": "",
+  "repository": "https://github.com/cfg-design/cfgd-uniapp3",
   "engines": {
-    "HBuilderX": "^3.1.0"
+    "HBuilderX": "^3.5.3"
   },
-  "dcloudext": {
-    "category": [
-        "前端组件",
-        "通用组件"
-    ],
+"dcloudext": {
     "sale": {
       "regular": {
         "price": "0.00"
@@ -32,27 +28,28 @@
     },
     "declaration": {
       "ads": "无",
-      "data": "无",
+      "data": "插件不采集任何数据",
       "permissions": "无"
     },
-    "npmurl": ""
+    "npmurl": "",
+    "type": "component-vue"
   },
   "uni_modules": {
     "dependencies": [],
     "encrypt": [],
     "platforms": {
       "cloud": {
-        "tcb": "x",
-        "aliyun": "x"
+        "tcb": "y",
+        "aliyun": "y"
       },
       "client": {
         "Vue": {
-          "vue2": "u",
+          "vue2": "n",
           "vue3": "y"
         },
         "App": {
-          "app-vue": "y",
-          "app-nvue": "y"
+          "app-vue": "u",
+          "app-nvue": "u"
         },
         "H5-mobile": {
           "Safari": "y",
@@ -69,19 +66,18 @@
         },
         "小程序": {
           "微信": "y",
-          "阿里": "x",
-          "百度": "x",
-          "字节跳动": "x",
-          "QQ": "x",
-          "钉钉": "x",
-          "快手": "x",
-          "飞书": "x",
-          "京东": "x",
-          "小红书": "x"
+          "阿里": "u",
+          "百度": "u",
+          "字节跳动": "u",
+          "QQ": "u",
+          "钉钉": "u",
+          "快手": "u",
+          "飞书": "u",
+        "京东": "u"
         },
         "快应用": {
-          "华为": "x",
-          "联盟": "x"
+          "华为": "u",
+          "联盟": "u"
         }
       }
     }

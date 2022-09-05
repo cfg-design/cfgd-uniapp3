@@ -143,7 +143,7 @@ const onClick = (e: any) => {
 <view :class="classC" :style="(styles as any)" @click="onClick">
   <view class="c-tab-item__content">
     <slot>
-      <c-text :props="textPropsC">{{ propsC.text }}</c-text>
+      <c-text :props="textPropsC" :text="propsC.text" />
     </slot>
     <view v-if="dotC" class="c-tab-item__dot" :style="{ backgroundColor: colors.error }"></view>
     <c-badge v-else-if="propsC.badge" :props="badgePropsC" :text="propsC.badge" />

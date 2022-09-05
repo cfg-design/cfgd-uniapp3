@@ -68,6 +68,7 @@ interface Props {
 
 interface Emits {
   (e: 'update:value', v: Props['value']): void
+  (e: 'change', v: Props['value']): void
 }
 
 const formRules = inject(formInjectionKeyRules, ref())
@@ -81,10 +82,11 @@ const props = withDefaults(defineProps<Props>(), { c: 'default' })
 const emits = defineEmits<Emits>()
 const configs = useConfigs()
 
-const valueR = ref<RadioGroupProps['value']>(props.value)
-
 const props1 = computed(() => props.props ? mergeProps(props.props, omitProps(props)) : props)
 const propsC = computed(() => mergeProps(configs.value[props1.value.c!], props1.value))
+
+const valueR = ref(propsC.value.value)
+
 const disabledC = computed(() => getPropsBoolean(propsC.value.disabled))
 const pathC = computed(() => propsC.value.path || formItemPath.value)
 const rule = computed<FormRule | undefined>(() => !pathC.value || !formRules.value ? undefined : formRules.value[pathC.value])
@@ -121,11 +123,11 @@ const changeValidate = () => hasOnChangeValidate.value && validate('change')
 const updateValue: RadioGroupUpdateValue = (val) => {
   if (valueR.value !== val) {
     valueR.value = val
-    emits('update:value', valueR.value)
+    props.value !== val && emits('update:value', valueR.value)
   }
 }
 
-watch(() => props.value, updateValue)
+watch(() => propsC.value.value, updateValue)
 
 watch(() => valueR.value, changeValidate)
 

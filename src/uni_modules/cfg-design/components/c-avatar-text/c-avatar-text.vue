@@ -82,7 +82,7 @@ const classC = computed(() => mergeProps({ x: ['c-avatar-text'] }, { x: propsC.v
 
 <template>
 <view :class="classC" :style="(styleC as any)">
-  <c-text :props="{ size: fontSize, ...propsC.textProps }" :color="propsC.textColor">{{ propsC.text }}<slot v-if="!propsC.text" /></c-text>
+  <c-text :props="{ size: fontSize, ...propsC.textProps }" :text="propsC.text" :color="propsC.textColor"><slot v-if="!propsC.text" /></c-text>
 </view>
 </template>
 

@@ -81,8 +81,9 @@ const textPropsC = computed(() => mergeProps<BadgeProps['textProps']>({ cStyle: 
     backgroundColor: colorC,
     borderRadius: radiusC,
   }]"
+  :text="text"
   :color="propsC.textColor || '#fff'"
   :size="sizeC"
-  >{{ text }}<slot v-if="!propsC.text" /></c-text
+  ><slot v-if="!propsC.text" /></c-text
 >
 </template>

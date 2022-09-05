@@ -16,8 +16,13 @@ onHide(() => {
 @import url('@/uni_modules/cfg-design/styles/mp.scss');
 
 .page {
-  box-sizing: border-box;
+  /* #ifdef H5 */
   min-height: calc(100vh - 44px);
+  /* #endif */
+  /* #ifndef H5 */
+  min-height: 100vh;
+  /* #endif */
+  box-sizing: border-box;
   background-color: #f2f6f8;
 }
 

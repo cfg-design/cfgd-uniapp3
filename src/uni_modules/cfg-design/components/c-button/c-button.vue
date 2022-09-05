@@ -302,7 +302,14 @@ const onClick = (e: MouseEvent) => emits('click', e)
   <c-spin v-if="loadingC" :props="{ size: sizeC, color: fontColorC, direction: 'row', ...propsC.spinProps }" />
   <template v-else-if="propsC.text || propsC.icon">
     <c-icon v-if="propsC.icon" :props="{ size: sizeC, color: fontColorC, ...propsC.iconProps }" :name="propsC.icon"/>
-    <c-text v-if="propsC.text" :props="propsC.textProps" :size="propsC.size" :color="fontColorC" :c-style="textStyle">{{ propsC.text }}</c-text>
+    <c-text
+      v-if="propsC.text"
+      :props="propsC.textProps"
+      :size="propsC.size"
+      :color="fontColorC"
+      :c-style="textStyle"
+      :text="propsC.text"
+    />
   </template>
   <template v-else><slot /></template>
 </button>

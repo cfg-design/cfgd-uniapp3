@@ -97,6 +97,7 @@ const progresLineProps = computed(() => mergeProps({
   cStyle: [absoluteStyle.value]
 }, propsC.value.activeProps))
 const textPropsC = computed(() => mergeProps({
+  text: percentC.value,
   color: '#fff',
   size: textSizeC.value,
   cStyle: [
@@ -105,8 +106,10 @@ const textPropsC = computed(() => mergeProps({
       padding: `0 calc(${sizeC.value} * 0.3)`,
       width: percentC.value,
       lineHeight: sizeC.value,
+      height: sizeC.value,
       flexDirection: 'column',
       alignItems: 'stretch',
+      justifyContent: 'center',
       textAlign: 'end',
       whiteSpace: 'nowrap'
     }
@@ -118,7 +121,7 @@ const textPropsC = computed(() => mergeProps({
 <view :class="classC" :style="(styleC as any)">
   <c-line style="width:100%" :props="{ length: '100%', width: sizeC, round: propsC.round, ...propsC.bgProps }" />
   <c-line :props="progresLineProps" />
-  <c-text v-if="showTextC" :props="textPropsC"><slot>{{ percentC }}</slot></c-text>
+  <c-text v-if="showTextC" :props="textPropsC" />
 </view>
 </template>
 

@@ -102,11 +102,12 @@ const emits = defineEmits<Emits>()
 const configs = useConfigs()
 const radiuses = useRadius()
 
-const loading = ref(!!props.src)
-const isErr = ref(false)
-
 const props1 = computed(() => props.props ? mergeProps(props.props, omitProps(props)) : props)
 const propsC = computed(() => mergeProps(configs.value[props1.value.c!], props1.value))
+
+const loading = ref(!!propsC.value.src)
+const isErr = ref(false)
+
 const widthC = computed(() => toCssUnit(propsC.value.width))
 const heightC = computed(() => toCssUnit(propsC.value.height))
 const iconSize = computed(() => widthC.value ? `calc(${widthC.value} * 0.618)` : 'xl')

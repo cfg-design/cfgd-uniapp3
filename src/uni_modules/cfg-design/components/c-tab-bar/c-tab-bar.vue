@@ -44,10 +44,11 @@ const props = withDefaults(defineProps<Props>(), { c: 'default' })
 const emits = defineEmits<Emits>()
 const configs = useConfigs()
 
-const valueR = ref<TabBarProps['value']>(props.value)
-
 const props1 = computed(() => props.props ? mergeProps(props.props, omitProps(props)) : props)
 const propsC = computed(() => mergeProps(configs.value[props1.value.c!], props1.value))
+
+const valueR = ref<TabBarProps['value']>(propsC.value.value)
+
 const itemC = computed(() => propsC.value.item)
 
 const styles = computed(() => mergeProps({ x: [] }, { x: propsC.value.cStyle }).x)
@@ -59,11 +60,11 @@ const getIndex: TabBarGetIndex = () => index ++
 const updateValue: TabBarUpdateValue = (val) => {
   if (valueR.value !== val) {
     valueR.value = val
-    emits('update:value', valueR.value)
+    props.value !== val && emits('update:value', valueR.value)
   }
 }
 
-watch(() => props.value, updateValue)
+watch(() => propsC.value.value, updateValue)
 
 provide(tabBarInjectionKeyGetIndex, getIndex)
 provide(tabBarInjectionKeyUpdateValue, updateValue)

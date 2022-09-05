@@ -297,13 +297,14 @@ const colors = useColors()
 const radiuses = useRadius()
 const configs = useConfigs()
 
-const valueR = ref(props.value)
-const isFocus = ref(getPropsBoolean(props.focus))
+const props1 = computed(() => props.props ? mergeProps(props.props, omitProps(props)) : props)
+const propsC = computed(() => mergeProps(configs.value[props1.value.c!], props1.value))
+
+const valueR = ref(propsC.value.value)
+const isFocus = ref(getPropsBoolean(propsC.value.focus))
 const clearableVisible = ref(false)
 const inputRef = ref(null) as any
 
-const props1 = computed(() => props.props ? mergeProps(props.props, omitProps(props)) : props)
-const propsC = computed(() => mergeProps(configs.value[props1.value.c!], props1.value))
 const bgColorC = computed<CSSProperties['color']>(() => {
   const { bgColor } = propsC.value
   return bgColor ? colors.value[bgColor] || bgColor : undefined
@@ -469,7 +470,7 @@ const onClickInput = (e: any) => emits('click:input', e)
 const onClickIcon = (e: any) => emits('click:icon', e)
 const onClickRightIcon = (e: any) => emits('click:rightIcon', e)
 
-watch(() => props.value, (val) => {
+watch(() => propsC.value.value, (val) => {
   valueR.value = val
 })
 
@@ -531,8 +532,7 @@ defineExpose({ focus })
     <c-icon :props="{ name: 'close-circle-fill', size: iconSize, color: iconColor, ...clearIconPropsC }" />
   </view>
   <slot v-if="showCountC && maxlengthC" name="count">
-    <c-text :props="countPropsC">{{ valueR?.length || 0 }} / {{ maxlengthC }}</c-text
-    >
+    <c-text :props="countPropsC" :text="`${ valueR?.length || 0 } / ${ maxlengthC }`" />
   </slot>
   <view v-if="propsC.rightIcon" c-class="c-input__icon-wrap" @click="onClickRightIcon">
     <c-icon :props="{ color: iconColor, size: iconSize, ...rightIconPropsC }" :name="propsC.rightIcon" />

@@ -8,19 +8,9 @@
       <c-col><c-progress :percent="percent" show-text /></c-col>
       <c-col><c-progress :percent="percent" size="5xl" show-text /></c-col>
       <c-col v-for="color in ['primary', 'success', 'error', 'warning', '#7546c9']" :key="'c1-' + color"><c-progress :active-props="{ color }" :percent="percent" show-text round /></c-col>
-      <c-col><c-progress :percent="percent" show-text>加载中...</c-progress></c-col>
-      <c-col><c-progress :percent="percent" :text-props="{ cStyle: 'width: 100%; text-align:center' }" show-text>加载中...</c-progress></c-col>
-      <c-col><c-progress :percent="percent" :text-props="{ cStyle: 'text-align:start' }" show-text>加载中...</c-progress></c-col>
-      <c-col>
-        <c-progress :percent="percent" :text-props="{ cStyle: 'min-width: 40rpx; align-items:flex-end' }" show-text>
-          <c-spin icon-size="xs" color="#fff" />
-        </c-progress>
-      </c-col>
-      <c-col>
-        <c-progress :percent="percent" :text-props="{ cStyle: 'width: 100%; align-items:flex-end' }" show-text>
-          <c-spin icon-size="xs" color="error" />
-        </c-progress>
-      </c-col>
+      <c-col><c-progress :percent="percent" :text-props="{ text: '加载中...' }" show-text /></c-col>
+      <c-col><c-progress :percent="percent" :text-props="{ cStyle: 'width: 100%; text-align:center', text: '加载中...' }" show-text /></c-col>
+      <c-col><c-progress :percent="percent" :text-props="{ cStyle: 'text-align:start', text: '加载中...' }" show-text /></c-col>
     </c-row>
   </view>
 </view>

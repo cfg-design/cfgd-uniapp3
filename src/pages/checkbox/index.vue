@@ -3,18 +3,18 @@
     <view class="checkbox-items">
       <c-form-item>
         <c-checkbox text="checkbox" v-model:checked="checked" />
-        <c-text>checked: {{ checked }}</c-text>
+        <c-text :text="'checked: ' + checked" />
       </c-form-item>
       <c-form-item label="row" label-placement="top">
         <view>
           <c-checkbox-group c="row" v-model:value="values">
             <c-checkbox v-for="i in 3" :key="i" :text="'value' + i" />
           </c-checkbox-group>
-          <c-text color="error" :text-props="{ cStyle: [{ alignSelf: 'center' }]}">checked: {{ values.join() }}</c-text>
+          <c-text color="error" :text="`checked: ${ values.join() }`" />
           <c-checkbox-group c="row" v-model:value="values2" :checkbox="{ activeType: 'icon' }">
             <c-checkbox v-for="i in 3" :key="i" :text="'value' + i" :value="'c-v-' + i" />
           </c-checkbox-group>
-          <c-text color="error" :text-props="{ cStyle: [{ alignSelf: 'center' }]}">checked: {{ values2.join() }}</c-text>
+          <c-text color="error" :text="`checked: ${ values2.join() }`" />
         </view>
       </c-form-item>
       <c-checkbox-group>

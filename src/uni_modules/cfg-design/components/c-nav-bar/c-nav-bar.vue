@@ -66,14 +66,14 @@ const classC = computed(() => mergeProps({ x: ['c-nav-bar'] }, { x: propsC.value
   <view class="c-nav-bar__left" @click="emits('click:left')">
     <slot name="left">
       <c-icon v-if="leftIconC" :props="{ size: '27px', ...propsC.leftIconProps }" :name="leftIconC" />
-      <c-text v-if="propsC.leftText" :props="{ size: '14px', ...propsC.leftTextProps }">{{ propsC.leftText }}</c-text>
+      <c-text v-if="propsC.leftText" :props="{ size: '14px', ...propsC.leftTextProps }" :text="propsC.leftText" />
     </slot>
   </view>
   <view class="c-nav-bar__right" @click="emits('click:right')">
     <slot name="right" />
   </view>
   <view class="c-nav-bar__title">
-    <slot><c-text :props="{ size: '16px', lines: 1, ...propsC.titleProps }">{{ propsC.title }}</c-text></slot>
+    <slot><c-text :props="{ size: '16px', lines: 1, ...propsC.titleProps }" :text="propsC.title" /></slot>
   </view>
 </view>
 </template>

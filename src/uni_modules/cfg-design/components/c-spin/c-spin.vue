@@ -111,7 +111,7 @@ const classC = computed(() => mergeProps({ x: ['c-spin'] }, { x: propsC.value.cC
   <view class="c-spin__icon-wrap">
     <c-icon :props="iconPropsC" />
   </view>
-  <c-text v-if="propsC.tip" :props="tipPropsC">{{ propsC.tip }}</c-text>
+  <c-text v-if="propsC.tip" :props="tipPropsC" :text="propsC.tip" />
 </view>
 </template>
 

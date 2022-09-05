@@ -79,7 +79,7 @@ const onButtonClick = (e: MouseEvent) => emits('click:button', e)
 <view :class="classC" :style="(styleC as any)">
   <c-image v-if="propsC.image" :props="{ src: propsC.image, width: 100, height: 100, ...propsC.imageProps }" />
   <c-icon v-else :props="{ name: propsC.icon || 'empty-data', color: 'secondary', size: 100, ...propsC.iconProps }" />
-  <c-text :props="textPropsC">{{ propsC.text || '数据为空' }}</c-text>
+  <c-text :props="textPropsC" :text="propsC.text || '数据为空'" />
   <c-button v-if="propsC.buttonProps?.text" :props="buttonPropsC" @click="onButtonClick" />
   <slot />
 </view>

@@ -2,7 +2,7 @@
   <view class="page">
     <c-form>
       <c-form-item>
-        <c-input auto-focus clearable />
+        <c-input focus clearable />
       </c-form-item>
       <c-form-item>
         <c-input input-align="center" />

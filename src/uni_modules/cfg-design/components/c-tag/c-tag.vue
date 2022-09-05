@@ -146,7 +146,7 @@ const onClose = (e: MouseEvent) => emits('close', e)
 <template>
 <view :class="classC" :style="(styles as any)" @click="onClick">
   <c-icon v-if="propsC.icon" :props="iconPropsC" :name="propsC.icon" />
-  <c-text :props="textPropsC">{{ text }}<slot v-if="!propsC.text" /></c-text>
+  <c-text :props="textPropsC" :text="propsC.text" />
   <view
     v-if="closableC"
     class="c-tag__close"

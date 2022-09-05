@@ -10,13 +10,13 @@
       <c-form-item label="row" label-placement="top">
         <view>
           <c-radio-group c="row" v-model:value="value">
-            <c-radio v-for="i in 3" :text="'text' + i" />
+            <c-radio v-for="i in 3" :key="i" :text="'text' + i" />
           </c-radio-group>
-          <c-text color="error">已选择值: {{ value }}</c-text>
+          <c-text color="error" :text="'已选择值: ' + value" />
           <c-radio-group c="row" v-model:value="value2" :radio="{ activeType: 'icon' }">
-            <c-radio v-for="i in 3" :text="'text' + i" :value="'c-v-' + i" />
+            <c-radio v-for="i in 3" :key="i" :text="'text' + i" :value="'c-v-' + i" />
           </c-radio-group>
-          <c-text color="error">已选择值: {{ value2 }}</c-text>
+          <c-text color="error" :text="'已选择值: ' + value2" />
         </view>
       </c-form-item>
       <c-form-item label="circle" label-placement="top">
@@ -78,8 +78,8 @@
       </c-form-item>
       <c-form-item label="right" label-placement="top">
         <c-radio-group c="right">
-          <c-radio v-for="i in 3" :text="'text' + i" border-bottom />
-          <c-radio v-for="i in 3" :text="'text' + i" border radius="s l" />
+          <c-radio v-for="i in 3" :key="i" :text="'text' + i" border-bottom />
+          <c-radio v-for="i in 3" :key="i" :text="'text' + i" border radius="s l" />
         </c-radio-group>
       </c-form-item>
       <c-radio-group>

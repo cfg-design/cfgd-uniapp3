@@ -211,12 +211,13 @@ const colors = useColors()
 const radiuses = useRadius()
 const configs = useConfigs()
 
-const valueR = ref(props.value)
-const isFocus = ref(getPropsBoolean(props.autoFocus))
-const textareaRef = ref(null) as any
-
 const props1 = computed(() => props.props ? mergeProps(props.props, omitProps(props)) : props)
 const propsC = computed(() => mergeProps(configs.value[props1.value.c!], props1.value))
+
+const valueR = ref(propsC.value.value)
+const isFocus = ref(getPropsBoolean(propsC.value.focus))
+const textareaRef = ref(null) as any
+
 const pathC = computed(() => propsC.value.path || formItemPath.value)
 const rule = computed<FormRule | undefined>(() => !pathC.value || !formRules.value ? undefined : formRules.value[pathC.value])
 const validateErrors = computed(() => !pathC.value || !formFieldsErrors.value ? undefined : formFieldsErrors.value[pathC.value])
@@ -334,7 +335,7 @@ const focus = () => {
   // #endif
 }
 
-watch(() => props.value, (val) => {
+watch(() => propsC.value.value, (val) => {
   valueR.value = val
 })
 
@@ -357,20 +358,20 @@ defineExpose({ focus })
     :maxlength="maxlengthC"
     :placeholder="propsC.placeholder || '请输入'"
     :placeholder-class="propsC.placeholderClass"
-    :auto-focus="propsC.autoFocus"
-    :fixed="propsC.fixed"
+    :auto-focus="getPropsBoolean(propsC.autoFocus)"
+    :fixed="getPropsBoolean(propsC.fixed)"
     :cursor-spacing="propsC.cursorSpacing"
     :cursor="propsC.cursor"
     :confirm-type="propsC.confirmType"
-    :confirm-hold="propsC.confirmHold"
-    :show-confirm-bar="propsC.showConfirmBar"
+    :confirm-hold="getPropsBoolean(propsC.confirmHold)"
+    :show-confirm-bar="propsC.showConfirmBar !== false"
     :selection-start="propsC.selectionStart"
     :selection-end="propsC.selectionEnd"
-    :adjust-position="propsC.adjustPosition"
-    :disable-default-padding="propsC.disableDefaultPadding"
-    :hold-keyboard="propsC.holdKeyboard"
-    :auto-blur="propsC.autoBlur"
-    :ignore-composition-event="propsC.ignoreCompositionEvent"
+    :adjust-position="propsC.adjustPosition !== false"
+    :disable-default-padding="getPropsBoolean(propsC.disableDefaultPadding)"
+    :hold-keyboard="getPropsBoolean(propsC.holdKeyboard)"
+    :auto-blur="getPropsBoolean(propsC.autoBlur)"
+    :ignore-composition-event="propsC.ignoreCompositionEvent !== false"
     @input="onInput"
     @focus="onFocus"
     @blur="onBlur"
@@ -379,7 +380,7 @@ defineExpose({ focus })
   />
   <view v-if="showCountC && maxlengthC" class="c-textarea__count-wrap">
     <slot name="count" :value="valueR">
-      <c-text :props="{ size: countSize, color: 'secondary', ...propsC.countTextProps }">{{ valueR?.length || 0 }} / {{ maxlengthC }}</c-text>
+      <c-text :props="{ size: countSize, color: 'secondary', ...propsC.countTextProps }" :text="`${ valueR?.length || 0 } / ${ maxlengthC }`" />
     </slot>
   </view>
 </view>

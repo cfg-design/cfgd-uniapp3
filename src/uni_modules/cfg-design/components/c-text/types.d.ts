@@ -5,6 +5,11 @@ export interface TextConfig extends UTextProps {
   cClass?: string | Record<string, any> | (string | Record<string, any>)[]
   cStyle?: HTMLAttributes['style']
   /**
+   * 文字。
+   * 默认： undefined
+   */
+  text?: string
+  /**
    * 字体颜色。 useColors() 可以查看配置数据。使用 setColors() 进行配置。
    * 默认： undefined
    */

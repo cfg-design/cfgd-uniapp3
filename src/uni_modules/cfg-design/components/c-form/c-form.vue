@@ -143,12 +143,12 @@ const clear = () => {
 }
 
 const onSubmit = (e: any) => emits('submit', e)
-const onReset = (e: any) => {
+const onReset = (e?: any) => {
   // form 默认 reset 事件不会触发组件(如 input)更新 model
   clear()
   nextTick(() => {
     updateValue(clone(modelDefault))
-    emits('reset', e)
+    e && emits('reset', e)
   })
 }
 

@@ -40,6 +40,12 @@ export {
   useConfigs as useBadgeConfigs
 } from './components/c-badge/use'
 
+// c-bottom-bar
+export {
+  setConfigs as setBottomBarConfigs,
+  useConfigs as useBottomBarConfigs
+} from './components/c-bottom-bar/use'
+
 // c-button
 export {
   setConfigs as setButtonConfigs,
@@ -69,6 +75,12 @@ export {
   setConfigs as setColConfigs,
   useConfigs as useColConfigs
 } from './components/c-col/use'
+
+// c-empty
+export {
+  setConfigs as setEmptyConfigs,
+  useConfigs as useEmptyConfigs
+} from './components/c-empty/use'
 
 // c-form
 export {
@@ -104,11 +116,35 @@ export {
   useConfigs as useInputConfigs
 } from './components/c-input/use'
 
+// c-input-number
+export {
+  setConfigs as setInputNumberConfigs,
+  useConfigs as useInputNumberConfigs
+} from './components/c-input-number/use'
+
 // c-line
 export {
   setConfigs as setLineConfigs,
   useConfigs as useLineConfigs
 } from './components/c-line/use'
+
+// c-load-more
+export {
+  setConfigs as setLoadMoreConfigs,
+  useConfigs as useLoadMoreConfigs
+} from './components/c-load-more/use'
+
+// c-nav-bar
+export {
+  setConfigs as setNavBarConfigs,
+  useConfigs as useNavBarConfigs
+} from './components/c-nav-bar/use'
+
+// c-progress
+export {
+  setConfigs as setProgressConfigs,
+  useConfigs as useProgressConfigs
+} from './components/c-progress/use'
 
 // c-radio
 export {
@@ -134,6 +170,36 @@ export {
   useConfigs as useSpinConfigs
 } from './components/c-spin/use'
 
+// c-Switch
+export {
+  setConfigs as setSwitchConfigs,
+  useConfigs as useSwitchConfigs
+} from './components/c-Switch/use'
+
+// c-tab-bar
+export {
+  setConfigs as setTabBarConfigs,
+  useConfigs as useTabBarConfigs
+} from './components/c-tab-bar/use'
+
+// c-tab-bar-item
+export {
+  setConfigs as setTabBarItemConfigs,
+  useConfigs as useTabBarItemConfigs
+} from './components/c-tab-bar-item/use'
+
+// c-tab-item
+export {
+  setConfigs as setTabItemConfigs,
+  useConfigs as useTabItemConfigs
+} from './components/c-tab-item/use'
+
+// c-tabs
+export {
+  setConfigs as setTabsConfigs,
+  useConfigs as useTabsConfigs
+} from './components/c-tabs/use'
+
 // c-tag
 export {
   setConfigs as setTagConfigs,
@@ -151,3 +217,9 @@ export {
   setConfigs as setTextareaConfigs,
   useConfigs as useTextareaConfigs
 } from './components/c-textarea/use'
+
+// c-top-bar
+export {
+  setConfigs as setTopBarConfigs,
+  useConfigs as useTopBarConfigs
+} from './components/c-top-bar/use'

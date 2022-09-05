@@ -52,5 +52,6 @@ const propsC = computed(() => mergeProps(configs.value[props1.value.c!], props1.
     :c-style="[{ fontFamily: propsC.family || 'c-icon', lineHeight: 1 }]"
     :size="propsC.size"
     :color="propsC.color"
-    >{{ propsC.name && icons[propsC.name] || propsC.name || '' }}</c-text>
+    :text="propsC.name && icons[propsC.name] || propsC.name || ''"
+  />
 </template>

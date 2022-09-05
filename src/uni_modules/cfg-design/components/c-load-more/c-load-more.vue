@@ -86,7 +86,7 @@ const onClick = () => !loadingC.value && !noMore.value && emits('load-more')
 <view :class="classC" :style="(styleC as any)" @click="onClick">
   <c-line :props="linePropsC" />
   <c-spin v-if="loadingC" :props="spinPropsC" />
-  <c-text :props="textPropsC">{{ textC }}</c-text>
+  <c-text :props="textPropsC" :text="textC" />
   <c-line :props="linePropsC" />
 </view>
 </template>

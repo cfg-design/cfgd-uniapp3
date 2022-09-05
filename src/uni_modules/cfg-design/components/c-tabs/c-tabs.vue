@@ -44,10 +44,11 @@ const props = withDefaults(defineProps<Props>(), { c: 'default' })
 const emits = defineEmits<Emits>()
 const configs = useConfigs()
 
-const valueR = ref<TabsProps['value']>(props.value)
-
 const props1 = computed(() => props.props ? mergeProps(props.props, omitProps(props)) : props)
 const propsC = computed(() => mergeProps(configs.value[props1.value.c!], props1.value))
+
+const valueR = ref<TabsProps['value']>(propsC.value.value)
+
 const itemC = computed(() => propsC.value.item)
 
 const styles = computed(() => mergeProps({ x: [] }, { x: propsC.value.cStyle }).x)
@@ -63,7 +64,7 @@ const updateValue: TabsUpdateValue = (val) => {
   }
 }
 
-watch(() => props.value, updateValue)
+watch(() => propsC.value.value, updateValue)
 
 provide(tabsInjectionKeyGetIndex, getIndex)
 provide(tabsInjectionKeyUpdateValue, updateValue)

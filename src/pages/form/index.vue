@@ -5,8 +5,6 @@
       v-model:value="formData"
       :rules="rules"
       :item="{ labelWidth: 120 }"
-      @submit="onSubmit"
-      @reset="onReset"
     >
       <c-form-item no-label no-border-bottom>
         <c-row gutter="10rpx">
@@ -17,10 +15,10 @@
             <c-button color="success" text="清空数据" width="100%" @click="clear" />
           </c-col>
           <c-col>
-            <c-button color="error" text="重置" width="100%" form-type="reset" />
+            <c-button color="error" text="重置" width="100%" form-type="reset" @click="onReset" />
           </c-col>
           <c-col>
-            <c-button color="primary" text="提交" width="100%" form-type="submit" />
+            <c-button color="primary" text="提交" width="100%" form-type="submit" @click="onSubmit" />
           </c-col>
         </c-row>
       </c-form-item>
@@ -59,7 +57,7 @@
         <c-input-number v-model:value="formData.age" />
       </c-form-item>
       <c-form-item label="简介" path="brief">
-        <c-textarea v-model:value="formData.brief" placeholder="简介" />
+        <c-textarea v-model:value="formData.brief" placeholder="简介" height="100rpx" />
       </c-form-item>
       <c-form-item label="协议" path="agreement">
         <c-checkbox v-model:checked="formData.agreement">
@@ -234,6 +232,7 @@ const rules: FormRules = {
 }
 
 const onSubmit = () => {
+  console.log({...formData.value})
   formRef.value?.validate((errors) => {
     console.log(errors)
     if (errors) {
@@ -243,9 +242,7 @@ const onSubmit = () => {
     uni.showToast({ title: 'submitting' })
   })
 }
-const onReset = () => {
-  console.log('onReset')
-}
+const onReset = () => formRef.value?.reset()
 const clear = () => formRef.value?.clear()
 const restoreValidation = () => formRef.value?.restoreValidation()
 </script>

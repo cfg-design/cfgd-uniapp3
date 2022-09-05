@@ -75,10 +75,11 @@ const props = withDefaults(defineProps<Props>(), { c: 'default' })
 const emits = defineEmits<Emits>()
 const configs = useConfigs()
 
-const valueR = ref<CheckboxGroupProps['value']>(props.value)
-
 const props1 = computed(() => props.props ? mergeProps(props.props, omitProps(props)) : props)
 const propsC = computed(() => mergeProps(configs.value[props1.value.c!], props1.value))
+
+const valueR = ref(propsC.value.value)
+
 const disabledC = computed(() => getPropsBoolean(propsC.value.disabled))
 const pathC = computed(() => propsC.value.path || formItemPath.value)
 const rule = computed<FormRule | undefined>(() => !pathC.value || !formRules.value ? undefined : formRules.value[pathC.value])
@@ -127,7 +128,7 @@ const check: CheckboxGroupCheck = (val, is) => {
   }
 }
 
-watch(() => props.value, (val) => {
+watch(() => propsC.value.value, (val) => {
   if (!val || !valueR.value || difference(val, valueR.value).length || difference(valueR.value, val).length) {
     valueR.value = val
   }

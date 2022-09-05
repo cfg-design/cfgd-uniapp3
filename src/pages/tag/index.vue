@@ -14,11 +14,11 @@
         :size="key"
         color="primary"
         closable
+        text="标签"
         @click="onClick"
         @close="onClose"
-        >标签</c-tag
-      >
-      <c-tag :size="100">标签</c-tag>
+      />
+      <c-tag :size="100" text="标签" />
     </view>
   </view>
 </template>

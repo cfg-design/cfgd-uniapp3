@@ -230,9 +230,9 @@ provide(formItemInjectionKeyNoFeedback, noFeedbackC)
           color="error"
           c-class="c-form-item__required-mark"
           :size="sizeC"
-          >*</c-text
-        >
-        <c-text :props="{ size: sizeC, ...propsC.labelTextProps }">{{ propsC.label }}</c-text>
+          text="*"
+        />
+        <c-text :props="{ size: sizeC, ...propsC.labelTextProps }" :text="propsC.label" />
       </label>
     </slot>
     <view :class="contentClass" :style="(contentStyleC as any)">
@@ -244,8 +244,7 @@ provide(formItemInjectionKeyNoFeedback, noFeedbackC)
     </view>
   </view>
   <slot v-if="!noFeedbackC && errMsg" name="error" :err-msg="errMsg">
-    <c-text :props="errorPropsC">{{ errMsg }}</c-text
-    >
+    <c-text :props="errorPropsC" :text="errMsg" />
   </slot>
   <c-line v-if="!noBorderBottomC" :props="propsC.lineProps" />
 </view>

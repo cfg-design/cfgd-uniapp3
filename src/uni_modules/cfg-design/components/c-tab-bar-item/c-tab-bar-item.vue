@@ -132,7 +132,12 @@ const onClick = (e: any) => {
     <view v-if="dotC" class="c-tab-bar-item__dot" :style="{ backgroundColor: colors.error }"></view>
     <c-badge v-else-if="propsC.badge" :props="badgePropsC" :text="propsC.badge" />
   </view>
-  <c-text v-if="propsC.text" :props="{ color: 'secondary', ...propsC.textProps }" :color="active ? colorC : undefined">{{ propsC.text }}</c-text>
+  <c-text
+    v-if="propsC.text"
+    :props="{ color: 'secondary', ...propsC.textProps }"
+    :color="active ? colorC : undefined"
+    :text="propsC.text"
+  />
 </view>
 </template>
 

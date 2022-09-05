@@ -127,14 +127,14 @@ const onClick = (e: MouseEvent) => emits('click', e)
   </slot>
   <view style="flex: 1">
     <slot name="label">
-      <c-text v-if="propsC.label" :props="propsC.labelProps">{{ propsC.label }}</c-text>
+      <c-text v-if="propsC.label" :props="propsC.labelProps" :text="propsC.label" />
     </slot>
     <slot name="brief">
-      <c-text v-if="propsC.brief" :props="propsC.briefProps">{{ propsC.brief }}</c-text>
+      <c-text v-if="propsC.brief" :props="propsC.briefProps" :text="propsC.brief" />
     </slot>
   </view>
   <slot>
-    <c-text v-if="propsC.value" :props="propsC.valueProps">{{ propsC.value }}</c-text>
+    <c-text v-if="propsC.value" :props="propsC.valueProps" :text="propsC.value" />
   </slot>
   <slot name="right">
     <c-icon v-if="propsC.rightIcon" :props="propsC.rightIconProps" :name="propsC.rightIcon" />

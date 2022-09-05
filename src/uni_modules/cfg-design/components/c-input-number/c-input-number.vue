@@ -102,13 +102,14 @@ const colors = useColors()
 const radiuses = useRadius()
 const configs = useConfigs()
 
-const inputRef = ref<InstanceType<typeof CInput>>()
-
-const valueC = computed(() => props.value || 0)
-const inputValue = ref(valueC.value + '')
-
 const props1 = computed(() => props.props ? mergeProps(props.props, omitProps(props)) : props)
 const propsC = computed(() => mergeProps(configs.value[props1.value.c!], props1.value))
+
+const inputRef = ref<InstanceType<typeof CInput>>()
+
+const valueC = computed(() => propsC.value.value || 0)
+const inputValue = ref(valueC.value + '')
+
 const stepC = computed(() => propsC.value.step || 1)
 const colorC = computed<CSSProperties['color']>(() => propsC.value.color || '#f2f2f2')
 const textColorC = computed(() => {

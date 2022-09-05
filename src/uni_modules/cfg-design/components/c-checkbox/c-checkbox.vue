@@ -147,12 +147,13 @@ const fontSizes = useFontSizes()
 const radiuses = useRadius()
 const configs = useConfigs()
 
-const checkedR = ref(getPropsBoolean(props.checked))
-
 const props1 = computed(() => props.props ? mergeProps(props.props, omitProps(props)) : props)
 const props2 = computed(() => mergeProps(configs.value[props1.value.c!], { ...checkboxGroupCheckbox.value }))
 const propsC = computed(() => mergeProps(props2.value, props1.value))
-const valueC = computed(() => props.value || index)
+
+const valueC = computed(() => propsC.value.value || index)
+const checkedR = ref(getPropsBoolean(propsC.value.checked))
+
 const colorC = computed<CSSProperties['color']>(() => {
   const { color } = propsC.value
   return color ? colors.value[color] || color : colors.value.primary
@@ -242,13 +243,13 @@ const check = () => {
   emits('update:checked', checkedR.value)
 }
 
-if (props.checked !== undefined) {
+if (propsC.value.checked !== undefined) {
   setChecked(checkedR.value)
 } else if (checkboxGroupValue?.value !== undefined) {
   checkedR.value = checkboxGroupValue.value.includes(valueC.value)
 }
 
-watch(() => props.checked, (val) => setChecked(!!val))
+watch(() => propsC.value.checked, (val) => setChecked(!!val))
 
 watch(() => checkedR.value, changeValidate)
 
@@ -264,7 +265,7 @@ watch(() => checkboxGroupValue?.value, (val) => {
   </view>
   <view class="c-checkbox__text-wrap">
     <slot>
-      <c-text v-if="propsC.text" :props="{ size: sizeC, ...propsC.textProps }">{{ propsC.text }}</c-text>
+      <c-text v-if="propsC.text" :props="{ size: sizeC, ...propsC.textProps }" :text="propsC.text" />
     </slot>
   </view>
 </view>

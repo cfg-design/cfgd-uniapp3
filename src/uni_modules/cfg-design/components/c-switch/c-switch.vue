@@ -141,10 +141,11 @@ const fontSizes = useFontSizes()
 const radiuses = useRadius()
 const configs = useConfigs()
 
-const valueR = ref(props.value)
-
 const props1 = computed(() => props.props ? mergeProps(props.props, omitProps(props)) : props)
 const propsC = computed(() => mergeProps(configs.value[props1.value.c!], props1.value))
+
+const valueR = ref(propsC.value.value)
+
 const colorC = computed<string>(() => {
   const { color } = propsC.value
   return color ? colors.value[color] || color : colors.value.primary
@@ -240,15 +241,14 @@ const check = () => {
 
   const value = valueR.value !== checkedValueC.value ? checkedValueC.value : unCheckedValueC.value
 
-  if (props.loading === undefined) {
+  if (propsC.value.loading === undefined) {
     valueR.value = value
-
   }
 
   emits('update:value', value)
 }
 
-watch(() => props.value, (v) => {
+watch(() => propsC.value.value, (v) => {
   valueR.value = v
 })
 
@@ -259,18 +259,18 @@ watch(() => valueR.value, changeValidate)
 <view :class="classC" :style="(styleC as any)" @click="check"
 >
   <view class="c-switch__placeholder" :style="leftStyle">
-    <c-text :props="propsC.checkedTextProps" :size="sizeC">{{ propsC.checkedText }}</c-text>
-    <c-text :props="propsC.unCheckedTextProps" :size="sizeC">{{ propsC.unCheckedText }}</c-text>
+    <c-text :props="propsC.checkedTextProps" :size="sizeC" :text="propsC.checkedText" />
+    <c-text :props="propsC.unCheckedTextProps" :size="sizeC" :text="propsC.unCheckedText" />
   </view>
   <view class="c-switch__rail">
     <view class="c-switch__rail-left" :style="leftStyle">
-      <c-text :props="propsC.checkedTextProps" :size="sizeC">{{ propsC.checkedText }}</c-text>
+      <c-text :props="propsC.checkedTextProps" :size="sizeC" :text="propsC.checkedText" />
     </view>
     <view class="c-switch__slider" :style="(sliderStyles as any)">
       <c-spin v-if="loadingC" :props="{ size: loadingSizeC, color: propsC.color, ...propsC.spinProps }" />
     </view>
     <view class="c-switch__rail-right" :style="rightStyle">
-      <c-text :props="propsC.unCheckedTextProps" :size="sizeC">{{ propsC.unCheckedText }}</c-text>
+      <c-text :props="propsC.unCheckedTextProps" :size="sizeC" :text="propsC.unCheckedText" />
     </view>
   </view>
 </view>
