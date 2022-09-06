@@ -17,6 +17,18 @@
 				"navigationBarTitleText": "Colors 颜色"
 			}
 		},
+		{
+			"path": "pages/fontSizes/index",
+			"style": {
+				"navigationBarTitleText": "字体大小"
+			}
+		},
+		{
+			"path": "pages/radiuses/index",
+			"style": {
+				"navigationBarTitleText": "圆角值"
+			}
+		},
 
 		{
 			"path": "pages/text/index",

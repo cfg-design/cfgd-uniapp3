@@ -1,4 +1,3 @@
-import { is } from 'ramda'
 import config from '../config'
 
 export declare type Sizes = Record<string, string | number>

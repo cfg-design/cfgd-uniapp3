@@ -1,12 +1,5 @@
 <template>
   <view class="page">
-    <c-cell
-      icon="checkbox-blank-fill"
-      :icon-props="{ color: 'primary' }"
-      label="颜色"
-      right-icon="arrow-right-s-line"
-      @click="goPage('colors')"
-    />
     <template v-for="(cells, key) in list" :key="key">
       <c-text c="h5" :c-style="[{ padding: '20rpx' }]">{{ key }}</c-text>
       <template v-for="(cell, _key) in cells" :key="_key">
@@ -27,6 +20,11 @@ const colors = useColors()
 const imageSrc = 'http://pic.kaiweixin.cn/upload/micropay/goods/picture/201606/02-161857-574febf17eae3.jpg?imageView2/1/w/160/h/120/format/webp/q/100'
 
 const list: Record<string, Record<string, CellProps>> = {
+  '配置': {
+    colors: { label: '颜色', icon: 'checkbox-blank-fill' },
+    fontSizes: { label: '字体大小', avatarText: 'T' },
+    radiuses: { label: '圆角值', icon: 'checkbox-blank-circle-fill' },
+  },
   '通用组件': {
     text: { label: 'Text 文本', avatarText: 'T' },
     icon: { label: 'Icon 图标', icon: 'home-smile-2-line' },
