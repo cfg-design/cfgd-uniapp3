@@ -24,6 +24,8 @@ interface Props {
   props?: TextareaProps
   cClass?: TextareaProps['cClass']
   cStyle?: TextareaProps['cStyle']
+  textareaClass?: TextareaProps['textareaClass']
+  textareaStyle?: TextareaProps['textareaStyle']
   /**
    * 配置名。使用 `useTextareaConfigs()` 查看配置数据。使用 `setTextareaConfigs()` 进行配置。
    * 默认： `default`
@@ -53,7 +55,7 @@ interface Props {
    * 输入字数统计的 c-text Props 。
    * 默认： `undefined`
    */
-  countTextProps?: TextareaProps['countTextProps']
+  countProps?: TextareaProps['countProps']
   /**
    * 是否显示边框。
    * 默认： `undefined`
@@ -75,7 +77,7 @@ interface Props {
    */
   path?: TextareaProps['path']
   /**
-   * 是否展示校验反馈。
+   * 是否不展示校验反馈。
    * 默认： `undefined`
    */
   noFeedback?: TextareaProps['noFeedback']
@@ -235,7 +237,7 @@ const radius1 = computed(() => propsC.value.radius !== undefined ? propsC.value.
 const radiusC = computed(() => getSizes(radiuses.value, radius1.value))
 const noFeedbackC = computed<boolean>(() => getPropsBoolean(propsC.value.noFeedback) || formItemNoFeedback.value || false)
 const countSize = computed(() => sizeC.value.replace(/\d+/, (v) => Math.floor(Number(v) * 0.9) + ''))
-const textareaClass = computed(() => mergeProps({ x: ['c-textarea__textarea'] }, { x: propsC.value.cClass }).x)
+const textareaClass = computed(() => mergeProps({ x: ['c-textarea__textarea'] }, { x: propsC.value.textareaClass }).x)
 
 const textareaStyle1 = computed<CSSProperties>(() => {
   const result: CSSProperties = {
@@ -273,7 +275,7 @@ const textareaStyle2 = computed<CSSProperties>(() => {
   }
   return result
 })
-const textareaStyles = computed(() => mergeProps({ x: propsC.value.cStyle }, { x: [textareaStyle1.value, textareaStyle2.value] }).x)
+const textareaStyles = computed(() => mergeProps({ x: [textareaStyle1.value, textareaStyle2.value] }, { x: propsC.value.textareaStyle }).x)
 
 const placeholderStyle = computed<string>(() => {
   let style = propsC.value.placeholderStyle || ''
@@ -380,7 +382,7 @@ defineExpose({ focus })
   />
   <view v-if="showCountC && maxlengthC" class="c-textarea__count-wrap">
     <slot name="count" :value="valueR">
-      <c-text :props="{ size: countSize, color: 'secondary', ...propsC.countTextProps }" :text="`${ valueR?.length || 0 } / ${ maxlengthC }`" />
+      <c-text :props="{ size: countSize, color: 'secondary', ...propsC.countProps }" :text="`${ valueR?.length || 0 } / ${ maxlengthC }`" />
     </slot>
   </view>
 </view>

@@ -46,7 +46,7 @@ interface Props {
    */
   activeIcon?: TabBarItemProps['activeIcon']
   /**
-   * activeIcon props = { ...props.iconProps, ...activeIconProps, color }，详情 c-icon props 。
+   * activeIcon props = { ...mergeProps(props.iconProps, activeIconProps), color }，详情 c-icon props 。
    * 默认： `undefined`
    */
   activeIconProps?: TabBarItemProps['activeIconProps']

@@ -36,7 +36,7 @@ export interface SpinConfig {
     */
    tipProps?: TextProps
    /**
-    * 图标和方案排列。
+    * 图标和文案排列。
     * 默认： `undefined`
     */
    direction?: CSSProperties['flex-direction']

@@ -14,10 +14,11 @@
 import type { CellProps } from '@/uni_modules/cfg-design'
 import { useColors } from '@/uni_modules/cfg-design'
 import icons from '@/uni_modules/cfg-design/components/c-icon/icons'
+import image from '@/assets/moon.png'
 
 const colors = useColors()
 
-const imageSrc = 'http://pic.kaiweixin.cn/upload/micropay/goods/picture/201606/02-161857-574febf17eae3.jpg?imageView2/1/w/160/h/120/format/webp/q/100'
+const imageSrc = image
 
 const list: Record<string, Record<string, CellProps>> = {
   '配置': {

@@ -1,6 +1,6 @@
 import type { Ref, InjectionKey } from 'vue'
 import type { ValidateFieldsError } from 'async-validator'
-import type { FormItemConfig } from '../c-form-item/types.d'
+import type { FormItemProps } from '../c-form-item/types.d'
 import type { FormConfig, FormRules, FormValidateField, FormItemRule, FormRule, ValidationTrigger } from './types.d'
 import { ref } from 'vue'
 import { mergeRight, is, find } from 'ramda'
@@ -17,7 +17,7 @@ export const useConfigs = () => configs
 
 export const formInjectionKeyRules: InjectionKey<Ref<FormRules>> = Symbol()
 export const formInjectionKeyDisabled: InjectionKey<Ref<boolean>> = Symbol()
-export const formInjectionKeyItemConfig: InjectionKey<Ref<FormItemConfig>> = Symbol()
+export const formInjectionKeyItemProps: InjectionKey<Ref<FormItemProps>> = Symbol()
 export const formInjectionKeyFieldsErrors: InjectionKey<Ref<ValidateFieldsError>> = Symbol()
 export const formInjectionKeyValidateField: InjectionKey<FormValidateField> = Symbol()
 

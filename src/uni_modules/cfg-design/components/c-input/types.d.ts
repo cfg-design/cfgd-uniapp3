@@ -94,7 +94,7 @@ export interface InputConfig extends UInputProps {
    */
   path?: string
   /**
-   * 是否展示校验反馈。
+   * 是否不展示校验反馈。
    * 默认： `undefined`
    */
   noFeedback?: boolean

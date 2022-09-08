@@ -1,7 +1,7 @@
 import type { HTMLAttributes } from 'vue'
 import type { RuleItem, ValidateCallback, Values } from 'async-validator'
 import type { UFormProps } from '../uni.d'
-import type { FormItemConfig } from '../c-form-item/types.d'
+import type { FormItemProps } from '../c-form-item/types.d'
 
 export interface FormConfig extends UFormProps {
   cClass?: string | Record<string, any> | (string | Record<string, any>)[]
@@ -23,10 +23,10 @@ export interface FormConfig extends UFormProps {
    */
   disabled?: boolean
   /**
-   * c-form-item config 。
+   * c-form-item props 。
    * 默认： `undefined`
    */
-  item?: FormItemConfig
+  item?: FormItemProps
 }
 
 export interface FormProps extends FormConfig {

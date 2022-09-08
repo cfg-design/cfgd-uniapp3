@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { CSSProperties } from 'vue'
-import type { FormItemProps, FormItemConfig } from './types.d'
+import type { FormItemProps } from './types.d'
 import type { FormRule, FormItemRule } from '../c-form/types.d'
 import { computed, provide, inject, ref  } from 'vue'
 import { is, find } from 'ramda'
@@ -8,7 +8,7 @@ import { useFontSizes, getSize, toCssUnit } from '../../styles'
 import { getPropsBoolean, omitProps, mergeProps } from '../../utils'
 import {
   formInjectionKeyRules,
-  formInjectionKeyItemConfig,
+  formInjectionKeyItemProps,
   formInjectionKeyDisabled,
   formInjectionKeyFieldsErrors,
 } from '../c-form/use'
@@ -91,7 +91,7 @@ interface Props {
    */
   disabled?: FormItemProps['disabled']
   /**
-   * 是否展示校验反馈。
+   * 是否不展示校验反馈。
    * 默认： `undefined`
    */
   noFeedback?: FormItemProps['noFeedback']
@@ -117,25 +117,20 @@ interface Props {
   lineProps?: FormItemProps['lineProps']
 }
 
-interface Emits {
-  (e: 'click', payload: MouseEvent): void
-}
-
 const findRequired = find<FormItemRule>((item) => !!item.required)
 
 const formRules = inject(formInjectionKeyRules, ref())
-const formItemProps = inject(formInjectionKeyItemConfig, ref({}))
+const formItemProps = inject(formInjectionKeyItemProps, ref({}))
 const formDisabled = inject(formInjectionKeyDisabled, ref(false))
 const formFieldsErrors = inject(formInjectionKeyFieldsErrors, ref())
 
 const props = withDefaults(defineProps<Props>(), { c: 'default' })
-const emits = defineEmits<Emits>()
 const fontSizes = useFontSizes()
 const configs = useConfigs()
 
 const props1 = computed(() => props.props ? mergeProps(props.props, omitProps(props)) : props)
-const props2 = computed(() => mergeProps<FormItemConfig>(configs.value[props1.value.c!], formItemProps.value))
-const propsC = computed(() => mergeProps(props2.value, props1.value))
+const props2 = computed(() => mergeProps<Props>(formItemProps.value, props1.value))
+const propsC = computed(() => mergeProps(configs.value[props2.value.c!], props2.value))
 const pathC = computed(() => propsC.value.path)
 const ruleItem = computed<FormRule | undefined>(() => !pathC.value || !formRules.value ? undefined : formRules.value[pathC.value])
 const required = computed(() => is(Array, ruleItem.value)
@@ -207,8 +202,6 @@ const errorPropsC = computed(() => mergeProps({
   cStyle: [errorStyle.value]
 }, propsC.value.errorProps))
 
-const onClick = (e: MouseEvent) => emits('click', e)
-
 provide(formItemInjectionKeySize, sizeC)
 provide(formItemInjectionKeyDisabled, disabledC)
 provide(formItemInjectionKeyPath, pathC)
@@ -216,7 +209,7 @@ provide(formItemInjectionKeyNoFeedback, noFeedbackC)
 </script>
 
 <template>
-<view :class="classC" :style="(styleC as any)" @click="onClick">
+<view :class="classC" :style="(styleC as any)">
   <view :class="mainclassC" :style="(mainStyleC as any)">
     <slot v-if="!noLabelC" name="label">
       <label

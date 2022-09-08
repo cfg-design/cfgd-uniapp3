@@ -64,7 +64,7 @@ export interface TagConfig {
    * 是否镂空。
    * 默认： `undefined`
    */
-   plain?: boolean
+  plain?: boolean
 }
 
 export interface TagProps extends TagConfig {

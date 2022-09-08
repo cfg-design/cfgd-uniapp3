@@ -1,4 +1,5 @@
 import type { Ref, InjectionKey } from 'vue'
+import type { CheckboxProps } from '../c-checkbox/types.d'
 import type { CheckboxGroupConfig, CheckboxGroupGetIndex, CheckboxGroupCheck } from './types.d'
 import { ref } from 'vue'
 import { mergeRight } from 'ramda'
@@ -22,7 +23,7 @@ export const setConfigs = (_configs: Record<string, CheckboxGroupConfig>) => {
 export const useConfigs = () => configs
 
 export const checkboxGroupInjectionKeyDisabled: InjectionKey<Ref<boolean>> = Symbol()
-export const checkboxGroupInjectionKeyCheckbox: InjectionKey<Ref<CheckboxGroupConfig['checkbox']>> = Symbol()
+export const checkboxGroupInjectionKeyCheckboxProps: InjectionKey<Ref<CheckboxProps>> = Symbol()
 export const checkboxGroupInjectionKeyGetIndex: InjectionKey<CheckboxGroupGetIndex> = Symbol()
 export const checkboxGroupInjectionKeyCheck: InjectionKey<CheckboxGroupCheck> = Symbol()
 export const checkboxGroupInjectionKeyValue: InjectionKey<Ref<CheckboxGroupConfig['value']>> = Symbol()

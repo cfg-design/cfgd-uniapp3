@@ -20,7 +20,7 @@ import {
 } from '../c-form-item/use'
 import {
   checkboxGroupInjectionKeyDisabled,
-  checkboxGroupInjectionKeyCheckbox,
+  checkboxGroupInjectionKeyCheckboxProps,
   checkboxGroupInjectionKeyGetIndex,
   checkboxGroupInjectionKeyCheck,
   checkboxGroupInjectionKeyValue,
@@ -114,7 +114,7 @@ interface Props {
    */
   path?: CheckboxProps['path']
   /**
-   * 是否展示校验反馈。
+   * 是否不展示校验反馈。
    * 默认： `undefined`
    */
   noFeedback?: CheckboxProps['noFeedback']
@@ -133,7 +133,7 @@ const formItemDisabled = inject(formItemInjectionKeyDisabled, ref(false))
 const formItemPath = inject(formItemInjectionKeyPath, ref())
 const formItemNoFeedback = inject(formItemInjectionKeyNoFeedback, ref(false))
 const checkboxGroupDisabled = inject(checkboxGroupInjectionKeyDisabled, ref(false))
-const checkboxGroupCheckbox = inject(checkboxGroupInjectionKeyCheckbox, ref())
+const checkboxGroupCheckbox = inject(checkboxGroupInjectionKeyCheckboxProps, ref({}))
 const checkboxGroupGetIndex = inject(checkboxGroupInjectionKeyGetIndex, () => 0)
 const checkboxGroupCheck = inject(checkboxGroupInjectionKeyCheck, null)
 const checkboxGroupValue = inject(checkboxGroupInjectionKeyValue, null)
@@ -148,8 +148,8 @@ const radiuses = useRadius()
 const configs = useConfigs()
 
 const props1 = computed(() => props.props ? mergeProps(props.props, omitProps(props)) : props)
-const props2 = computed(() => mergeProps(configs.value[props1.value.c!], { ...checkboxGroupCheckbox.value }))
-const propsC = computed(() => mergeProps(props2.value, props1.value))
+const props2 = computed(() => mergeProps<Props>(checkboxGroupCheckbox.value, props1.value))
+const propsC = computed(() => mergeProps(configs.value[props2.value.c!], props2.value))
 
 const valueC = computed(() => propsC.value.value || index)
 const checkedR = ref(getPropsBoolean(propsC.value.checked))

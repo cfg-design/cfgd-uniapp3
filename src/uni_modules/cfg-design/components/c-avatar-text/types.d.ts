@@ -10,7 +10,7 @@ export interface AvatarTextConfig {
    */
   color?: string
   /**
-   * 头像文字
+   * 头像文字。
    * 默认： `undefined`
    */
   text?: string

@@ -1,10 +1,10 @@
 <template>
 <view class="page">
-  <c-empty :view-props="{ cStyle: [{ minHeight: '100vw' }] }" />
+  <c-empty :c-style="[{ minHeight: '100vw' }]" />
   <c-line color="primary" />
   <c-empty c="search" />
   <c-line color="primary" />
-  <c-empty image="http://pic.kaiweixin.cn/upload/micropay/goods/picture/201606/02-161857-574febf17eae3.jpg?imageView2/1/w/160/h/120/format/webp/q/100" />
+  <c-empty :image="image" />
   <c-line color="primary" />
   <c-empty :icon-props="{ color: 'primary' }" :text-props="{ color: 'error' }" />
   <c-line color="primary" />
@@ -16,6 +16,10 @@
   <c-line color="primary" />
 </view>
 </template>
+
+<script setup lang="ts">
+import image from '@/assets/moon.png'
+</script>
 
 <style lang="scss">
 .page {

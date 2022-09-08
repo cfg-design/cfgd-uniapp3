@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { CSSProperties } from 'vue'
 import type { ValidationTrigger, FormRule } from '../c-form/types.d'
+import type { RadioProps } from '../c-radio/types.d'
 import type { RadioGroupProps, RadioGroupGetIndex, RadioGroupUpdateValue } from './types.d'
 import { computed, provide, inject, ref, watch } from 'vue'
 import { getPropsBoolean, omitProps, mergeProps } from '../../utils'
@@ -19,7 +20,7 @@ import {
 import {
   useConfigs,
   radioGroupInjectionKeyDisabled,
-  radioGroupInjectionKeyRadio,
+  radioGroupInjectionKeyRadioProps,
   radioGroupInjectionKeyGetIndex,
   radioGroupInjectionKeyUpdateValue,
   radioGroupInjectionKeyValue,
@@ -91,7 +92,7 @@ const disabledC = computed(() => getPropsBoolean(propsC.value.disabled))
 const pathC = computed(() => propsC.value.path || formItemPath.value)
 const rule = computed<FormRule | undefined>(() => !pathC.value || !formRules.value ? undefined : formRules.value[pathC.value])
 const hasOnChangeValidate = computed(() => hasTrigger(rule.value, 'change'))
-const radioC = computed(() => mergeProps({ cStyle: [{ margin: toCssUnit('10 0') }] }, propsC.value.radio))
+const radioC = computed(() => mergeProps<RadioProps>({ cStyle: [{ margin: toCssUnit('10 0') }] }, propsC.value.radio || {}))
 const validateErrors = computed(() => !pathC.value || !formFieldsErrors.value ? undefined : formFieldsErrors.value[pathC.value])
 
 const style1 = computed<CSSProperties>(() => {
@@ -132,7 +133,7 @@ watch(() => propsC.value.value, updateValue)
 watch(() => valueR.value, changeValidate)
 
 provide(radioGroupInjectionKeyDisabled, disabledC)
-provide(radioGroupInjectionKeyRadio, radioC)
+provide(radioGroupInjectionKeyRadioProps, radioC)
 provide(radioGroupInjectionKeyGetIndex, getIndex)
 provide(radioGroupInjectionKeyUpdateValue, updateValue)
 provide(radioGroupInjectionKeyValue, valueR)

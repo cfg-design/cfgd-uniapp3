@@ -32,7 +32,7 @@ export interface TabBarItemConfig {
    */
   activeIcon?: string
   /**
-   * activeIcon props = { ...props.iconProps, ...activeIconProps, color }，详情 c-icon props 。
+   * { ...mergeProps(props.iconProps, activeIconProps), color }，详情 c-icon props 。
    * 默认： `undefined`
    */
   activeIconProps?: IconProps

@@ -1,3 +1,7 @@
+* # [cfg-design for uniapp3 文档](https://cfg-design.github.io/cfgd-uniapp3-docs/)
+
+* # [cfg-design for uniapp3 H5](https://cfg-design.github.io/cfgd-uniapp3/#/)
+
 ```
 // 安装
 yarn

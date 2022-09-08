@@ -49,7 +49,7 @@ const propsC = computed(() => mergeProps(configs.value[props1.value.c!], props1.
 
 const valueR = ref<TabBarProps['value']>(propsC.value.value)
 
-const itemC = computed(() => propsC.value.item)
+const itemC = computed(() => propsC.value.item || {})
 
 const styles = computed(() => mergeProps({ x: [] }, { x: propsC.value.cStyle }).x)
 const classC = computed(() => mergeProps({ x: ['c-tab-bar'] }, { x: propsC.value.cClass }).x)

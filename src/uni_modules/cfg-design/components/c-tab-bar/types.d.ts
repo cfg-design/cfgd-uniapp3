@@ -1,5 +1,5 @@
 import type { HTMLAttributes } from 'vue'
-import type { TabBarItemConfig, TabBarItemProps } from '../c-tab-bar-item/types'
+import type { TabBarItemProps } from '../c-tab-bar-item/types'
 
 export interface TabBarConfig {
   cClass?: string | Record<string, any> | (string | Record<string, any>)[]
@@ -10,10 +10,10 @@ export interface TabBarConfig {
    */
   value?: TabBarItemProps['value']
   /**
-   * tab-bar-item TabBarItemConfig 。
+   * tab-bar-item TabBarItemProps 。
    * 默认： `undefined`
    */
-  item?: TabBarItemConfig
+  item?: TabBarItemProps
   /**
    * 项目。
    * 默认： `undefined`

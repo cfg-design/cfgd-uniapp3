@@ -5,6 +5,8 @@ import type { TextProps } from '../c-text/types'
 export interface TextareaConfig extends UTextareaProps {
   cClass?: string | Record<string, any> | (string | Record<string, any>)[]
   cStyle?: HTMLAttributes['style']
+  textareaClass?: string | Record<string, any> | (string | Record<string, any>)[]
+  textareaStyle?: HTMLAttributes['style']
   /**
    * 字体的大小。
    * 默认： `undefined`
@@ -29,7 +31,7 @@ export interface TextareaConfig extends UTextareaProps {
    * 输入字数统计的 c-text Props 。
    * 默认： `undefined`
    */
-  countTextProps?: TextProps
+  countProps?: TextProps
   /**
    * 是否显示边框。
    * 默认： `undefined`
@@ -51,7 +53,7 @@ export interface TextareaConfig extends UTextareaProps {
    */
   path?: string
   /**
-   * 是否展示校验反馈。
+   * 是否不展示校验反馈。
    * 默认： `undefined`
    */
   noFeedback?: boolean

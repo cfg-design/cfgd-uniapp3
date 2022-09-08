@@ -1,5 +1,6 @@
 import type { Ref, InjectionKey } from 'vue'
 import type { ValidateError } from 'async-validator'
+import type { RadioProps } from '../c-radio/types.d'
 import type { RadioGroupConfig, RadioGroupGetIndex, RadioGroupUpdateValue } from './types.d'
 import { ref } from 'vue'
 import { mergeRight } from 'ramda'
@@ -25,7 +26,7 @@ export const setConfigs = (_configs: Record<string, RadioGroupConfig>) => {
 export const useConfigs = () => configs
 
 export const radioGroupInjectionKeyDisabled: InjectionKey<Ref<boolean>> = Symbol()
-export const radioGroupInjectionKeyRadio: InjectionKey<Ref<RadioGroupConfig['radio']>> = Symbol()
+export const radioGroupInjectionKeyRadioProps: InjectionKey<Ref<RadioProps>> = Symbol()
 export const radioGroupInjectionKeyGetIndex: InjectionKey<RadioGroupGetIndex> = Symbol()
 export const radioGroupInjectionKeyUpdateValue: InjectionKey<RadioGroupUpdateValue> = Symbol()
 export const radioGroupInjectionKeyValue: InjectionKey<Ref<RadioGroupConfig['value']>> = Symbol()

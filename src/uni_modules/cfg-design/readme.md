@@ -18,5 +18,4 @@ setTextConfigs({
 ## 说明
 当前只测试了 h5 和 微信小程序
 
-## 文档
-待写
+## [官方文档](https://cfg-design.github.io/cfgd-uniapp3-docs/)

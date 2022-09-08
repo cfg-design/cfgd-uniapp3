@@ -1,5 +1,5 @@
 import type { CSSProperties, HTMLAttributes } from 'vue'
-import type { CheckboxConfig } from '../c-checkbox/types.d'
+import type { CheckboxProps } from '../c-checkbox/types.d'
 
 export interface CheckboxGroupConfig {
   cClass?: string | Record<string, any> | (string | Record<string, any>)[]
@@ -25,10 +25,10 @@ export interface CheckboxGroupConfig {
    */
   path?: string
   /**
-   * c-checkbox config 。
+   * c-checkbox props 。
    * 默认： `undefined`
    */
-  checkbox?: CheckboxConfig
+  checkbox?: CheckboxProps
 }
 
 export interface CheckboxGroupProps extends CheckboxGroupConfig {

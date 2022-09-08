@@ -29,10 +29,11 @@
 
 <script setup lang="ts">
 import { useRadius } from '@/uni_modules/cfg-design'
+import image from '@/assets/moon.png'
 
 const radius = useRadius()
 
-const scr = 'http://pic.kaiweixin.cn/upload/micropay/goods/picture/201606/02-161857-574febf17eae3.jpg?imageView2/1/w/160/h/120/format/webp/q/100'
+const scr = image
 </script>
 
 <style lang="scss">

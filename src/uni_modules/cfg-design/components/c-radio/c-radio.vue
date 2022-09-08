@@ -14,7 +14,7 @@ import {
 } from '../c-form-item/use'
 import {
   radioGroupInjectionKeyDisabled,
-  radioGroupInjectionKeyRadio,
+  radioGroupInjectionKeyRadioProps,
   radioGroupInjectionKeyGetIndex,
   radioGroupInjectionKeyUpdateValue,
   radioGroupInjectionKeyValue,
@@ -104,7 +104,7 @@ interface Props {
    */
   round?: RadioProps['round']
   /**
-   * 是否展示校验反馈。
+   * 是否不展示校验反馈。
    * 默认： `undefined`
    */
   noFeedback?: RadioProps['noFeedback']
@@ -115,7 +115,7 @@ const formItemSize = inject(formItemInjectionKeySize, ref(''))
 const formItemDisabled = inject(formItemInjectionKeyDisabled, ref(false))
 const formItemNoFeedback = inject(formItemInjectionKeyNoFeedback, ref(false))
 const radioGroupDisabled = inject(radioGroupInjectionKeyDisabled, ref(false))
-const radioGroupRadio = inject(radioGroupInjectionKeyRadio, ref())
+const radioGroupRadio = inject(radioGroupInjectionKeyRadioProps, ref({}))
 const radioGroupGetIndex = inject(radioGroupInjectionKeyGetIndex, () => 0)
 const radioGroupUpdateValue = inject(radioGroupInjectionKeyUpdateValue, null)
 const radioGroupValue = inject(radioGroupInjectionKeyValue, ref())
@@ -130,8 +130,8 @@ const radiuses = useRadius()
 const configs = useConfigs()
 
 const props1 = computed(() => props.props ? mergeProps(props.props, omitProps(props)) : props)
-const props2 = computed(() => mergeProps(configs.value[props1.value.c!], { ...radioGroupRadio.value }))
-const propsC = computed(() => mergeProps(props2.value, props1.value))
+const props2 = computed(() => mergeProps<Props>(radioGroupRadio.value, props1.value))
+const propsC = computed(() => mergeProps(configs.value[props2.value.c!], props2.value))
 
 const valueC = computed(() => propsC.value.value || index)
 const checkedR = ref(getPropsBoolean(propsC.value.checked))

@@ -44,7 +44,7 @@ export interface ImageConfig extends UImageProps {
    */
   spinProps?: SpinProps
   /**
-   * 不显示 spin 加载
+   * 不显示 spin 加载。
    * 默认： `undefined`
    */
   noSpin?: boolean

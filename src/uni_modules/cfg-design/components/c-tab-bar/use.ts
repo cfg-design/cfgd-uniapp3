@@ -1,4 +1,5 @@
 import type { Ref, InjectionKey } from 'vue'
+import type { TabBarItemProps } from '../c-tab-bar-item/types'
 import type { TabBarConfig, TabBarGetIndex, TabBarUpdateValue } from './types.d'
 import { ref } from 'vue'
 import { mergeRight } from 'ramda'
@@ -16,4 +17,4 @@ export const useConfigs = () => configs
 export const tabBarInjectionKeyValue: InjectionKey<Ref<string | number>> = Symbol()
 export const tabBarInjectionKeyGetIndex: InjectionKey<TabBarGetIndex> = Symbol()
 export const tabBarInjectionKeyUpdateValue: InjectionKey<TabBarUpdateValue> = Symbol()
-export const tabBarInjectionKeyItem: InjectionKey<Ref<TabBarConfig['item']>> = Symbol()
+export const tabBarInjectionKeyItem: InjectionKey<Ref<TabBarItemProps>> = Symbol()

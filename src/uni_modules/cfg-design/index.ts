@@ -85,13 +85,23 @@ export {
 // c-form
 export {
   setConfigs as setFormConfigs,
-  useConfigs as useFormConfigs
+  useConfigs as useFormConfigs,
+  hasTrigger,
+  formInjectionKeyDisabled,
+  formInjectionKeyFieldsErrors,
+  formInjectionKeyItemProps,
+  formInjectionKeyRules,
+  formInjectionKeyValidateField,
 } from './components/c-form/use'
 
 // c-form-item
 export {
   setConfigs as setFormItemConfigs,
-  useConfigs as useFormItemConfigs
+  useConfigs as useFormItemConfigs,
+  formItemInjectionKeyDisabled,
+  formItemInjectionKeyNoFeedback,
+  formItemInjectionKeyPath,
+  formItemInjectionKeySize
 } from './components/c-form-item/use'
 
 // c-icon

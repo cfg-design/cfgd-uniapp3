@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { CSSProperties } from 'vue'
 import type { ValidationTrigger, FormRule } from '../c-form/types.d'
+import type { CheckboxProps } from '../c-checkbox/types.d'
 import type { CheckboxGroupProps, CheckboxGroupGetIndex, CheckboxGroupCheck } from './types.d'
 import { computed, provide, inject, ref, watch } from 'vue'
 import { filter, difference } from 'ramda'
@@ -19,7 +20,7 @@ import {
 import {
   useConfigs ,
   checkboxGroupInjectionKeyDisabled,
-  checkboxGroupInjectionKeyCheckbox,
+  checkboxGroupInjectionKeyCheckboxProps,
   checkboxGroupInjectionKeyGetIndex,
   checkboxGroupInjectionKeyCheck,
   checkboxGroupInjectionKeyValue,
@@ -84,7 +85,7 @@ const disabledC = computed(() => getPropsBoolean(propsC.value.disabled))
 const pathC = computed(() => propsC.value.path || formItemPath.value)
 const rule = computed<FormRule | undefined>(() => !pathC.value || !formRules.value ? undefined : formRules.value[pathC.value])
 const hasOnChangeValidate = computed(() => hasTrigger(rule.value, 'change'))
-const checkboxC = computed(() => mergeProps({ cStyle: [{ margin: toCssUnit('10 0') }] }, propsC.value.checkbox))
+const checkboxC = computed(() => mergeProps<CheckboxProps>({ cStyle: [{ margin: toCssUnit('10 0') }] }, propsC.value.checkbox || {}))
 
 const style1 = computed<CSSProperties>(() => {
   const style: CSSProperties = {}
@@ -137,7 +138,7 @@ watch(() => propsC.value.value, (val) => {
 watch(() => valueR.value, changeValidate)
 
 provide(checkboxGroupInjectionKeyDisabled, disabledC)
-provide(checkboxGroupInjectionKeyCheckbox, checkboxC)
+provide(checkboxGroupInjectionKeyCheckboxProps, checkboxC)
 provide(checkboxGroupInjectionKeyGetIndex, getIndex)
 provide(checkboxGroupInjectionKeyCheck, check)
 provide(checkboxGroupInjectionKeyValue, valueR)

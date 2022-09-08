@@ -2,13 +2,13 @@
 <view class="page">
   <c-tabs :value="0" :items="items" />
   <c-tabs :value="0" :items="items2" />
-  <c-tabs :value="0" :items="items2" :view-props="{ cStyle:[{ justifyContent: 'space-around' }] }" />
+  <c-tabs :value="0" :items="items2" :c-style="[{ justifyContent: 'space-around' }]" />
   <c-tabs v-for="color in ['error', 'success', 'warning']" :key="color" :item="{ color }" :value="0" :items="items" />
   <c-tabs :value="0" :items="items3" />
   <c-tabs :value="0" :item="{ activeType: 'bg' }" :items="items" />
   <c-tabs :value="0" :item="{ activeType: 'bg' }" :items="items2" />
   <c-tabs :value="0" :item="{ activeType: 'bg' }" :items="items3" />
-  <c-tabs :value="0" :item="{ activeType: 'bg' }" :items="items3" :view-props="{ cStyle:[{ justifyContent: 'space-around' }] }" />
+  <c-tabs :value="0" :item="{ activeType: 'bg' }" :items="items3" :c-style="[{ justifyContent: 'space-around' }]" />
   <c-tabs v-model:value="modelValue" :items="items4">
     <template #item="{ item, index, active }">
       <c-tab-item v-if="index == 2" :props="item" :value="index">

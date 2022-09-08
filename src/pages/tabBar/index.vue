@@ -9,7 +9,7 @@
       <view v-if="index === 1" style="display: flex; flex-grow: 1; justify-content: center; width: 100%">
         <c-avatar-text color="error" size="70" text="+" text-color="#fff" :text-props="{ size: 50, cStyle: { marginBottom: '4rpx', lineHeight: '50rpx', height: '50rpx' } }" />
       </view>
-      <!-- 如果 item.value 为 undefined, 需要设置 :value="index" , active 值不会出错 -->
+      <!-- 如果 item.value 为 undefined, 需要设置 :value="index" , active 值才不会出错 -->
       <c-tab-bar-item v-else :props="item" :value="index" />
     </template>
   </c-tab-bar>
@@ -24,7 +24,7 @@
           round
         />
       </view>
-      <!-- 如果 item.value 为 undefined, 需要设置 :value="index" , active 值不会出错 -->
+      <!-- 如果 item.value 为 undefined, 需要设置 :value="index" , active 值才不会出错 -->
       <c-tab-bar-item v-else :props="item" :value="index" :c-style="{ width: '320rpx' }" />
     </template>
   </c-tab-bar>

@@ -1,5 +1,5 @@
 import type { CSSProperties, HTMLAttributes } from 'vue'
-import type { RadioConfig, RadioProps } from '../c-radio/types.d'
+import type { RadioProps } from '../c-radio/types.d'
 
 export interface RadioGroupConfig {
   cClass?: string | Record<string, any> | (string | Record<string, any>)[]
@@ -25,10 +25,10 @@ export interface RadioGroupConfig {
    */
   path?: string
   /**
-   * c-radio RadioConfig
+   * c-radio RadioProps
    * 默认： `undefined`
    */
-  radio?: RadioConfig
+  radio?: RadioProps
   /**
    * RadioProps[]
    */

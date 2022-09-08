@@ -89,7 +89,7 @@ export interface CellConfig {
    */
   rightIconProps?: IconProps
   /**
-   * 无点击反馈
+   * 无点击反馈 。
    * 默认： `false`
    */
   noClick?: boolean

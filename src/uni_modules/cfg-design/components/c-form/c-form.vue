@@ -9,7 +9,7 @@ import {
   useConfigs,
   formInjectionKeyRules,
   formInjectionKeyDisabled,
-  formInjectionKeyItemConfig,
+  formInjectionKeyItemProps,
   formInjectionKeyFieldsErrors,
   formInjectionKeyValidateField,
   triggerIncludes
@@ -161,7 +161,7 @@ const itemC = computed(() => ({
 }))
 
 provide(formInjectionKeyRules, rulesC)
-provide(formInjectionKeyItemConfig, itemC)
+provide(formInjectionKeyItemProps, itemC)
 provide(formInjectionKeyDisabled, disabledC)
 provide(formInjectionKeyFieldsErrors, fieldsErrors)
 provide(formInjectionKeyValidateField, validateField)

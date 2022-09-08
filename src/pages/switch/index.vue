@@ -54,13 +54,13 @@
     <c-form-item label="异步">
       <c-row gutter="20">
         <c-col span="auto">
-          <c-switch :value="active" :loading="loading" @update:value="(v) => updateValue(!!v)" />
+          <c-switch :value="active" :loading="loading" @update:value="updateValue" />
         </c-col>
         <c-col span="auto">
-          <c-switch :value="active" :loading="loading" round @update:value="(v) => updateValue(!!v)" />
+          <c-switch :value="active" :loading="loading" round @update:value="updateValue" />
         </c-col>
         <c-col span="auto">
-          <c-switch :value="active" :loading="loading" color="error" round @update:value="(v) => updateValue(!!v)" />
+          <c-switch :value="active" :loading="loading" color="error" round @update:value="updateValue" />
         </c-col>
         <c-col span="auto">
           <c-switch :value="active" :loading="loading" :spin-props="{ color: 'error', iconProps: { name: 'subtract-line' } }" round @update:value="(v) => updateValue(!!v)" />
@@ -97,11 +97,11 @@ import { ref } from 'vue'
 const loading = ref(false)
 const active = ref(false)
 
-const updateValue = (v: boolean) => {
+const updateValue = (v: any) => {
   loading.value = true
 
   setTimeout(() => {
-    active.value = v
+    active.value = !!v
     loading.value = false
   }, 1000)
 }

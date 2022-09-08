@@ -84,6 +84,7 @@
         <c-checkbox-group c="right">
           <c-checkbox v-for="i in 3" :key="i" :text="'text' + i" border-bottom />
           <c-checkbox v-for="i in 3" :key="i" :text="'text' + i" border radius="s l" />
+          <c-checkbox v-for="i in 3" :key="i" :text="'text' + i" border icon-wrap-style="border-radius: 100%;" />
         </c-checkbox-group>
       </c-form-item>
     </view>
