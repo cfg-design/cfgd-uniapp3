@@ -6,7 +6,7 @@
     <c-text>图标需要手动引入。当前图标：</c-text>
     <c-text>@/uni_modules/cfg-design/components/c-icon/icons</c-text>
     <view style="padding: 10rpx;"></view> -->
-    <c-cell v-for="(value, name) in icons" :key="name" :icon="name" :label="name" :value="'\\ue' + escapeValue(value)" @click="onClick(name)" />
+    <c-cell v-for="(value, name) in icons['c-icon']" :key="name" :icon="name" :label="name" :value="'\\ue' + escapeValue(value)" @click="onClick(name)" />
     <c-row cols="2" gutter="50 10" wrap :c-style="{ paddingTop: '100rpx' }">
       <c-col v-for="(_, color) in colors" :key="color" span="1" :c-style="{ alignItems: 'center' }">
         <c-icon :color="color" name="home-smile-2-line" size="8xl" />

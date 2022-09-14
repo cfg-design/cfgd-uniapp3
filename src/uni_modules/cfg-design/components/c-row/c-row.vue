@@ -27,7 +27,7 @@ interface Props {
    */
   cols?: RowProps['cols']
   /**
-   * 栅格水平间隔。
+   * 栅格间隔。
    * 默认： `undefined`
    */
   gutter?: RowProps['gutter']

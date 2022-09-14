@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { IconProps } from './types.d'
+import { path } from 'ramda'
 import { computed } from 'vue'
 import { omitProps, mergeProps } from '../../utils'
 import { useConfigs, useIcons } from './use'
@@ -44,14 +45,16 @@ const icons = useIcons()
 
 const props1 = computed(() => props.props ? mergeProps(props.props, omitProps(props)) : props)
 const propsC = computed(() => mergeProps(configs.value[props1.value.c!], props1.value))
+const familyC = computed(() => propsC.value.family || 'c-icon')
+const nameC = computed(() => propsC.value.name && path<string>([familyC.value, propsC.value.name], icons.value) || propsC.value.name || '')
 </script>
 
 <template>
   <c-text
     :props="propsC.textProps"
-    :c-style="[{ fontFamily: propsC.family || 'c-icon', lineHeight: 1 }]"
+    :c-style="[{ fontFamily: familyC, lineHeight: 1 }]"
     :size="propsC.size"
     :color="propsC.color"
-    :text="propsC.name && icons[propsC.name] || propsC.name || ''"
+    :text="nameC"
   />
 </template>

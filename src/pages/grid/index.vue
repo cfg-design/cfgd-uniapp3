@@ -152,10 +152,10 @@
       <view class="content" style="height: 200rpx"><c-text>align</c-text></view>
     </c-col>
     <c-col :span="4">
-      <view class="content"><c-text>center</c-text></view>
+      <view class="content"><c-text>flex-end</c-text></view>
     </c-col>
     <c-col :span="4">
-      <view class="content"><c-text>center</c-text></view>
+      <view class="content"><c-text>flex-end</c-text></view>
     </c-col>
   </c-row>
   <view class="span">

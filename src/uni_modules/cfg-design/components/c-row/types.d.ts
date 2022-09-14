@@ -9,7 +9,7 @@ export interface RowConfig {
    */
   cols?: number | string
   /**
-   * 栅格水平间隔。
+   * 栅格间隔。
    * 默认： `undefined`
    */
   gutter?: string | number | (string | number)[]

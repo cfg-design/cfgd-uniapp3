@@ -1,3 +1,5 @@
+## 1.0.5-alpha（2022-09-14）
+setIcons 和 addIcons 添加 family 参数
 ## 1.0.4-alpha（2022-09-08）
 1. CForm.Props.item 的类型改为 FormItemProps；
 2. checkboxGroupInjectionKeyCheckbox 改为 checkboxGroupInjectionKeyCheckboxProps；
