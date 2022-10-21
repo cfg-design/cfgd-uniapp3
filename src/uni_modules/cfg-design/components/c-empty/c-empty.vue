@@ -6,10 +6,10 @@ import { useConfigs } from './use'
 
 interface Props {
   props?: EmptyProps
-  cClase?: EmptyProps['cClass']
+  cClass?: EmptyProps['cClass']
   cStyle?: EmptyProps['cStyle']
   /**
-   * 配置名。使用 `useEmptyConfigs()` 查看配置数据。使用 `setEmptyConfigs()` 进行配置。
+   * 配置名，[使用说明](https://cfg-design.github.io/cfgd-uniapp3-docs/guide/props.html) 。
    * 默认： `default`
    */
   c?: EmptyProps['c']
@@ -19,7 +19,7 @@ interface Props {
    */
   icon?: EmptyProps['icon']
   /**
-   * c-icon props 。
+   * [IconProps](https://cfg-design.github.io/cfgd-uniapp3-docs/components/icon.html#props) 。
    * 默认： `undefined`
    */
   iconProps?: EmptyProps['iconProps']
@@ -29,7 +29,7 @@ interface Props {
    */
   image?: EmptyProps['image']
   /**
-   * c-image props 。
+   * [ImageProps](https://cfg-design.github.io/cfgd-uniapp3-docs/components/image.html#api) 。
    * 默认： `undefined`
    */
   imageProps?: EmptyProps['imageProps']
@@ -39,12 +39,12 @@ interface Props {
    */
   text?: EmptyProps['text']
   /**
-   * c-text props 。
+   * [TextProps](https://cfg-design.github.io/cfgd-uniapp3-docs/components/text.html#props) 。
    * 默认： `undefined`
    */
   textProps?: EmptyProps['textProps']
   /**
-   * c-button props 。
+   * [ButtonProps](https://cfg-design.github.io/cfgd-uniapp3-docs/components/button.html#props) 。 。
    * 默认： `undefined`
    */
   buttonProps?: EmptyProps['buttonProps']

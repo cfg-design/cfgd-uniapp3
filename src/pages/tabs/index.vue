@@ -8,7 +8,7 @@
   <c-tabs :value="0" :item="{ activeType: 'bg' }" :items="items" />
   <c-tabs :value="0" :item="{ activeType: 'bg' }" :items="items2" />
   <c-tabs :value="0" :item="{ activeType: 'bg' }" :items="items3" />
-  <c-tabs :value="0" :item="{ activeType: 'bg' }" :items="items3" :c-style="[{ justifyContent: 'space-around' }]" />
+  <c-tabs c="equal" :value="0" :item="{ activeType: 'bg' }" :items="items3" />
   <c-tabs v-model:value="modelValue" :items="items4">
     <template #item="{ item, index, active }">
       <c-tab-item v-if="index == 2" :props="item" :value="index">
@@ -36,7 +36,7 @@
 </template>
 
 <script setup lang="ts">
-import type { TabItemProps } from '@/uni_modules/cfg-design'
+import type { TabItemProps } from '@/uni_modules/cfg-design/types.d'
 import { ref } from 'vue'
 
 const modelValue = ref(0)

@@ -23,7 +23,7 @@ export interface FormConfig extends UFormProps {
    */
   disabled?: boolean
   /**
-   * c-form-item props 。
+   * [FormItemProps](https://cfg-design.github.io/cfgd-uniapp3-docs/components/form.html#form-item-props) 。
    * 默认： `undefined`
    */
   item?: FormItemProps
@@ -31,7 +31,7 @@ export interface FormConfig extends UFormProps {
 
 export interface FormProps extends FormConfig {
   /**
-   * 配置名。使用 `useFormConfigs()` 查看配置数据。使用 `setFormConfigs()` 进行配置。
+   * 配置名，[使用说明](https://cfg-design.github.io/cfgd-uniapp3-docs/guide/props.html) 。
    * 默认： `default`
    */
   c?: string

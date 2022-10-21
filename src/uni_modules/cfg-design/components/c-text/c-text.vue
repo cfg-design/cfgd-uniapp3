@@ -2,9 +2,8 @@
 import type { CSSProperties } from 'vue'
 import type { TextProps } from './types.d'
 import { computed } from 'vue'
-import { useColors, useFontSizes } from '../../styles'
+import { useColors, useFontSizes, getSize } from '../../styles'
 import { getPropsBoolean, omitProps, mergeProps } from '../../utils'
-import { getSize } from '../../styles'
 import { useConfigs } from './use'
 
 interface Props {
@@ -12,7 +11,7 @@ interface Props {
   cClass?: TextProps['cClass']
   cStyle?: TextProps['cStyle']
   /**
-   * 配置名。使用 `useTextConfigs()` 查看配置数据。使用 `setTextConfigs()` 进行配置。
+   * 配置名，[使用说明](https://cfg-design.github.io/cfgd-uniapp3-docs/guide/props.html) 。
    * 默认： `default`
    */
   c?: TextProps['c']
@@ -22,12 +21,12 @@ interface Props {
    */
   text?: TextProps['text']
   /**
-   * 字体颜色。 `useColors()` 可以查看配置数据。使用 `setColors()` 进行配置。
+   * 字体颜色，[使用说明](https://cfg-design.github.io/cfgd-uniapp3-docs/guide/colors.html) 。
    * 默认： `undefined`
    */
   color?: TextProps['color']
   /**
-   * 字体大小。 `useFontSizes()` 可以查看配置数据。使用 `setFontSizes()` 进行配置。
+   * 字体大小，[使用说明](https://cfg-design.github.io/cfgd-uniapp3-docs/guide/font-sizes.html) 。
    * 默认： `undefined`
    */
   size?: TextProps['size']

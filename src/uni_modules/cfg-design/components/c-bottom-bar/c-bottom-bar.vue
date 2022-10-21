@@ -1,17 +1,17 @@
 <script setup lang="ts">
 import type { CSSProperties } from 'vue'
 import type { BottomBarProps } from './types.d'
-import { computed, ref, onMounted, getCurrentInstance } from 'vue'
+import { computed, ref, onMounted, onBeforeUnmount, getCurrentInstance } from 'vue'
 import { toCssUnit } from '../../styles'
 import { getPropsBoolean, omitProps, mergeProps, getRect } from '../../utils'
 import { useConfigs } from './use'
 
 interface Props {
   props?: BottomBarProps
-  cClase?: BottomBarProps['cClass']
+  cClass?: BottomBarProps['cClass']
   cStyle?: BottomBarProps['cStyle']
   /**
-   * 配置名。使用 `useTopBarConfigs()` 查看配置数据。使用 `setTopBarConfigs()` 进行配置。
+   * 配置名，[使用说明](https://cfg-design.github.io/cfgd-uniapp3-docs/guide/props.html) 。
    * 默认： `default`
    */
   c?: BottomBarProps['c']
@@ -71,12 +71,27 @@ const style = computed<CSSProperties>(() => ({
 const styleC = computed(() => mergeProps({ x: [style.value] }, { x: propsC.value.cStyle }).x)
 const classC = computed(() => mergeProps({ x: ['c-bottom-bar__wrap', { 'c-bottom-bar__fixed': !noFixedC.value }] }, { x: propsC.value.cClass }).x)
 
-const handleInit = () => getRect(getCurrentInstance()!, '.c-bottom-bar__wrap')
-  .then(({ height }) => {
+const that = getCurrentInstance()!
+
+const handleInit = () => {
+  clearTimeout(handleInit.timer)
+  handleInit.num ++
+
+  if (handleInit.num > 10) return undefined
+
+  getRect(that, '.c-bottom-bar__wrap').then(({ height }) => {
     heightR.value = height || 0
+
+    if (!height) {
+      handleInit.timer = setTimeout(handleInit, 100)
+    }
   })
+}
+handleInit.timer = 0
+handleInit.num = 0
 
 onMounted(handleInit)
+onBeforeUnmount(() => clearTimeout(handleInit.timer))
 </script>
 
 <template>

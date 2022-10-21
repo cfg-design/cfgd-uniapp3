@@ -24,6 +24,7 @@ onHide(() => {
   /* #endif */
   box-sizing: border-box;
   background-color: #f2f6f8;
+  font-family: Avenir,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Arial,Noto Sans,sans-serif,"Apple Color Emoji","Segoe UI Emoji",Segoe UI Symbol,"Noto Color Emoji",sans-serif;
 }
 
 ::-webkit-scrollbar {
@@ -33,4 +34,12 @@ onHide(() => {
   -webkit-appearance: none;
   background: transparent;
 }
+
+/* #ifdef MP */
+.c-tabs-equal {
+  c-tab-item {
+    width: 100%;
+  }
+}
+/* #endif */
 </style>

@@ -17,7 +17,7 @@ interface Props {
   cClass?: TabItemProps['cClass']
   cStyle?: TabItemProps['cStyle']
   /**
-   * 配置名。使用 useTabItemConfigs() 查看配置数据。使用 setTabItemConfigs() 进行配置。
+   * 配置名，[使用说明](https://cfg-design.github.io/cfgd-uniapp3-docs/guide/props.html) 。
    * 默认： default
    */
   c?: TabItemProps['c']
@@ -27,7 +27,7 @@ interface Props {
    */
   value?: TabItemProps['value']
   /**
-   * 颜色。 `useColors()` 可以查看配置数据。使用 `setColors()` 进行配置。
+   * 颜色，[使用说明](https://cfg-design.github.io/cfgd-uniapp3-docs/guide/colors.html) 。
    * 默认： `undefined`
    */
   color?: TabItemProps['color']
@@ -42,7 +42,7 @@ interface Props {
    */
   text?: TabItemProps['text']
   /**
-   * 详情 c-text props 。
+   * [TextProps](https://cfg-design.github.io/cfgd-uniapp3-docs/components/text.html#props) 。
    * 默认： `undefined`
    */
   textProps?: TabItemProps['textProps']
@@ -52,7 +52,7 @@ interface Props {
    */
   badge?: TabItemProps['badge']
   /**
-   * 详情 c-badge props 。
+   * [BadgeProps](https://cfg-design.github.io/cfgd-uniapp3-docs/components/badge.html#props) 。
    * 默认： `undefined`
    */
   badgeProps?: TabItemProps['badgeProps']
@@ -62,7 +62,7 @@ interface Props {
    */
   dot?: TabItemProps['dot']
   /**
-   * 详情 c-line props 。
+   * [LineProps](https://cfg-design.github.io/cfgd-uniapp3-docs/components/line.html#props) 。
    * 默认： `undefined`
    */
   lineProps?: TabItemProps['lineProps']
@@ -116,7 +116,7 @@ const classC = computed(() => mergeProps({ x: ['c-tab-item'] }, { x: propsC.valu
 
 const textPropsC = computed(() => mergeProps({
   color: textColorC.value,
-  cStyle: [{ textAlign: 'center', whiteSpace: 'nowrap' }]
+  cStyle: [{ whiteSpace: 'nowrap' }]
 }, propsC.value.textProps))
 
 const badgePropsC = computed(() => mergeProps({

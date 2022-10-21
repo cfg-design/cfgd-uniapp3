@@ -190,9 +190,8 @@
 </template>
 
 <script setup lang="ts">
-import type { FormRules, RadioConfig } from '@/uni_modules/cfg-design'
+import type { FormRules, RadioConfig, CFormInstance } from '@/uni_modules/cfg-design/types.d'
 import { ref } from 'vue'
-import CForm from '@/uni_modules/cfg-design/components/c-form/c-form.vue'
 import Form1 from './form1.vue'
 
 const defaultFormData = {
@@ -214,7 +213,7 @@ const sexs: RadioConfig[] = [
   { text: '保密[no-feedback]', value: '3', noFeedback: true }
 ]
 
-const formRef = ref<InstanceType<typeof CForm>>()
+const formRef = ref<CFormInstance>()
 const formData = ref({ ...defaultFormData })
 const rules: FormRules = {
   name: [{ required: true, message: '用户名不能为空', trigger: 'input' }],

@@ -43,7 +43,7 @@
 </template>
 
 <script setup lang="ts">
-import type { TabBarItemProps } from '@/uni_modules/cfg-design'
+import type { TabBarItemProps } from '@/uni_modules/cfg-design/types.d'
 
 const items: TabBarItemProps[] = [
   {

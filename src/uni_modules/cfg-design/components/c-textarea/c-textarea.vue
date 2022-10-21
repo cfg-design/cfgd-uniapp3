@@ -27,7 +27,7 @@ interface Props {
   textareaClass?: TextareaProps['textareaClass']
   textareaStyle?: TextareaProps['textareaStyle']
   /**
-   * 配置名。使用 `useTextareaConfigs()` 查看配置数据。使用 `setTextareaConfigs()` 进行配置。
+   * 配置名，[使用说明](https://cfg-design.github.io/cfgd-uniapp3-docs/guide/props.html) 。
    * 默认： `default`
    */
   c?: TextareaProps['c']
@@ -52,7 +52,7 @@ interface Props {
    */
   showCount?: TextareaProps['showCount']
   /**
-   * 输入字数统计的 c-text Props 。
+   * 输入字数统计的 [TextProps](https://cfg-design.github.io/cfgd-uniapp3-docs/components/text.html#props) 。
    * 默认： `undefined`
    */
   countProps?: TextareaProps['countProps']
@@ -67,7 +67,7 @@ interface Props {
    */
   borderBottom?: TextareaProps['borderBottom']
   /**
-   * 圆角值。 `useRadius()` 可以查看配置数据。使用 `setRadius()` 进行配置。
+   * 圆角值，[使用说明](https://cfg-design.github.io/cfgd-uniapp3-docs/guide/radiuses.html) 。
    * 默认： `undefined`
    */
   radius?: TextareaProps['radius']

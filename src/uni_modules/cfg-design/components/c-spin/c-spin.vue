@@ -10,17 +10,17 @@ interface Props {
   cClass?: SpinProps['cClass']
   cStyle?: SpinProps['cStyle']
   /**
-   * 配置名。使用 useSpinConfigs() 查看配置数据。使用 setSpinConfigs() 进行配置。
+   * 配置名，[使用说明](https://cfg-design.github.io/cfgd-uniapp3-docs/guide/props.html) 。
    * 默认： default
    */
   c?: SpinProps['c']
    /**
-    * 图标和文案的颜色。`useColors()` 可以查看配置数据。使用 `setColors()` 进行配置。
+    * 图标和文案的颜色，[使用说明](https://cfg-design.github.io/cfgd-uniapp3-docs/guide/colors.html) 。
     * 默认： `undefined`
     */
    color?: SpinProps['color']
    /**
-    * 图标大小。`useFontSizes()` 可以查看配置数据。使用 setFontSizes() 进行配置。
+    * 图标大小，[使用说明](https://cfg-design.github.io/cfgd-uniapp3-docs/guide/font-sizes.html。
     * 默认： `undefined`
     */
    size?: SpinProps['size']
@@ -30,7 +30,7 @@ interface Props {
    */
   icon?: SpinProps['icon']
   /**
-   * 详情查看 c-icon props
+   * [IconProps](https://cfg-design.github.io/cfgd-uniapp3-docs/components/icon.html#props) 。
    * 默认： `undefined`
    */
   iconProps?: SpinProps['iconProps']
@@ -40,7 +40,7 @@ interface Props {
    */
   tip?: SpinProps['tip']
   /**
-   * 详情查看 c-text props
+   * [TextProps](https://cfg-design.github.io/cfgd-uniapp3-docs/components/text.html#props) 。
    * 默认： `undefined`
    */
   tipProps?: SpinProps['tipProps']
@@ -127,7 +127,6 @@ const classC = computed(() => mergeProps({ x: ['c-spin'] }, { x: propsC.value.cC
   justify-content: center;
   overflow: hidden;
 
-  /* #ifndef APP-NVUE */
   &__icon-wrap {
     /* #ifndef APP-NVUE */
     display: flex;
@@ -135,9 +134,10 @@ const classC = computed(() => mergeProps({ x: ['c-spin'] }, { x: propsC.value.cC
 
     box-sizing: border-box;
     transform: rotate(0deg);
+    /* #ifndef APP-NVUE */
     animation: rotate 1.5s linear infinite;
+    /* #endif */
   }
-  /* #endif */
 }
 
 /* #ifndef APP-NVUE */

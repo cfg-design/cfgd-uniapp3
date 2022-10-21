@@ -13,7 +13,7 @@ export interface EmptyConfig {
    */
   icon?: IconProps['name']
   /**
-   * c-icon props 。
+   * [IconProps](https://cfg-design.github.io/cfgd-uniapp3-docs/components/icon.html#props) 。
    * 默认： `undefined`
    */
   iconProps?: IconProps
@@ -23,7 +23,7 @@ export interface EmptyConfig {
    */
   image?: ImageProps['src']
   /**
-   * c-image props 。
+   * [ImageProps](https://cfg-design.github.io/cfgd-uniapp3-docs/components/image.html#api) 。
    * 默认： `undefined`
    */
   imageProps?: ImageProps
@@ -33,12 +33,12 @@ export interface EmptyConfig {
    */
   text?: string
   /**
-   * c-text props 。
+   * [TextProps](https://cfg-design.github.io/cfgd-uniapp3-docs/components/text.html#props) 。
    * 默认： `undefined`
    */
   textProps?: TextProps
   /**
-   * c-button props 。
+   * [ButtonProps](https://cfg-design.github.io/cfgd-uniapp3-docs/components/button.html#props) 。 。
    * 默认： `undefined`
    */
   buttonProps?: ButtonProps
@@ -46,7 +46,7 @@ export interface EmptyConfig {
 
 export interface EmptyProps extends EmptyConfig {
   /**
-   * 配置名。使用 `useEmptyConfigs()` 查看配置数据。使用 `setEmptyConfigs()` 进行配置。
+   * 配置名，[使用说明](https://cfg-design.github.io/cfgd-uniapp3-docs/guide/props.html) 。
    * 默认： `default`
    */
   c?: string

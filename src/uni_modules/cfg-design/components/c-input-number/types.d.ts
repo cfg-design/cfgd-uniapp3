@@ -26,7 +26,7 @@ export interface InputNumberConfig {
    */
   step?: number
   /**
-   * 颜色。 useColors() 可以查看配置数据。使用 setColors() 进行配置。
+   * 颜色，[使用说明](https://cfg-design.github.io/cfgd-uniapp3-docs/guide/colors.html) 。
    * 默认： undefined
    */
   color?: string
@@ -36,17 +36,17 @@ export interface InputNumberConfig {
    */
   size?: string | number
   /**
-   * c-input props 。
+   * [InputProps](https://cfg-design.github.io/cfgd-uniapp3-docs/components/input.html#props) 。
    * 默认： `undefined`
    */
   inputProps?: InputProps
   /**
-   * 详情查看 c-button props
+   * [ButtonProps](https://cfg-design.github.io/cfgd-uniapp3-docs/components/button.html#props) 。
    * 默认： `undefined`
    */
   plusButtonProps?: ButtonProps
   /**
-   * 详情查看 c-button props
+   * [ButtonProps](https://cfg-design.github.io/cfgd-uniapp3-docs/components/button.html#props) 。
    * 默认： `undefined`
    */
   minusButtonProps?: ButtonProps
@@ -56,7 +56,7 @@ export interface InputNumberConfig {
    */
   disabled?: boolean
   /**
-   * 圆角值。 `useRadius()` 可以查看配置数据。使用 `setRadius()` 进行配置。
+   * 圆角值，[使用说明](https://cfg-design.github.io/cfgd-uniapp3-docs/guide/radiuses.html) 。
    * 默认： `undefined`
    */
   radius?: string | number
@@ -69,7 +69,7 @@ export interface InputNumberConfig {
 
 export interface InputNumberProps extends InputNumberConfig {
   /**
-   * 配置名。使用 `useInputNumberConfigs()` 查看配置数据。使用 `setInputNumberConfigs()` 进行配置。
+   * 配置名，[使用说明](https://cfg-design.github.io/cfgd-uniapp3-docs/guide/props.html) 。
    * 默认： `default`
    */
   c?: string

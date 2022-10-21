@@ -50,7 +50,7 @@ export interface LoadMoreConfig {
 
 export interface LoadMoreProps extends LoadMoreConfig {
   /**
-   * 配置名。使用 `useLindConfigs()` 查看配置数据。使用 `setLindConfigs()` 进行配置。
+   * 配置名，[使用说明](https://cfg-design.github.io/cfgd-uniapp3-docs/guide/props.html) 。
    * 默认： `default`
    */
   c?: string

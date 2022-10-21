@@ -1,7 +1,11 @@
 <template>
 <view class="page">
   <c-top-bar z-index="999" status-bar>
-    <c-nav-bar title="TopBar 顶部栏" left-icon="arrow-left-s-line" @click:left="goBack" />
+    <c-nav-bar title="TopBar 顶部栏" left-icon="arrow-left-s-line" @click:left="goBack" @click:right="search">
+      <template #right>
+        <c-icon name="search-line" size="2xl" />
+      </template>
+    </c-nav-bar>
     <c-tabs :value="0" :items="[{ text: '类型1' }, { text: '类型2' }, { text: '类型3' }, { text: 'c-top-bar + c-tabs' }]" />
     <c-line />
   </c-top-bar>
@@ -27,6 +31,7 @@
 
 <script setup lang="ts">
 const goBack = () => uni.navigateBack()
+const search = () => uni.showToast({ title: '@click:right', icon: 'none' })
 </script>
 
 <style lang="scss">

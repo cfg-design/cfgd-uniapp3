@@ -6,10 +6,10 @@ import { useConfigs } from './use'
 
 interface Props {
   props?: NavBarProps
-  cClase?: NavBarProps['cClass']
+  cClass?: NavBarProps['cClass']
   cStyle?: NavBarProps['cStyle']
   /**
-   * 配置名。使用 `useNavBarConfigs()` 查看配置数据。使用 `setNavBarConfigs()` 进行配置。
+   * 配置名，[使用说明](https://cfg-design.github.io/cfgd-uniapp3-docs/guide/props.html) 。
    * 默认： `default`
    */
   c?: NavBarProps['c']
@@ -19,7 +19,7 @@ interface Props {
    */
   leftIcon?: NavBarProps['leftIcon']
   /**
-   * c-icon props 。
+   * [IconProps](https://cfg-design.github.io/cfgd-uniapp3-docs/components/icon.html#props) 。
    * 默认： `undefined`
    */
   leftIconProps?: NavBarProps['leftIconProps']
@@ -29,7 +29,7 @@ interface Props {
    */
   leftText?: NavBarProps['leftText']
   /**
-   * c-text props 。
+   * [TextProps](https://cfg-design.github.io/cfgd-uniapp3-docs/components/text.html#props) 。
    * 默认： `undefined`
    */
   leftTextProps?: NavBarProps['leftTextProps']
@@ -39,7 +39,7 @@ interface Props {
    */
   title?: NavBarProps['title']
   /**
-   * c-text props 。
+   * [TextProps](https://cfg-design.github.io/cfgd-uniapp3-docs/components/text.html#props) 。
    * 默认： `undefined`
    */
   titleProps?: NavBarProps['titleProps']
@@ -63,13 +63,13 @@ const classC = computed(() => mergeProps({ x: ['c-nav-bar'] }, { x: propsC.value
 
 <template>
 <view :class="classC" :style="(styleC as any)">
-  <view class="c-nav-bar__left" @click="emits('click:left')">
+  <view v-if="$slots.left || $slots.$left || leftIconC || propsC.leftText" class="c-nav-bar__left" @click="emits('click:left')">
     <slot name="left">
       <c-icon v-if="leftIconC" :props="{ size: '27px', ...propsC.leftIconProps }" :name="leftIconC" />
       <c-text v-if="propsC.leftText" :props="{ size: '14px', ...propsC.leftTextProps }" :text="propsC.leftText" />
     </slot>
   </view>
-  <view class="c-nav-bar__right" @click="emits('click:right')">
+  <view v-if="$slots.right || $slots.$right" class="c-nav-bar__right" @click="emits('click:right')">
     <slot name="right" />
   </view>
   <view class="c-nav-bar__title">
@@ -82,6 +82,10 @@ const classC = computed(() => mergeProps({ x: ['c-nav-bar'] }, { x: propsC.value
 .c-nav-bar {
   /* #ifndef APP-NVUE */
   display: flex;
+  /* #endif */
+
+  /* #ifdef MP */
+  // padding-right: 94px;
   /* #endif */
 
   box-sizing: border-box;
@@ -105,6 +109,8 @@ const classC = computed(() => mergeProps({ x: ['c-nav-bar'] }, { x: propsC.value
 
   &__left,
   &__right {
+    position: relative;
+    z-index: 2;
     padding: 0 20rpx;
   }
 

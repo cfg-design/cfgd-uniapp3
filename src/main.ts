@@ -1,7 +1,10 @@
+import './plugins/cfg-design'
+
 import { createSSRApp } from 'vue'
-import App from './App.vue'
 import i18n from './plugins/i18n'
-import { icons, setIcons } from '@/uni_modules/cfg-design'
+import App from './App.vue'
+import { setIcons } from '@/uni_modules/cfg-design'
+import icons from '@/uni_modules/cfg-design/components/c-icon/icons'
 
 setIcons('c-icon', icons)
 

@@ -1,11 +1,12 @@
 <script setup lang="ts">
-import type { TabBarProps, TabBarGetIndex, TabBarUpdateValue } from './types.d'
-import { computed, provide, ref, watch } from 'vue'
+import type { TabBarItemProps } from '../c-tab-bar-item/types'
+import type { TabBarProps, TabBarGetIndex } from './types.d'
+import { computed, provide } from 'vue'
 import { mergeProps, omitProps } from '../../utils'
 import {
   useConfigs,
   tabBarInjectionKeyGetIndex,
-  tabBarInjectionKeyUpdateValue,
+  tabBarInjectionKeyClickItem,
   tabBarInjectionKeyValue,
   tabBarInjectionKeyItem
 } from './use'
@@ -15,7 +16,7 @@ interface Props {
   cClass?: TabBarProps['cClass']
   cStyle?: TabBarProps['cStyle']
   /**
-   * 配置名。使用 `useTabBarConfigs()` 查看配置数据。使用 `setTabBarConfigs()` 进行配置。
+   * 配置名，[使用说明](https://cfg-design.github.io/cfgd-uniapp3-docs/guide/props.html) 。
    * 默认： `default`
    */
   c?: TabBarProps['c']
@@ -37,6 +38,7 @@ interface Props {
 }
 
 interface Emits {
+  (e: 'click:item', v: TabBarItemProps): void
   (e: 'update:value', v: Props['value']): void
 }
 
@@ -47,8 +49,7 @@ const configs = useConfigs()
 const props1 = computed(() => props.props ? mergeProps(props.props, omitProps(props)) : props)
 const propsC = computed(() => mergeProps(configs.value[props1.value.c!], props1.value))
 
-const valueR = ref<TabBarProps['value']>(propsC.value.value)
-
+const valueC = computed(() => propsC.value.value || 0)
 const itemC = computed(() => propsC.value.item || {})
 
 const styles = computed(() => mergeProps({ x: [] }, { x: propsC.value.cStyle }).x)
@@ -57,18 +58,14 @@ const classC = computed(() => mergeProps({ x: ['c-tab-bar'] }, { x: propsC.value
 let index = 0
 const getIndex: TabBarGetIndex = () => index ++
 
-const updateValue: TabBarUpdateValue = (val) => {
-  if (valueR.value !== val) {
-    valueR.value = val
-    props.value !== val && emits('update:value', valueR.value)
-  }
+const clickItem = (item: TabBarItemProps) => {
+  emits('update:value', item.value)
+  emits('click:item', item)
 }
 
-watch(() => propsC.value.value, updateValue)
-
 provide(tabBarInjectionKeyGetIndex, getIndex)
-provide(tabBarInjectionKeyUpdateValue, updateValue)
-provide(tabBarInjectionKeyValue, valueR)
+provide(tabBarInjectionKeyClickItem, clickItem)
+provide(tabBarInjectionKeyValue, valueC)
 provide(tabBarInjectionKeyItem, itemC)
 </script>
 
@@ -79,7 +76,7 @@ provide(tabBarInjectionKeyItem, itemC)
       name="item"
       :index="index"
       :item="item"
-      :active="item.value !== undefined ? item.value === valueR : index === valueR"
+      :active="item.value !== undefined ? item.value === propsC.value : index === propsC.value"
     >
       <c-tab-bar-item :props="item" />
     </slot>

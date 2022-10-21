@@ -11,7 +11,7 @@ export interface NavBarConfig {
    */
   leftIcon?: string
   /**
-   * c-icon props 。
+   * [IconProps](https://cfg-design.github.io/cfgd-uniapp3-docs/components/icon.html#props) 。
    * 默认： `undefined`
    */
   leftIconProps?: IconProps
@@ -21,7 +21,7 @@ export interface NavBarConfig {
    */
   leftText?: string
   /**
-   * c-text props 。
+   * [TextProps](https://cfg-design.github.io/cfgd-uniapp3-docs/components/text.html#props) 。
    * 默认： `undefined`
    */
   leftTextProps?: TextProps
@@ -31,7 +31,7 @@ export interface NavBarConfig {
    */
   title?: string
   /**
-   * c-text props 。
+   * [TextProps](https://cfg-design.github.io/cfgd-uniapp3-docs/components/text.html#props) 。
    * 默认： `undefined`
    */
   titleProps?: TextProps
@@ -39,7 +39,7 @@ export interface NavBarConfig {
 
 export interface NavBarProps extends NavBarConfig {
   /**
-   * 配置名。使用 `useNavBarConfigs()` 查看配置数据。使用 `setNavBarConfigs()` 进行配置。
+   * 配置名，[使用说明](https://cfg-design.github.io/cfgd-uniapp3-docs/guide/props.html) 。
    * 默认： `default`
    */
   c?: string

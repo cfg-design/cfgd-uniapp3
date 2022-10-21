@@ -13,7 +13,7 @@ interface Props {
   imageClass?: ImageProps['imageClass']
   imageStyle?: ImageProps['imageStyle']
   /**
-   * 配置名。使用 `useImageConfigs()` 查看配置数据。使用 `setImageConfigs()` 进行配置。
+   * 配置名，[使用说明](https://cfg-design.github.io/cfgd-uniapp3-docs/guide/props.html) 。
    * 默认： `default`
    */
   c?: ImageProps['c']
@@ -61,7 +61,7 @@ interface Props {
    */
   height?: ImageProps['height']
   /**
-   * 圆角值。 `useRadius()` 可以查看配置数据。使用 `setRadius()` 进行配置。
+   * 圆角值，[使用说明](https://cfg-design.github.io/cfgd-uniapp3-docs/guide/radiuses.html) 。
    * 默认： `undefined`
    */
   radius?: ImageProps['radius']
@@ -71,17 +71,17 @@ interface Props {
    */
   round?: ImageProps['round']
   /**
-   * 详情查看 c-icon props 。 `src` 为空时，显示 `icon` 图标。
+   * [IconProps](https://cfg-design.github.io/cfgd-uniapp3-docs/components/icon.html#props) 。 `src` 为空时，显示 `icon` 图标。
    * 默认： `undefined`
    */
   iconProps?: ImageProps['iconProps']
   /**
-   * 详情查看 c-icon props 。 加载图片失败时，显示 `icon` 图标。
+   * [IconProps](https://cfg-design.github.io/cfgd-uniapp3-docs/components/icon.html#props) 。 加载图片失败时，显示 `icon` 图标。
    * 默认： `undefined`
    */
   errorProps?: ImageProps['errorProps']
   /**
-   * 详情查看 c-spin props 。
+   * [SpinProps](https://cfg-design.github.io/cfgd-uniapp3-docs/components/spin.html#props) 。
    * 默认： `undefined`
    */
   spinProps?: ImageProps['spinProps']

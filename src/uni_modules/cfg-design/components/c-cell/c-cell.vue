@@ -6,10 +6,10 @@ import { useConfigs } from './use'
 
 interface Props {
   props?: CellProps
-  cClase?: CellProps['cClass']
+  cClass?: CellProps['cClass']
   cStyle?: CellProps['cStyle']
   /**
-   * 配置名。使用 `useCellConfigs()` 查看配置数据。使用 `setCellConfigs()` 进行配置。
+   * 配置名，[使用说明](https://cfg-design.github.io/cfgd-uniapp3-docs/guide/props.html) 。
    * 默认： `default`
    */
   c?: CellProps['c']
@@ -19,7 +19,7 @@ interface Props {
    */
   icon?: CellProps['icon']
   /**
-   * 详情查看 c-icon props 。
+   * [IconProps](https://cfg-design.github.io/cfgd-uniapp3-docs/components/icon.html#props) 。
    * 默认： `undefined`
    */
   iconProps?: CellProps['iconProps']
@@ -29,7 +29,7 @@ interface Props {
    */
   image?: CellProps['image']
   /**
-   * 详情查看 c-image props 。
+   * [ImageProps](https://cfg-design.github.io/cfgd-uniapp3-docs/components/image.html#api) 。
    * 默认： `undefined`
    */
   imageProps?: CellProps['imageProps']
@@ -39,7 +39,7 @@ interface Props {
    */
   avatar?: CellProps['avatar']
   /**
-   * 详情查看 c-avatar props 。
+   * [AvatarProps](https://cfg-design.github.io/cfgd-uniapp3-docs/components/avatar.html#props) 。
    * 默认： `undefined`
    */
   avatarProps?: CellProps['avatarProps']
@@ -49,7 +49,7 @@ interface Props {
    */
   avatarText?: CellProps['avatarText']
   /**
-   * 详情查看 c-avatar-text props 。
+   * [AvatarTextProps](https://cfg-design.github.io/cfgd-uniapp3-docs/components/avatar.html#avatar-text-props) 。
    * 默认： `undefined`
    */
   avatarTextProps?: CellProps['avatarTextProps']
@@ -59,7 +59,7 @@ interface Props {
    */
   label?: CellProps['label']
   /**
-   * 详情查看 c-text props 。
+   * [TextProps](https://cfg-design.github.io/cfgd-uniapp3-docs/components/text.html#props) 。
    * 默认： `undefined`
    */
   labelProps?: CellProps['labelProps']
@@ -69,7 +69,7 @@ interface Props {
    */
   brief?: CellProps['brief']
   /**
-   * 详情查看 c-text props 。
+   * [TextProps](https://cfg-design.github.io/cfgd-uniapp3-docs/components/text.html#props) 。
    * 默认： `undefined`
    */
   briefProps?: CellProps['briefProps']
@@ -79,7 +79,7 @@ interface Props {
    */
   value?: CellProps['value']
   /**
-   * 详情查看 c-text props 。
+   * [TextProps](https://cfg-design.github.io/cfgd-uniapp3-docs/components/text.html#props) 。
    * 默认： `undefined`
    */
   valueProps?: CellProps['valueProps']
@@ -89,7 +89,7 @@ interface Props {
    */
   rightIcon?: CellProps['rightIcon']
   /**
-   * 详情查看 c-icon props 。
+   * [IconProps](https://cfg-design.github.io/cfgd-uniapp3-docs/components/icon.html#props) 。
    * 默认： `undefined`
    */
   rightIconProps?: CellProps['rightIconProps']

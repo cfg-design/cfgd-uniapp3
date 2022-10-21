@@ -29,7 +29,7 @@ export interface InputConfig extends UInputProps {
    */
   icon?: string
   /**
-   * 详情查看 c-icon props
+   * [IconProps](https://cfg-design.github.io/cfgd-uniapp3-docs/components/icon.html#props) 。
    * 默认： `undefined`
    */
   iconProps?: IconProps
@@ -39,7 +39,7 @@ export interface InputConfig extends UInputProps {
    */
   rightIcon?: string
   /**
-   * 详情查看 c-icon props
+   * [IconProps](https://cfg-design.github.io/cfgd-uniapp3-docs/components/icon.html#props) 。
    * 默认： `undefined`
    */
   rightIconProps?: IconProps
@@ -54,7 +54,7 @@ export interface InputConfig extends UInputProps {
    */
   clearable?: boolean
   /**
-   * 详情查看 c-icon props
+   * [IconProps](https://cfg-design.github.io/cfgd-uniapp3-docs/components/icon.html#props) 。
    * 默认： `undefined`
    */
   clearIconProps?: IconProps
@@ -64,7 +64,7 @@ export interface InputConfig extends UInputProps {
    */
   showCount?: boolean
   /**
-   * 输入字数统计的 c-text Props 。
+   * [TextProps](https://cfg-design.github.io/cfgd-uniapp3-docs/components/text.html#props) 。
    * 默认： `undefined`
    */
   countProps?: TextProps
@@ -79,7 +79,7 @@ export interface InputConfig extends UInputProps {
    */
   borderBottom?: boolean
   /**
-   * 圆角值。 `useRadius()` 可以查看配置数据。使用 `setRadius()` 进行配置。
+   * 圆角值，[使用说明](https://cfg-design.github.io/cfgd-uniapp3-docs/guide/radiuses.html) 。
    * 默认： `undefined`
    */
   radius?: string | number
@@ -102,7 +102,7 @@ export interface InputConfig extends UInputProps {
 
 export interface InputProps extends InputConfig {
   /**
-   * 配置名。使用 `useInputConfigs()` 查看配置数据。使用 `setInputConfigs()` 进行配置。
+   * 配置名，[使用说明](https://cfg-design.github.io/cfgd-uniapp3-docs/guide/props.html) 。
    * 默认： `default`
    */
   c?: string

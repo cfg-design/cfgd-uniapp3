@@ -8,10 +8,10 @@ import { useConfigs } from './use'
 
 interface Props {
   props?: ColProps
-  cClase?: ColProps['cClass']
+  cClass?: ColProps['cClass']
   cStyle?: ColProps['cStyle']
   /**
-   * 配置名。使用 `useColConfigs()` 查看配置数据。使用 `setColConfigs()` 进行配置。
+   * 配置名，[使用说明](https://cfg-design.github.io/cfgd-uniapp3-docs/guide/props.html) 。
    * 默认： `default`
    */
   c?: ColProps['c']

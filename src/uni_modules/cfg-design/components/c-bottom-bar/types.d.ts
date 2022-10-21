@@ -32,7 +32,7 @@ export interface BottomBarConfig {
 
 export interface BottomBarProps extends BottomBarConfig {
   /**
-   * 配置名。使用 `useBottomBarConfigs()` 查看配置数据。使用 `setBottomBarConfigs()` 进行配置。
+   * 配置名，[使用说明](https://cfg-design.github.io/cfgd-uniapp3-docs/guide/props.html) 。
    * 默认： `default`
    */
   c?: string

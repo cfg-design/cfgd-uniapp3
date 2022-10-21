@@ -8,12 +8,12 @@ import { useConfigs, useIcons } from './use'
 interface Props {
   props?: IconProps,
   /**
-   * 配置名。使用 `useIconConfigs()` 查看配置数据。使用 `setIconConfigs()` 进行配置。
+   * 配置名，[使用说明](https://cfg-design.github.io/cfgd-uniapp3-docs/guide/props.html) 。
    * 默认： `default`
    */
   c?: IconProps['c']
   /**
-   * 详情请查看 c-text props 。
+   * [TextProps](https://cfg-design.github.io/cfgd-uniapp3-docs/components/text.html#props) 。
    * 默认： `undefined`
    */
   textProps?: IconProps['textProps']
@@ -23,7 +23,7 @@ interface Props {
    */
   family?: IconProps['family']
   /**
-   * 字体图标名称。 使用 `useIcons()` 查看配置数据。使用 `setIcons(icons)` 进行配置。 也可使用字体代码，如 `&#xe616;` 。
+   * 字体图标名称，[使用说明](https://cfg-design.github.io/cfgd-uniapp3-docs/components/icon.html) 。
    * 默认： `undefined`
    */
   name?: IconProps['name']

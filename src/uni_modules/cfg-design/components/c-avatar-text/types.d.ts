@@ -5,7 +5,7 @@ export interface AvatarTextConfig {
   cClass?: string | Record<string, any> | (string | Record<string, any>)[]
   cStyle?: HTMLAttributes['style']
   /**
-   * 背景颜色。 `useColors()` 可以查看配置数据。使用 `setColors()` 进行配置。
+   * 背景颜色， [使用说明](https://cfg-design.github.io/cfgd-uniapp3-docs/guide/colors.html) 。
    * 默认： `undefined`
    */
   color?: string
@@ -15,12 +15,12 @@ export interface AvatarTextConfig {
    */
   text?: string
   /**
-   * 头像文字的颜色。详情查看 c-text props.color
+   * 头像文字的颜色，[使用说明](https://cfg-design.github.io/cfgd-uniapp3-docs/guide/colors.html) 。
    * 默认： `undefined`
    */
   textColor?: string
   /**
-   * 详情查看 c-text props
+   * [TextProps](https://cfg-design.github.io/cfgd-uniapp3-docs/components/text.html#props) 。
    * 默认： `undefined`
    */
   textProps?: TextProps
@@ -30,7 +30,7 @@ export interface AvatarTextConfig {
    */
   size?: string | number
   /**
-   * 圆角值。 `useRadius()` 可以查看配置数据。使用 `setRadius()` 进行配置。
+   * 圆角值，[使用说明](https://cfg-design.github.io/cfgd-uniapp3-docs/guide/radiuses.html) 。
    * 默认： `undefined`
    */
   radius?: string | number
@@ -43,7 +43,7 @@ export interface AvatarTextConfig {
 
 export interface AvatarTextProps extends AvatarTextConfig {
   /**
-   * 配置名。使用 `useAvatarTextConfigs()` 查看配置数据。使用 `setAvatarTextConfigs()` 进行配置。
+   * 配置名，[使用说明](https://cfg-design.github.io/cfgd-uniapp3-docs/guide/props.html) 。
    * 默认： `default`
    */
   c?: string

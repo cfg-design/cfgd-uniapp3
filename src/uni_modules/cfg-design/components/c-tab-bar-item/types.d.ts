@@ -12,7 +12,7 @@ export interface TabBarItemConfig {
    */
   value?: string | number
   /**
-   * 颜色。 `useColors()` 可以查看配置数据。使用 `setColors()` 进行配置。
+   * 颜色，[使用说明](https://cfg-design.github.io/cfgd-uniapp3-docs/guide/colors.html) 。
    * 默认： `undefined`
    */
   color?: string
@@ -22,7 +22,7 @@ export interface TabBarItemConfig {
    */
   icon?: string
   /**
-   * 详情 c-icon props 。
+   * [IconProps](https://cfg-design.github.io/cfgd-uniapp3-docs/components/icon.html#props) 。
    * 默认： `undefined`
    */
   iconProps?: IconProps
@@ -32,7 +32,7 @@ export interface TabBarItemConfig {
    */
   activeIcon?: string
   /**
-   * { ...mergeProps(props.iconProps, activeIconProps), color }，详情 c-icon props 。
+   * activeIcon props = { ...mergeProps(props.iconProps, activeIconProps), color }，[IconProps](https://cfg-design.github.io/cfgd-uniapp3-docs/components/icon.html#props) 。
    * 默认： `undefined`
    */
   activeIconProps?: IconProps
@@ -42,7 +42,7 @@ export interface TabBarItemConfig {
    */
   text?: string
   /**
-   * 详情 c-text props 。
+   * [TextProps](https://cfg-design.github.io/cfgd-uniapp3-docs/components/text.html#props) 。
    * 默认： `undefined`
    */
   textProps?: TextProps
@@ -52,7 +52,7 @@ export interface TabBarItemConfig {
    */
   badge?: BadgeProps['text']
   /**
-   * 详情 c-badge props 。
+   * [BadgeProps](https://cfg-design.github.io/cfgd-uniapp3-docs/components/badge.html#props) 。
    * 默认： `undefined`
    */
   badgeProps?: BadgeProps
@@ -65,7 +65,7 @@ export interface TabBarItemConfig {
 
 export interface TabBarItemProps extends TabBarItemConfig {
   /**
-   * 配置名。使用 `useTabBarItemConfigs()` 查看配置数据。使用 `setTabBarItemConfigs()` 进行配置。
+   * 配置名，[使用说明](https://cfg-design.github.io/cfgd-uniapp3-docs/guide/props.html) 。
    * 默认： `default`
    */
   c?: string

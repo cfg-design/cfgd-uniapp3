@@ -16,17 +16,17 @@ export interface ProgressConfig {
    */
   size?: string | number
   /**
-   * 进度。详情 c-line props 。
+   * 进度，[LineProps](https://cfg-design.github.io/cfgd-uniapp3-docs/components/line.html#props) 。
    * 默认： `undefined`
    */
   activeProps?: LineProps
   /**
-   * 背景。详情 c-line props 。
+   * 背景，[LineProps](https://cfg-design.github.io/cfgd-uniapp3-docs/components/line.html#props) 。
    * 默认： `undefined`
    */
   bgProps?: LineProps
   /**
-   * c-text props 。
+   * [TextProps](https://cfg-design.github.io/cfgd-uniapp3-docs/components/text.html#props) 。
    * 默认： `undefined`
    */
   textProps?: TextProps
@@ -44,7 +44,7 @@ export interface ProgressConfig {
 
 export interface ProgressProps extends ProgressConfig {
   /**
-   * 配置名。使用 `useProgressConfigs()` 查看配置数据。使用 `setProgressConfigs()` 进行配置。
+   * 配置名，[使用说明](https://cfg-design.github.io/cfgd-uniapp3-docs/guide/props.html) 。
    * 默认： `default`
    */
   c?: string

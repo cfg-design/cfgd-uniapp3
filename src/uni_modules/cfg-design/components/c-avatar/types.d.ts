@@ -2,7 +2,7 @@ import type { ImageProps } from '../c-image/types.d'
 
 export interface AvatarConfig {
   /**
-   * 详情请查看 c-image props 。
+   * [ImageProps](https://cfg-design.github.io/cfgd-uniapp3-docs/components/image.html#api) 。
    * 默认： `default`
    */
   imageProps?: ImageProps
@@ -17,7 +17,7 @@ export interface AvatarConfig {
    */
   size?: string | number
   /**
-   * 圆角值。详情请查看 c-image props.radius 。
+   * 圆角值，[使用说明](https://cfg-design.github.io/cfgd-uniapp3-docs/guide/radiuses.html) 。
    * 默认： `undefined`
    */
   radius?: string | number
@@ -30,7 +30,7 @@ export interface AvatarConfig {
 
 export interface AvatarProps extends AvatarConfig {
   /**
-   * 配置名。使用 `useAvatarConfigs()` 查看配置数据。使用 `setAvatarConfigs()` 进行配置。
+   * 配置名，[使用说明](https://cfg-design.github.io/cfgd-uniapp3-docs/guide/props.html) 。
    * 默认： `default`
    */
    c?: string

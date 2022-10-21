@@ -13,12 +13,12 @@ export interface RadioConfig {
    */
   activeType?: 'default' | 'icon'
   /**
-   * 颜色。 `useColors()` 可以查看配置数据。使用 `setColors()` 进行配置。
+   * 颜色，[使用说明](https://cfg-design.github.io/cfgd-uniapp3-docs/guide/colors.html) 。
    * 默认： `undefined`
    */
   color?: string
   /**
-   * 字体大小。 useFontSizes() 可以查看配置数据。使用 setFontSizes() 进行配置。
+   * 字体大小，[使用说明](https://cfg-design.github.io/cfgd-uniapp3-docs/guide/font-sizes.html) 。
    * 默认： undefined
    */
   size?: string | number
@@ -43,7 +43,7 @@ export interface RadioConfig {
    */
   readonly?: boolean
   /**
-   * icon 勾，详情查看 c-icon props 。
+   * icon 勾，[IconProps](https://cfg-design.github.io/cfgd-uniapp3-docs/components/icon.html#props) 。
    * 默认： `undefined`
    */
   iconProps?: IconProps
@@ -53,7 +53,7 @@ export interface RadioConfig {
    */
   text?: string
   /**
-   * 文字 c-text props 。
+   * [TextProps](https://cfg-design.github.io/cfgd-uniapp3-docs/components/text.html#props) 。
    * 默认： `undefined`
    */
   textProps?: TextProps
@@ -68,7 +68,7 @@ export interface RadioConfig {
    */
   borderBottom?: boolean
   /**
-   * 圆角值。 `useRadius()` 可以查看配置数据。使用 `setRadius()` 进行配置。
+   * 圆角值，[使用说明](https://cfg-design.github.io/cfgd-uniapp3-docs/guide/radiuses.html) 。
    * 默认： `undefined`
    */
   radius?: string | number
@@ -91,7 +91,7 @@ export interface RadioConfig {
 
 export interface RadioProps extends RadioConfig {
   /**
-   * 配置名。使用 `useRadioConfigs()` 查看配置数据。使用 `setRadioConfigs()` 进行配置。
+   * 配置名，[使用说明](https://cfg-design.github.io/cfgd-uniapp3-docs/guide/props.html) 。
    * 默认： `default`
    */
   c?: string

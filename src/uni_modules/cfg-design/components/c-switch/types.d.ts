@@ -6,17 +6,17 @@ export interface SwitchConfig {
   cClass?: string | Record<string, any> | (string | Record<string, any>)[]
   cStyle?: HTMLAttributes['style']
   /**
-   * 颜色。 `useColors()` 可以查看配置数据。使用 `setColors()` 进行配置。
+   * 颜色，[使用说明](https://cfg-design.github.io/cfgd-uniapp3-docs/guide/colors.html) 。
    * 默认： `undefined`
    */
   color?: string
   /**
-   * 背景颜色。 `useColors()` 可以查看配置数据。使用 `setColors()` 进行配置。
+   * 背景颜色，[使用说明](https://cfg-design.github.io/cfgd-uniapp3-docs/guide/colors.html) 。
    * 默认： `undefined`
    */
   bgColor?: string
   /**
-   * 字体大小。 `useFontSizes()` 可以查看配置数据。使用 setFontSizes() 进行配置。
+   * 字体大小，[使用说明](https://cfg-design.github.io/cfgd-uniapp3-docs/guide/font-sizes.html) 。
    * 默认： undefined
    */
   size?: string | number
@@ -41,7 +41,7 @@ export interface SwitchConfig {
    */
   checkedText?: string
   /**
-   * 文字 c-text props 。
+   * [TextProps](https://cfg-design.github.io/cfgd-uniapp3-docs/components/text.html#props) 。
    * 默认： `undefined`
    */
   checkedTextProps?: TextProps
@@ -51,7 +51,7 @@ export interface SwitchConfig {
    */
   unCheckedText?: string
   /**
-   * 文字 c-text props 。
+   * [TextProps](https://cfg-design.github.io/cfgd-uniapp3-docs/components/text.html#props) 。
    * 默认： `undefined`
    */
   unCheckedTextProps?: TextProps
@@ -71,12 +71,12 @@ export interface SwitchConfig {
    */
   loading?: boolean
   /**
-   * 文字 c-spin props 。
+   * [SpinProps](https://cfg-design.github.io/cfgd-uniapp3-docs/components/spin.html#props) 。
    * 默认： `undefined`
    */
   spinProps?: SpinProps
   /**
-   * 圆角值。 `useRadius()` 可以查看配置数据。使用 `setRadius()` 进行配置。
+   * 圆角值，[使用说明](https://cfg-design.github.io/cfgd-uniapp3-docs/guide/radiuses.html) 。
    * 默认： `undefined`
    */
   radius?: string | number
@@ -99,7 +99,7 @@ export interface SwitchConfig {
 
 export interface SwitchProps extends SwitchConfig {
   /**
-   * 配置名。使用 `useSwitchConfigs()` 查看配置数据。使用 `setSwitchConfigs()` 进行配置。
+   * 配置名，[使用说明](https://cfg-design.github.io/cfgd-uniapp3-docs/guide/props.html) 。
    * 默认： `default`
    */
   c?: string

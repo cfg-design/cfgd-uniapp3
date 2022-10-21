@@ -9,10 +9,10 @@ import { useConfigs as useTextConfig } from '../c-text/use'
 
 interface Props {
   props?: ProgressProps
-  cClase?: ProgressProps['cClass']
+  cClass?: ProgressProps['cClass']
   cStyle?: ProgressProps['cStyle']
   /**
-   * 配置名。使用 `useProgressConfigs()` 查看配置数据。使用 `setProgressConfigs()` 进行配置。
+   * 配置名，[使用说明](https://cfg-design.github.io/cfgd-uniapp3-docs/guide/props.html) 。
    * 默认： `default`
    */
   c?: ProgressProps['c']
@@ -27,17 +27,17 @@ interface Props {
    */
   size?: ProgressProps['size']
   /**
-   * 进度。详情 c-line props 。
+   * 进度，[LineProps](https://cfg-design.github.io/cfgd-uniapp3-docs/components/line.html#props) 。
    * 默认： `undefined`
    */
   activeProps?: ProgressProps['activeProps']
   /**
-   * 背景。详情 c-line props 。
+   * 背景，[LineProps](https://cfg-design.github.io/cfgd-uniapp3-docs/components/line.html#props) 。
    * 默认： `undefined`
    */
   bgProps?: ProgressProps['bgProps']
   /**
-   * 背景。详情 c-text props 。
+   * [TextProps](https://cfg-design.github.io/cfgd-uniapp3-docs/components/text.html#props) 。
    * 默认： `undefined`
    */
   textProps?: ProgressProps['textProps']
@@ -62,6 +62,7 @@ const props1 = computed(() => props.props ? mergeProps(props.props, omitProps(pr
 const propsC = computed(() => mergeProps(configs.value[props1.value.c!], props1.value))
 const percentC = computed(() => (propsC.value.percent || 0) + '%')
 const showTextC = computed(() => getPropsBoolean(propsC.value.showText))
+const roundC = computed(() => getPropsBoolean(propsC.value.round))
 const sizeC = computed(() => {
   const { size, textProps } = propsC.value
 
@@ -81,7 +82,16 @@ const textSizeC = computed(() => {
   return size ? `calc(${sizeC.value} * 0.8)` : undefined
 })
 
-const styleC = computed(() => mergeProps({ x: [] }, { x: propsC.value.cStyle }).x)
+const style1 = computed(() => {
+  const style: CSSProperties = {}
+
+  if (roundC.value) {
+    style.borderRadius = '9999px'
+  }
+
+  return style
+})
+const styleC = computed(() => mergeProps({ x: [style1.value] }, { x: propsC.value.cStyle }).x)
 const classC = computed(() => mergeProps({ x: ['c-progress'] }, { x: propsC.value.cClass }).x)
 const absoluteStyle = computed<CSSProperties>(() => ({
   position: 'absolute',
@@ -93,7 +103,6 @@ const progresLineProps = computed(() => mergeProps({
   color: 'primary',
   length: percentC.value,
   width: sizeC.value,
-  round: propsC.value.round,
   cStyle: [absoluteStyle.value]
 }, propsC.value.activeProps))
 const textPropsC = computed(() => mergeProps({
@@ -119,7 +128,7 @@ const textPropsC = computed(() => mergeProps({
 
 <template>
 <view :class="classC" :style="(styleC as any)">
-  <c-line style="width:100%" :props="{ length: '100%', width: sizeC, round: propsC.round, ...propsC.bgProps }" />
+  <c-line style="width:100%" :props="{ length: '100%', width: sizeC, ...propsC.bgProps }" />
   <c-line :props="progresLineProps" />
   <c-text v-if="showTextC" :props="textPropsC" />
 </view>
@@ -133,5 +142,6 @@ const textPropsC = computed(() => mergeProps({
 
   box-sizing: border-box;
   position: relative;
+  overflow: hidden;
 }
 </style>

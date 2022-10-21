@@ -6,10 +6,10 @@ import { useConfigs } from './use'
 
 interface Props {
   props?: LoadMoreProps
-  cClase?: LoadMoreProps['cClass']
+  cClass?: LoadMoreProps['cClass']
   cStyle?: LoadMoreProps['cStyle']
   /**
-   * 配置名。使用 `useLindConfigs()` 查看配置数据。使用 `setLindConfigs()` 进行配置。
+   * 配置名，[使用说明](https://cfg-design.github.io/cfgd-uniapp3-docs/guide/props.html) 。
    * 默认： `default`
    */
   c?: LoadMoreProps['c']
@@ -74,8 +74,8 @@ const textC = computed(() => loadingC.value
   : propsC.value.text || '加载更多'
 )
 const linePropsC = computed(() => mergeProps({ length: '160', color: 'placeholder', cStyle: [{ flexShrink: 1, margin: '0 30rpx' }] }, propsC.value.lineProps))
-const textPropsC = computed(() => mergeProps({ cStyle: [{ whiteSpace: 'nowrap' }] }, propsC.value.textProps))
-const spinPropsC = computed(() => mergeProps({ color: 'main', size: 'l', cStyle: [{ marginRight: '20rpx' }] }, propsC.value.spinProps))
+const textPropsC = computed(() => mergeProps({ color: 'tertiary', cStyle: [{ whiteSpace: 'nowrap' }] }, propsC.value.textProps))
+const spinPropsC = computed(() => mergeProps({ color: 'tertiary', size: 'l', cStyle: [{ marginRight: '20rpx' }] }, propsC.value.spinProps))
 const styleC = computed(() => mergeProps({ x: [] }, { x: propsC.value.cStyle }).x)
 const classC = computed(() => mergeProps({ x: ['c-load-more'] }, { x: propsC.value.cClass }).x)
 

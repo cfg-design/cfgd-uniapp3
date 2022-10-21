@@ -6,12 +6,12 @@ export interface TagConfig {
   cClass?: string | Record<string, any> | (string | Record<string, any>)[]
   cStyle?: HTMLAttributes['style']
   /**
-   * 背景和边框颜色。 `useColors()` 可以查看配置数据。使用 `setColors()` 进行配置。
+   * 背景和边框颜色，[使用说明](https://cfg-design.github.io/cfgd-uniapp3-docs/guide/colors.html) 。
    * 默认： `undefined`
    */
   color?: string
   /**
-   * 大小。详情查看 c-text props.size
+   * 大小，[使用说明](https://cfg-design.github.io/cfgd-uniapp3-docs/guide/font-sizes.html) 。
    * 默认： `undefined`
    */
   size?: string | number
@@ -21,12 +21,12 @@ export interface TagConfig {
    */
   text?: string
   /**
-   * 文字的颜色。详情查看 c-text props.color
+   * 文字的颜色，[使用说明](https://cfg-design.github.io/cfgd-uniapp3-docs/guide/colors.html) 。
    * 默认： `undefined`
    */
   textColor?: string
   /**
-   * 详情查看 c-text props
+   * [TextProps](https://cfg-design.github.io/cfgd-uniapp3-docs/components/text.html#props) 。
    * 默认： `undefined`
    */
   textProps?: TextProps
@@ -36,7 +36,7 @@ export interface TagConfig {
    */
   icon?: string
   /**
-   * 详情查看 c-icon props
+   * [IconProps](https://cfg-design.github.io/cfgd-uniapp3-docs/components/icon.html#props) 。
    * 默认： `undefined`
    */
   iconProps?: IconProps
@@ -46,12 +46,12 @@ export interface TagConfig {
    */
   closable?: boolean
   /**
-   * 详情查看 c-icon props
+   * [IconProps](https://cfg-design.github.io/cfgd-uniapp3-docs/components/icon.html#props) 。
    * 默认： `undefined`
    */
   closeIconProps?: IconProps
   /**
-   * 圆角值。 `useRadius()` 可以查看配置数据。使用 `setRadius()` 进行配置。
+   * 圆角值，[使用说明](https://cfg-design.github.io/cfgd-uniapp3-docs/guide/radiuses.html) 。
    * 默认： `undefined`
    */
   radius?: string | number
@@ -69,7 +69,7 @@ export interface TagConfig {
 
 export interface TagProps extends TagConfig {
   /**
-   * 配置名。使用 `useTagConfigs()` 查看配置数据。使用 `setTagConfigs()` 进行配置。
+   * 配置名，[使用说明](https://cfg-design.github.io/cfgd-uniapp3-docs/guide/props.html) 。
    * 默认： `default`
    */
   c?: string

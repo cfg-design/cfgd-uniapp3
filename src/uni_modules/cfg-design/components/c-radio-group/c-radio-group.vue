@@ -29,10 +29,10 @@ import {
 
 interface Props {
   props?: RadioGroupProps,
-  cClase?: RadioGroupProps['cClass']
+  cClass?: RadioGroupProps['cClass']
   cStyle?: RadioGroupProps['cStyle']
   /**
-   * 配置名。使用 `useRadioGroupConfigs()` 查看配置数据。使用 `setRadioGroupConfigs()` 进行配置。
+   * 配置名，[使用说明](https://cfg-design.github.io/cfgd-uniapp3-docs/guide/props.html) 。
    * 默认： `default`
    */
   c?: RadioGroupProps['c']
@@ -57,7 +57,7 @@ interface Props {
    */
   path?: RadioGroupProps['path']
   /**
-   * radio 一些设置，详情查看 radio props 。
+   * [RadioProps](https://cfg-design.github.io/cfgd-uniapp3-docs/components/radio.html#props) 。
    * 默认： `undefined`
    */
   radio?: RadioGroupProps['radio']

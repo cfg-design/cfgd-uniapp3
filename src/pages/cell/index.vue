@@ -15,11 +15,11 @@
     />
 
     <c-cell>
-      <template #left><c-text>slot:left</c-text></template>
-      <template #label><c-text>slot:label</c-text></template>
-      <template #brief><c-text>slot:brief</c-text></template>
-      <c-text color="primary">slot:default&nbsp;</c-text>
-      <template #right><c-text>slot:right</c-text></template>
+      <template #left><c-text>#left</c-text></template>
+      <template #label><c-text>#label</c-text></template>
+      <template #brief><c-text>#brief</c-text></template>
+      <c-text color="primary">#default&nbsp;</c-text>
+      <template #right><c-text>#right</c-text></template>
     </c-cell>
   </view>
 </template>

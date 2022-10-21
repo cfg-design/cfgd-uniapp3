@@ -1,9 +1,9 @@
 <template>
 <view class="page">
-  <c-tab-bar :value="0" :items="items" />
-  <c-tab-bar :value="0" :items="items2" />
-  <c-tab-bar :value="0" :items="items3" />
-  <c-tab-bar :value="0" :items="items3" />
+  <c-tab-bar :value="0" :items="items" @click:item="onClickItem" />
+  <c-tab-bar :value="1" :items="items2" />
+  <c-tab-bar :value="2" :items="items3" />
+  <c-tab-bar :value="1" :items="items3" />
   <c-tab-bar :value="0" :items="items" c-class="lll">
     <template #item="{ item, index, active }">
       <view v-if="index === 1" style="display: flex; flex-grow: 1; justify-content: center; width: 100%">
@@ -28,17 +28,18 @@
       <c-tab-bar-item v-else :props="item" :value="index" :c-style="{ width: '320rpx' }" />
     </template>
   </c-tab-bar>
-  <c-tab-bar v-for="color in ['error', 'warning', 'success', '#7546c9']" :key="color" :item="{ color }" :value="0" :items="items" />
-  <c-tab-bar :item="{ color: 'success', activeIconProps: { color: 'error' } }" :value="0" :items="items2" />
-  <c-tab-bar :value="0" :items="items4" />
+  <c-tab-bar v-for="color in ['error', 'warning', 'success', '#7546c9']" :key="color" v-model:value="modelValue" :item="{ color }" :items="items" />
+  <c-tab-bar :item="{ color: 'success', activeIconProps: { color: 'error' } }" v-model:value="modelValue" :items="items2" />
+  <c-tab-bar  v-model:value="modelValue" :items="items4" />
 </view>
 </template>
 
 <script setup lang="ts">
-import type { TabBarItemProps } from '@/uni_modules/cfg-design'
+import type { TabBarItemProps } from '@/uni_modules/cfg-design/types.d'
 import { ref } from 'vue'
 
 const modelValue = ref(0)
+
 const items: TabBarItemProps[] = [
   {
     icon: 'home-smile-2-line',
@@ -109,6 +110,11 @@ const items4: TabBarItemProps[] = [
     color: 'warning'
   }
 ]
+
+const onClickItem = (item: TabBarItemProps) => {
+  uni.showToast({ title: item.text, icon: 'none'})
+  console.log(item)
+}
 </script>
 
 <style lang="scss">

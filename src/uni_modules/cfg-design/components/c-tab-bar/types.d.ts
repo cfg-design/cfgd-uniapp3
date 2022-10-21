@@ -23,11 +23,11 @@ export interface TabBarConfig {
 
 export interface TabBarProps extends TabBarConfig {
   /**
-   * 配置名。使用 `useTabBarConfigs()` 查看配置数据。使用 `setTabBarConfigs()` 进行配置。
+   * 配置名，[使用说明](https://cfg-design.github.io/cfgd-uniapp3-docs/guide/props.html) 。
    * 默认： `default`
    */
   c?: string
 }
 
 export declare type TabBarGetIndex = () => number
-export declare type TabBarUpdateValue = (value?: string | number) => void
+export declare type TabBarClickItem = (item?: TabBarItemProps) => void

@@ -11,7 +11,7 @@
 </template>
 
 <script setup lang="ts">
-import type { CellProps } from '@/uni_modules/cfg-design'
+import type { CellProps } from '@/uni_modules/cfg-design/types.d'
 import { useColors } from '@/uni_modules/cfg-design'
 import icons from '@/uni_modules/cfg-design/components/c-icon/icons'
 import image from '@/assets/moon.png'
@@ -37,6 +37,7 @@ const list: Record<string, Record<string, CellProps>> = {
     line: { label: 'Line 线条', icon: 'subtract-line' },
     badge: { label: 'Badge 徽标', avatarText: 'B', avatarTextProps: { color: colors.value.error, textColor: '#fff' } },
     tag: { label: 'Tag 标签', avatarText: '标', avatarTextProps: { color: colors.value.warning, textColor: '#fff' } },
+    card: { label: 'Card 卡片', avatarText: '卡' },
   },
   '数据录入组件': {
     form: { label: 'Form 表单', avatarText: 'F', avatarTextProps: { color: colors.value.success, textColor: '#fff' } },
@@ -48,6 +49,7 @@ const list: Record<string, Record<string, CellProps>> = {
     switch: { label: 'Switch 开关', avatarText: 'S', avatarTextProps: { color: colors.value.primary, textColor: '#fff' } },
   },
   '数据展示组件': {
+    descriptions: { label: 'Descriptions 描述', avatarText: 'D' },
     empty: { label: 'Empty 无内容', icon: 'empty-data' },
   },
   '导航组件': {
@@ -58,6 +60,8 @@ const list: Record<string, Record<string, CellProps>> = {
   '反馈组件': {
     progress: { label: 'Progress 进度条', avatarText: '%', avatarTextProps: { color: colors.value.primary, textColor: '#fff' } },
     loadMore: { label: 'LoadMore 加载更多', avatarText: '更' },
+    popup: { label: 'Popup 弹窗', avatarText: '窗' },
+    noticeBar: { label: 'NoticeBar 通知栏', avatarText: '通' },
   },
   '布局组件': {
     grid: { label: 'Grid 栅格', avatarText: 'G', avatarTextProps: { color: colors.value.primary, textColor: '#fff' } },

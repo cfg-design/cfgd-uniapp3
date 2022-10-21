@@ -8,12 +8,12 @@ import { useConfigs } from './use'
 interface Props {
   props?: BadgeProps
   /**
-   * 配置名。使用 `useBadgeConfigs()` 查看配置数据。使用 `setBadgeConfigs()` 进行配置。
+   * 配置名，[使用说明](https://cfg-design.github.io/cfgd-uniapp3-docs/guide/props.html) 。
    * 默认： `default`
    */
   c?: BadgeProps['c']
   /**
-   * 背景颜色。 `useColors()` 可以查看配置数据。使用 `setColors()` 进行配置。
+   * 背景颜色， [使用说明](https://cfg-design.github.io/cfgd-uniapp3-docs/guide/colors.html) 。
    * 默认： `undefined`
    */
   color?: BadgeProps['color']
@@ -23,22 +23,22 @@ interface Props {
    */
   text?: BadgeProps['text']
   /**
-   * 文字的颜色。详情查看 c-text props.color
+   * 文字的颜色，[使用说明](https://cfg-design.github.io/cfgd-uniapp3-docs/guide/colors.html) 。
    * 默认： `undefined`
    */
   textColor?: BadgeProps['textColor']
   /**
-   * 文字的字体大小。详情查看 c-text props.size
+   * 文字的字体大小，[使用说明](https://cfg-design.github.io/cfgd-uniapp3-docs/guide/font-sizes.html) 。
    * 默认： `undefined`
    */
   size?: BadgeProps['size']
   /**
-   * 详情查看 c-text props
+   * [TextProps](https://cfg-design.github.io/cfgd-uniapp3-docs/components/text.html#props) 。
    * 默认： `undefined`
    */
   textProps?: BadgeProps['textProps']
   /**
-   * 圆角值。 `useRadius()` 可以查看配置数据。使用 `setRadius()` 进行配置。
+   * 圆角值，[使用说明](https://cfg-design.github.io/cfgd-uniapp3-docs/guide/radiuses.html) 。
    * 默认： `undefined`
    */
   radius?: BadgeProps['radius']

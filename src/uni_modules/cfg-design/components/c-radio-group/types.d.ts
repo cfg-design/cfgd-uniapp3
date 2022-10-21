@@ -25,7 +25,7 @@ export interface RadioGroupConfig {
    */
   path?: string
   /**
-   * c-radio RadioProps
+   * [RadioProps](https://cfg-design.github.io/cfgd-uniapp3-docs/components/radio.html#props) 。
    * 默认： `undefined`
    */
   radio?: RadioProps
@@ -37,7 +37,7 @@ export interface RadioGroupConfig {
 
 export interface RadioGroupProps extends RadioGroupConfig {
   /**
-   * 配置名。使用 `useRadioGroupConfigs()` 查看配置数据。使用 `setRadioGroupConfigs()` 进行配置。
+   * 配置名，[使用说明](https://cfg-design.github.io/cfgd-uniapp3-docs/guide/props.html) 。
    * 默认： `default`
    */
   c?: string

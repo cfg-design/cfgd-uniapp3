@@ -13,7 +13,7 @@ export interface FormItemConfig {
   contentClass?: string | Record<string, any> | (string | Record<string, any>)[]
   contentStyle?: HTMLAttributes['style']
   /**
-   * 字体大小。 useFontSizes() 可以查看配置数据。使用 setFontSizes() 进行配置。
+   * 字体大小，[使用说明](https://cfg-design.github.io/cfgd-uniapp3-docs/guide/font-sizes.html) 。
    * 默认： `undefined`
    */
   size?: string | number
@@ -43,7 +43,7 @@ export interface FormItemConfig {
    */
   labelFor?: string
   /**
-   * 标签文字 c-text props 。
+   * 标签文字，[TextProps](https://cfg-design.github.io/cfgd-uniapp3-docs/components/text.html#props) 。
    * 默认： `undefined`
    */
   labelTextProps?: TextProps
@@ -53,12 +53,12 @@ export interface FormItemConfig {
    */
   rightIcon?: string
   /**
-   * 详情查看 c-icon props 。
+   * [IconProps](https://cfg-design.github.io/cfgd-uniapp3-docs/components/icon.html#props) 。
    * 默认： `undefined`
    */
   rightIconProps?: IconProps
   /**
-   * 详情查看 c-text props 。
+   * [TextProps](https://cfg-design.github.io/cfgd-uniapp3-docs/components/text.html#props) 。
    * 默认： `undefined`
    */
   errorProps?: TextProps
@@ -96,7 +96,7 @@ export interface FormItemConfig {
 
 export interface FormItemProps extends FormItemConfig {
   /**
-   * 配置名。使用 `useFormItemConfigs()` 查看配置数据。使用 `setFormItemConfigs()` 进行配置。
+   * 配置名，[使用说明](https://cfg-design.github.io/cfgd-uniapp3-docs/guide/props.html) 。
    * 默认： `default`
    */
   c?: string

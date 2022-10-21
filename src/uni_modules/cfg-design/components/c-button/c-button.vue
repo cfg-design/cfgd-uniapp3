@@ -8,10 +8,10 @@ import { useConfigs } from './use'
 
 interface Props {
   props?: ButtonProps
-  cClase?: ButtonProps['cClass']
+  cClass?: ButtonProps['cClass']
   cStyle?: ButtonProps['cStyle']
   /**
-   * 配置名。使用 `useButtonConfigs()` 查看配置数据。使用 `setButtonConfigs()` 进行配置。
+   * 配置名，[使用说明](https://cfg-design.github.io/cfgd-uniapp3-docs/guide/props.html) 。
    * 默认： `default`
    */
   c?: ButtonProps['c']
@@ -21,17 +21,17 @@ interface Props {
    */
   formType?: ButtonProps['formType']
   /**
-   * 颜色。 useColors() 可以查看配置数据。使用 setColors() 进行配置。
+   * 颜色，[使用说明](https://cfg-design.github.io/cfgd-uniapp3-docs/guide/colors.html) 。
    * 默认： undefined
    */
   color?: ButtonProps['color']
   /**
-   * 渐变结束颜色。 useColors() 可以查看配置数据。使用 setColors() 进行配置。
+   * 渐变结束颜色，[使用说明](https://cfg-design.github.io/cfgd-uniapp3-docs/guide/colors.html) 。
    * 默认： undefined
    */
   color2?: ButtonProps['color2']
   /**
-   * 字体大小。 useFontSizes() 可以查看配置数据。使用 setFontSizes() 进行配置。
+   * 字体大小，[使用说明](https://cfg-design.github.io/cfgd-uniapp3-docs/guide/font-sizes.html) 。
    * 默认： undefined
    */
   size?: ButtonProps['size']
@@ -51,12 +51,12 @@ interface Props {
    */
   text?: ButtonProps['text']
   /**
-   * 文字的颜色。详情查看 c-text props.color
+   * 文字的颜色，[使用说明](https://cfg-design.github.io/cfgd-uniapp3-docs/guide/colors.html) 。
    * 默认： `undefined`
    */
   textColor?: ButtonProps['textColor']
   /**
-   * 详情查看 c-text props
+   * [TextProps](https://cfg-design.github.io/cfgd-uniapp3-docs/components/text.html#props) 。
    * 默认： `undefined`
    */
   textProps?: ButtonProps['textProps']
@@ -66,12 +66,12 @@ interface Props {
    */
   icon?: ButtonProps['icon']
   /**
-   * 详情查看 c-icon props
+   * [IconProps](https://cfg-design.github.io/cfgd-uniapp3-docs/components/icon.html#props) 。
    * 默认： `undefined`
    */
   iconProps?: ButtonProps['iconProps']
   /**
-   * 圆角值。 `useRadius()` 可以查看配置数据。使用 `setRadius()` 进行配置。
+   * 圆角值，[使用说明](https://cfg-design.github.io/cfgd-uniapp3-docs/guide/radiuses.html) 。
    * 默认： `undefined`
    */
   radius?: ButtonProps['radius']
@@ -91,7 +91,7 @@ interface Props {
    */
   loading?: ButtonProps['loading']
   /**
-   * 详情查看 c-spin props
+   * [SpinProps](https://cfg-design.github.io/cfgd-uniapp3-docs/components/spin.html#props) 。
    * 默认： `undefined`
    */
   spinProps?: ButtonProps['spinProps']
@@ -298,6 +298,18 @@ const onClick = (e: MouseEvent) => emits('click', e)
   :guild-id="propsC.guildId"
   :public-id="propsC.publicId"
   @click="onClick"
+  @getphonenumber="(p: any) => $emit('getphonenumber', p)"
+  @getuserinfo="(p: any) => $emit('getuserinfo', p)"
+  @error="(p: any) => $emit('error', p)"
+  @opensetting="(p: any) => $emit('opensetting', p)"
+  @launchapp="(p: any) => $emit('launchapp', p)"
+  @contact="(p: any) => $emit('contact', p)"
+  @chooseavatar="(p: any) => $emit('chooseavatar', p)"
+  @addgroupapp="(p: any) => $emit('addgroupapp', p)"
+  @chooseaddress="(p: any) => $emit('chooseaddress', p)"
+  @chooseinvoicetitle="(p: any) => $emit('chooseinvoicetitle', p)"
+  @subscribe="(p: any) => $emit('subscribe', p)"
+  @login="(p: any) => $emit('login', p)"
 >
   <c-spin v-if="loadingC" :props="{ size: sizeC, color: fontColorC, direction: 'row', ...propsC.spinProps }" />
   <template v-else-if="propsC.text || propsC.icon">

@@ -32,7 +32,7 @@ export interface TopBarConfig {
 
 export interface TopBarProps extends TopBarConfig {
   /**
-   * 配置名。使用 `useTopBarConfigs()` 查看配置数据。使用 `setTopBarConfigs()` 进行配置。
+   * 配置名，[使用说明](https://cfg-design.github.io/cfgd-uniapp3-docs/guide/props.html) 。
    * 默认： `default`
    */
   c?: string

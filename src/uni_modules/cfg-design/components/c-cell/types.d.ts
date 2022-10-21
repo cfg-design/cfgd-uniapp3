@@ -14,7 +14,7 @@ export interface CellConfig {
    */
   icon?: string
   /**
-   * 详情查看 c-icon props 。
+   * [IconProps](https://cfg-design.github.io/cfgd-uniapp3-docs/components/icon.html#props) 。
    * 默认： `undefined`
    */
   iconProps?: IconProps
@@ -24,7 +24,7 @@ export interface CellConfig {
    */
   image?: string
   /**
-   * 详情查看 c-image props 。
+   * [ImageProps](https://cfg-design.github.io/cfgd-uniapp3-docs/components/image.html#api) 。
    * 默认： `undefined`
    */
   imageProps?: ImageProps
@@ -34,7 +34,7 @@ export interface CellConfig {
    */
   avatar?: string
   /**
-   * 详情查看 c-avatar props 。
+   * [AvatarProps](https://cfg-design.github.io/cfgd-uniapp3-docs/components/avatar.html#props) 。
    * 默认： `undefined`
    */
   avatarProps?: AvatarProps
@@ -44,7 +44,7 @@ export interface CellConfig {
    */
   avatarText?: string
   /**
-   * 详情查看 c-avatar-text props 。
+   * [AvatarTextProps](https://cfg-design.github.io/cfgd-uniapp3-docs/components/avatar.html#avatar-text-props) 。
    * 默认： `undefined`
    */
   avatarTextProps?: AvatarTextProps
@@ -54,7 +54,7 @@ export interface CellConfig {
    */
   label?: string
   /**
-   * 详情查看 c-text props 。
+   * [TextProps](https://cfg-design.github.io/cfgd-uniapp3-docs/components/text.html#props) 。
    * 默认： `undefined`
    */
   labelProps?: TextProps
@@ -64,7 +64,7 @@ export interface CellConfig {
    */
   brief?: string
   /**
-   * 详情查看 c-text props 。
+   * [TextProps](https://cfg-design.github.io/cfgd-uniapp3-docs/components/text.html#props) 。
    * 默认： `undefined`
    */
   briefProps?: TextProps
@@ -74,7 +74,7 @@ export interface CellConfig {
    */
   value?: string
   /**
-   * 详情查看 c-text props 。
+   * [TextProps](https://cfg-design.github.io/cfgd-uniapp3-docs/components/text.html#props) 。
    * 默认： `undefined`
    */
   valueProps?: TextProps
@@ -84,7 +84,7 @@ export interface CellConfig {
    */
   rightIcon?: string
   /**
-   * 详情查看 c-icon props 。
+   * [IconProps](https://cfg-design.github.io/cfgd-uniapp3-docs/components/icon.html#props) 。
    * 默认： `undefined`
    */
   rightIconProps?: IconProps
@@ -97,7 +97,7 @@ export interface CellConfig {
 
 export interface CellProps extends CellConfig {
   /**
-   * 配置名。使用 `useCellConfigs()` 查看配置数据。使用 `setCellConfigs()` 进行配置。
+   * 配置名，[使用说明](https://cfg-design.github.io/cfgd-uniapp3-docs/guide/props.html) 。
    * 默认： `default`
    */
   c?: string

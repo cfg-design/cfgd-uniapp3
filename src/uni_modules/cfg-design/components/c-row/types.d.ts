@@ -28,11 +28,16 @@ export interface RowConfig {
    * 默认： `undefined`
    */
   vertical?: boolean
+  /**
+   * 是否不换行。
+   * 默认： `undefined`
+   */
+  noWrap?: boolean
 }
 
 export interface RowProps extends RowConfig {
   /**
-   * 配置名。使用 `useRowConfigs()` 查看配置数据。使用 `setRowConfigs()` 进行配置。
+   * 配置名，[使用说明](https://cfg-design.github.io/cfgd-uniapp3-docs/guide/props.html) 。
    * 默认： `default`
    */
   c?: string

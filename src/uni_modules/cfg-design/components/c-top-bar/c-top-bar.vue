@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { CSSProperties } from 'vue'
 import type { TopBarProps } from './types.d'
-import { computed, ref, onMounted, getCurrentInstance } from 'vue'
+import { computed, ref, onMounted, onBeforeUnmount, getCurrentInstance } from 'vue'
 import { toCssUnit } from '../../styles'
 import { omitProps, getPropsBoolean, mergeProps, getRect } from '../../utils'
 import { useConfigs } from './use'
@@ -11,7 +11,7 @@ interface Props {
   cClass?: TopBarProps['cClass']
   cStyle?: TopBarProps['cStyle']
   /**
-   * 配置名。使用 `useTopBarConfigs()` 查看配置数据。使用 `setTopBarConfigs()` 进行配置。
+   * 配置名，[使用说明](https://cfg-design.github.io/cfgd-uniapp3-docs/guide/props.html) 。
    * 默认： `default`
    */
   c?: TopBarProps['c']
@@ -53,21 +53,21 @@ const propsC = computed(() => mergeProps(configs.value[props1.value.c!], props1.
 const noSpaceC = computed(() => getPropsBoolean(propsC.value.noSpace))
 const noFixedC = computed(() => getPropsBoolean(propsC.value.noFixed))
 
-const wrapViewStyle = computed(() => ({
-  zIndex: Number(propsC.value.zIndex) || 2,
-  top: toCssUnit(propsC.value.top),
-  paddingTop: statusBarHeight.value,
-}))
-
-const style1 = computed(() => {
+const barStyle = computed(() => {
   const style: CSSProperties = {}
   if (!noSpaceC.value && !noFixedC.value) {
     style.paddingTop = heightR.value + 'px'
   }
   return style
 })
+
+const style1 = computed(() => ({
+  zIndex: Number(propsC.value.zIndex) || 2,
+  top: toCssUnit(propsC.value.top),
+  paddingTop: statusBarHeight.value,
+}))
 const styles = computed(() => mergeProps({ x: [style1.value] }, { x: propsC.value.cStyle }).x)
-const classC = computed(() => mergeProps({ x: ['c-top-bar'] }, { x: propsC.value.cClass }).x)
+const classC = computed(() => mergeProps({ x: ['c-top-bar__wrap', { 'c-top-bar__fixed': !noFixedC.value }] }, { x: propsC.value.cClass }).x)
 
 getPropsBoolean(propsC.value.statusBar) && uni.getSystemInfo({
   success(res) {
@@ -75,20 +75,32 @@ getPropsBoolean(propsC.value.statusBar) && uni.getSystemInfo({
   }
 })
 
-const handleInit = () => getRect(getCurrentInstance()!, '.c-top-bar__wrap')
-  .then(({ height }) => {
+const that = getCurrentInstance()!
+
+const handleInit = () => {
+  clearTimeout(handleInit.timer)
+  handleInit.num ++
+
+  if (handleInit.num > 10) return undefined
+
+  getRect(that, '.c-top-bar__wrap').then(({ height }) => {
     heightR.value = height || 0
+
+    if (!height) {
+      handleInit.timer = setTimeout(handleInit, 100)
+    }
   })
+}
+handleInit.timer = 0
+handleInit.num = 0
 
 onMounted(handleInit)
+onBeforeUnmount(() => clearTimeout(handleInit.timer))
 </script>
 
 <template>
-<view :class="classC" :style="(styles as any)">
-  <view
-    :class="['c-top-bar__wrap', { 'c-top-bar__fixed': !noFixedC }]"
-    :style="wrapViewStyle"
-  >
+<view class="c-top-bar" :style="barStyle">
+  <view :class="classC" :style="(styles as any)">
     <slot />
   </view>
 </view>

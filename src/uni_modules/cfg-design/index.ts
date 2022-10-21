@@ -14,14 +14,9 @@ export { default as config, setConfig } from './config'
 // mergeCArray
 export * from './utils'
 
-
 /**
  * components
  */
-
-// types
-export * from './components/index.d'
-
 // c-avatar
 export {
   setConfigs as setAvatarConfigs,
@@ -52,6 +47,12 @@ export {
   useConfigs as useButtonConfigs
 } from './components/c-button/use'
 
+// c-card
+export {
+  setConfigs as setCardConfigs,
+  useConfigs as useCardConfigs
+} from './components/c-card/use'
+
 // c-cell
 export {
   setConfigs as setCellConfigs,
@@ -75,6 +76,12 @@ export {
   setConfigs as setColConfigs,
   useConfigs as useColConfigs
 } from './components/c-col/use'
+
+// c-descriptions
+export {
+  setConfigs as setDescriptionsConfigs,
+  useConfigs as useDescriptionsConfigs
+} from './components/c-descriptions/use'
 
 // c-empty
 export {
@@ -105,7 +112,6 @@ export {
 } from './components/c-form-item/use'
 
 // c-icon
-export { default as icons } from './components/c-icon/icons'
 export {
   setConfigs as setIconConfigs,
   useConfigs as useIconConfigs,
@@ -150,6 +156,18 @@ export {
   useConfigs as useNavBarConfigs
 } from './components/c-nav-bar/use'
 
+// c-popup
+export {
+  setConfigs as setPopupConfigs,
+  useConfigs as usePopupConfigs
+} from './components/c-popup/use'
+
+// c-popup-title
+export {
+  setConfigs as setPopupTitleConfigs,
+  useConfigs as usePopupTitleConfigs
+} from './components/c-popup-title/use'
+
 // c-progress
 export {
   setConfigs as setProgressConfigs,
@@ -180,11 +198,11 @@ export {
   useConfigs as useSpinConfigs
 } from './components/c-spin/use'
 
-// c-Switch
+// c-switch
 export {
   setConfigs as setSwitchConfigs,
   useConfigs as useSwitchConfigs
-} from './components/c-Switch/use'
+} from './components/c-switch/use'
 
 // c-tab-bar
 export {

@@ -20,7 +20,7 @@ interface Props {
   cClass?: FormProps['cClass']
   cStyle?: FormProps['cStyle']
   /**
-   * 配置名。使用 `useFormConfigs()` 查看配置数据。使用 `setFormConfigs()` 进行配置。
+   * 配置名，[使用说明](https://cfg-design.github.io/cfgd-uniapp3-docs/guide/props.html) 。
    * 默认： `default`
    */
   c?: FormProps['c']

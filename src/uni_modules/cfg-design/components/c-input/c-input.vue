@@ -27,7 +27,7 @@ interface Props {
   inputClass?: InputProps['inputClass']
   inputStyle?: InputProps['inputStyle']
   /**
-   * 配置名。使用 `useInputConfigs()` 查看配置数据。使用 `setInputConfigs()` 进行配置。
+   * 配置名，[使用说明](https://cfg-design.github.io/cfgd-uniapp3-docs/guide/props.html) 。
    * 默认： `default`
    */
   c?: InputProps['c']
@@ -67,7 +67,7 @@ interface Props {
    */
   icon?: InputProps['icon']
   /**
-   * 详情查看 c-icon props
+   * [IconProps](https://cfg-design.github.io/cfgd-uniapp3-docs/components/icon.html#props) 。
    * 默认： `undefined`
    */
   iconProps?: InputProps['iconProps']
@@ -77,7 +77,7 @@ interface Props {
    */
   rightIcon?: InputProps['rightIcon']
   /**
-   * 详情查看 c-icon props
+   * [IconProps](https://cfg-design.github.io/cfgd-uniapp3-docs/components/icon.html#props) 。
    * 默认： `undefined`
    */
   rightIconProps?: InputProps['rightIconProps']
@@ -102,7 +102,7 @@ interface Props {
    */
   clearable?: InputProps['clearable']
   /**
-   * 详情查看 c-icon props
+   * [IconProps](https://cfg-design.github.io/cfgd-uniapp3-docs/components/icon.html#props) 。
    * 默认： `undefined`
    */
   clearIconProps?: InputProps['clearIconProps']
@@ -117,7 +117,7 @@ interface Props {
    */
   showCount?: InputProps['showCount']
   /**
-   * 输入字数统计的 c-text Props 。
+   * [TextProps](https://cfg-design.github.io/cfgd-uniapp3-docs/components/text.html#props) 。
    * 默认： `undefined`
    */
   countProps?: InputProps['countProps']
@@ -132,7 +132,7 @@ interface Props {
    */
   borderBottom?: InputProps['borderBottom']
   /**
-   * 圆角值。 `useRadius()` 可以查看配置数据。使用 `setRadius()` 进行配置。
+   * 圆角值，[使用说明](https://cfg-design.github.io/cfgd-uniapp3-docs/guide/radiuses.html) 。
    * 默认： `undefined`
    */
   radius?: InputProps['radius']
@@ -299,9 +299,10 @@ const configs = useConfigs()
 
 const props1 = computed(() => props.props ? mergeProps(props.props, omitProps(props)) : props)
 const propsC = computed(() => mergeProps(configs.value[props1.value.c!], props1.value))
+const focusC = computed(() => getPropsBoolean(propsC.value.focus))
 
 const valueR = ref(propsC.value.value)
-const isFocus = ref(getPropsBoolean(propsC.value.focus))
+const isFocus = ref(focusC.value)
 const clearableVisible = ref(false)
 const inputRef = ref(null) as any
 
@@ -457,6 +458,7 @@ const focus = () => {
 
 const clear = () => {
   valueR.value = ''
+  propsC.value.value && emits('update:value', '')
   focus()
   emits('clear')
 }
@@ -477,6 +479,8 @@ watch(() => propsC.value.value, (val) => {
 watch(() => valueR.value, changeValidate)
 
 watch(() => isFocus.value, setClearableVisible)
+
+watch(() => focusC.value, (val) => isFocus.value = val)
 
 defineExpose({ focus })
 </script>

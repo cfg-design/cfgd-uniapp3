@@ -90,6 +90,12 @@
 				"navigationBarTitleText": "Tag 标签"
 			}
 		},
+		{
+			"path": "pages/card/index",
+			"style": {
+				"navigationBarTitleText": "Card 卡片"
+			}
+		},
 
 		{
 			"path": "pages/form/index",
@@ -135,6 +141,12 @@
 		},
 
 		{
+			"path": "pages/descriptions/index",
+			"style": {
+				"navigationBarTitleText": "Descriptions 描述"
+			}
+		},
+		{
 			"path": "pages/empty/index",
 			"style": {
 				"navigationBarTitleText": "Empty 无内容"
@@ -166,11 +178,22 @@
 				"navigationBarTitleText": "Progress 进度条"
 			}
 		},
-
 		{
 			"path": "pages/loadMore/index",
 			"style": {
 				"navigationBarTitleText": "LoadMore 加载更多"
+			}
+		},
+		{
+			"path": "pages/popup/index",
+			"style": {
+				"navigationBarTitleText": "Popup 弹窗"
+			}
+		},
+		{
+			"path": "pages/noticeBar/index",
+			"style": {
+				"navigationBarTitleText": "NoticeBar 通知栏"
 			}
 		},
 

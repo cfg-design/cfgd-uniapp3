@@ -26,17 +26,17 @@ interface Props {
   cStyle?: FormItemProps['cStyle']
   labelClass?: FormItemProps['labelClass']
   labelStyle?: FormItemProps['labelStyle']
-  mainClassClass?: FormItemProps['mainClass']
-  mainStyleStyle?: FormItemProps['mainStyle']
+  mainClass?: FormItemProps['mainClass']
+  mainStyle?: FormItemProps['mainStyle']
   contentClass?: FormItemProps['contentClass']
   contentStyle?: FormItemProps['contentStyle']
   /**
-   * 配置名。使用 `useFormItemConfigs()` 查看配置数据。使用 `setFormItemConfigs()` 进行配置。
+   * 配置名，[使用说明](https://cfg-design.github.io/cfgd-uniapp3-docs/guide/props.html) 。
    * 默认： `default`
    */
   c?: FormItemProps['c']
   /**
-   * 字体大小。 useFontSizes() 可以查看配置数据。使用 setFontSizes() 进行配置。
+   * 字体大小，[使用说明](https://cfg-design.github.io/cfgd-uniapp3-docs/guide/font-sizes.html) 。
    * 默认： `undefined`
    */
   size?: FormItemProps['size']
@@ -66,7 +66,7 @@ interface Props {
    */
   labelFor?: FormItemProps['labelFor']
   /**
-   * 标签文字 c-text props 。
+   * 标签文字，[TextProps](https://cfg-design.github.io/cfgd-uniapp3-docs/components/text.html#props) 。
    * 默认： `undefined`
    */
   labelTextProps?: FormItemProps['labelTextProps']
@@ -76,12 +76,12 @@ interface Props {
    */
   rightIcon?: FormItemProps['rightIcon']
   /**
-   * 详情查看 c-icon props 。
+   * [IconProps](https://cfg-design.github.io/cfgd-uniapp3-docs/components/icon.html#props) 。
    * 默认： `undefined`
    */
   rightIconProps?: FormItemProps['rightIconProps']
   /**
-   * 详情查看 c-text props 。
+   * [TextProps](https://cfg-design.github.io/cfgd-uniapp3-docs/components/text.html#props) 。
    * 默认： `undefined`
    */
   errorProps?: FormItemProps['errorProps']
@@ -117,6 +117,10 @@ interface Props {
   lineProps?: FormItemProps['lineProps']
 }
 
+interface Emits {
+  (e: 'click', payload: MouseEvent): void
+}
+
 const findRequired = find<FormItemRule>((item) => !!item.required)
 
 const formRules = inject(formInjectionKeyRules, ref())
@@ -125,6 +129,7 @@ const formDisabled = inject(formInjectionKeyDisabled, ref(false))
 const formFieldsErrors = inject(formInjectionKeyFieldsErrors, ref())
 
 const props = withDefaults(defineProps<Props>(), { c: 'default' })
+const emits = defineEmits<Emits>()
 const fontSizes = useFontSizes()
 const configs = useConfigs()
 
@@ -202,6 +207,8 @@ const errorPropsC = computed(() => mergeProps({
   cStyle: [errorStyle.value]
 }, propsC.value.errorProps))
 
+const onClick = (e: MouseEvent) => emits('click', e)
+
 provide(formItemInjectionKeySize, sizeC)
 provide(formItemInjectionKeyDisabled, disabledC)
 provide(formItemInjectionKeyPath, pathC)
@@ -209,7 +216,7 @@ provide(formItemInjectionKeyNoFeedback, noFeedbackC)
 </script>
 
 <template>
-<view :class="classC" :style="(styleC as any)">
+<view :class="classC" :style="(styleC as any)" @click="onClick">
   <view :class="mainclassC" :style="(mainStyleC as any)">
     <slot v-if="!noLabelC" name="label">
       <label

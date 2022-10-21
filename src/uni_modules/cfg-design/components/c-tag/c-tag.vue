@@ -12,12 +12,12 @@ interface Props {
   cClass?: TagProps['cClass']
   cStyle?: TagProps['cStyle']
   /**
-   * 背景和边框颜色。 `useColors()` 可以查看配置数据。使用 `setColors()` 进行配置。
+   * 配置名，[使用说明](https://cfg-design.github.io/cfgd-uniapp3-docs/guide/props.html) 。
    * 默认： `undefined`
    */
   c?: TagProps['c']
   /**
-   * 背景颜色。 `useColors()` 可以查看配置数据。使用 `setColors()` 进行配置。
+   * 背景和边框颜色，[使用说明](https://cfg-design.github.io/cfgd-uniapp3-docs/guide/colors.html) 。
    * 默认： `undefined`
    */
   color?: TagProps['color']
@@ -27,17 +27,17 @@ interface Props {
    */
   text?: TagProps['text']
   /**
-   * 文字的颜色。详情查看 c-text props.color
+   * 文字的颜色，[使用说明](https://cfg-design.github.io/cfgd-uniapp3-docs/guide/colors.html) 。
    * 默认： `undefined`
    */
   textColor?: TagProps['textColor']
   /**
-   * 文字的字体大小。详情查看 c-text props.size
+   * 文字的字体大小，[使用说明](https://cfg-design.github.io/cfgd-uniapp3-docs/guide/font-sizes.html) 。
    * 默认： `undefined`
    */
   size?: TagProps['size']
   /**
-   * 详情查看 c-text props
+   * [TextProps](https://cfg-design.github.io/cfgd-uniapp3-docs/components/text.html#props) 。
    * 默认： `undefined`
    */
   textProps?: TagProps['textProps']
@@ -47,7 +47,7 @@ interface Props {
    */
   icon?: TagProps['icon']
   /**
-   * 详情查看 c-icon props
+   * [IconProps](https://cfg-design.github.io/cfgd-uniapp3-docs/components/icon.html#props) 。
    * 默认： `undefined`
    */
   iconProps?: TagProps['iconProps']
@@ -57,12 +57,12 @@ interface Props {
    */
   closable?: TagProps['closable']
   /**
-   * 详情查看 c-icon props
+   * [IconProps](https://cfg-design.github.io/cfgd-uniapp3-docs/components/icon.html#props) 。
    * 默认： `undefined`
    */
   closeIconProps?: TagProps['closeIconProps']
   /**
-   * 圆角值。 `useRadius()` 可以查看配置数据。使用 `setRadius()` 进行配置。
+   * 圆角值，[使用说明](https://cfg-design.github.io/cfgd-uniapp3-docs/guide/radiuses.html) 。
    * 默认： `undefined`
    */
   radius?: TagProps['radius']

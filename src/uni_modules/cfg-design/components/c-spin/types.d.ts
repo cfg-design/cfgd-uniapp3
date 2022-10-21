@@ -6,12 +6,12 @@ export interface SpinConfig {
    cClass?: string | Record<string, any> | (string | Record<string, any>)[]
    cStyle?: HTMLAttributes['style']
    /**
-    * 图标和文案的颜色。`useColors()` 可以查看配置数据。使用 `setColors()` 进行配置。
+    * 图标和文案的颜色，[使用说明](https://cfg-design.github.io/cfgd-uniapp3-docs/guide/colors.html) 。
     * 默认： `undefined`
     */
    color?: string
    /**
-    * 图标大小。`useFontSizes()` 可以查看配置数据。使用 setFontSizes() 进行配置。
+    * 图标大小，[使用说明](https://cfg-design.github.io/cfgd-uniapp3-docs/guide/font-sizes.html。
     * 默认： `undefined`
     */
    size?: string | number
@@ -21,7 +21,7 @@ export interface SpinConfig {
     */
    icon?: string
    /**
-    * 详情查看 c-icon props
+   * [IconProps](https://cfg-design.github.io/cfgd-uniapp3-docs/components/icon.html#props) 。
     * 默认： `undefined`
     */
    iconProps?: IconProps
@@ -31,7 +31,7 @@ export interface SpinConfig {
     */
    tip?: string
    /**
-    * 详情查看 c-text props
+   * [TextProps](https://cfg-design.github.io/cfgd-uniapp3-docs/components/text.html#props) 。
     * 默认： `undefined`
     */
    tipProps?: TextProps
@@ -44,7 +44,7 @@ export interface SpinConfig {
 
 export interface SpinProps extends SpinConfig {
   /**
-   * 配置名。使用 `useSpinConfigs()` 查看配置数据。使用 `setSpinConfigs()` 进行配置。
+   * 配置名，[使用说明](https://cfg-design.github.io/cfgd-uniapp3-docs/guide/props.html) 。
    * 默认： `default`
    */
    c?: string

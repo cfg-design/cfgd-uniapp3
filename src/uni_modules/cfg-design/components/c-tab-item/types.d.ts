@@ -12,7 +12,7 @@ export interface TabItemConfig {
    */
   value?: string | number
   /**
-   * 颜色。 `useColors()` 可以查看配置数据。使用 `setColors()` 进行配置。
+   * 颜色，[使用说明](https://cfg-design.github.io/cfgd-uniapp3-docs/guide/colors.html) 。
    * 默认： `undefined`
    */
   color?: string
@@ -27,7 +27,7 @@ export interface TabItemConfig {
    */
   text?: string
   /**
-   * 详情 c-text props 。
+   * [TextProps](https://cfg-design.github.io/cfgd-uniapp3-docs/components/text.html#props) 。
    * 默认： `undefined`
    */
   textProps?: TextProps
@@ -37,7 +37,7 @@ export interface TabItemConfig {
    */
   badge?: BadgeProps['text']
   /**
-   * 详情 c-badge props 。
+   * [BadgeProps](https://cfg-design.github.io/cfgd-uniapp3-docs/components/badge.html#props) 。
    * 默认： `undefined`
    */
   badgeProps?: BadgeProps
@@ -47,7 +47,7 @@ export interface TabItemConfig {
    */
   dot?: boolean
   /**
-   * 详情 c-line props 。
+   * [LineProps](https://cfg-design.github.io/cfgd-uniapp3-docs/components/line.html#props) 。
    * 默认： `undefined`
    */
   lineProps?: LineProps
@@ -55,7 +55,7 @@ export interface TabItemConfig {
 
 export interface TabItemProps extends TabItemConfig {
   /**
-   * 配置名。使用 `useTabItemConfigs()` 查看配置数据。使用 `setTabItemConfigs()` 进行配置。
+   * 配置名，[使用说明](https://cfg-design.github.io/cfgd-uniapp3-docs/guide/props.html) 。
    * 默认： `default`
    */
   c?: string

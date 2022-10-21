@@ -23,7 +23,7 @@ export interface TabsConfig {
 
 export interface TabsProps extends TabsConfig {
   /**
-   * 配置名。使用 `useTabsConfigs()` 查看配置数据。使用 `setTabsConfigs()` 进行配置。
+   * 配置名，[使用说明](https://cfg-design.github.io/cfgd-uniapp3-docs/guide/props.html) 。
    * 默认： `default`
    */
   c?: string

@@ -5,7 +5,7 @@ import { mergeProps, omitProps, getPropsBoolean } from '../../utils/props'
 import {
   tabBarInjectionKeyValue,
   tabBarInjectionKeyGetIndex,
-  tabBarInjectionKeyUpdateValue,
+  tabBarInjectionKeyClickItem,
   tabBarInjectionKeyItem
 } from '../c-tab-bar/use'
 import { useColors } from '../../styles'
@@ -16,7 +16,7 @@ interface Props {
   cClass?: TabBarItemProps['cClass']
   cStyle?: TabBarItemProps['cStyle']
   /**
-   * 配置名。使用 useTabBarItemConfigs() 查看配置数据。使用 setTabBarItemConfigs() 进行配置。
+   * 配置名，[使用说明](https://cfg-design.github.io/cfgd-uniapp3-docs/guide/props.html) 。
    * 默认： default
    */
   c?: TabBarItemProps['c']
@@ -26,7 +26,7 @@ interface Props {
    */
   value?: TabBarItemProps['value']
   /**
-   * 颜色。 `useColors()` 可以查看配置数据。使用 `setColors()` 进行配置。
+   * 颜色，[使用说明](https://cfg-design.github.io/cfgd-uniapp3-docs/guide/colors.html) 。
    * 默认： `undefined`
    */
   color?: TabBarItemProps['color']
@@ -36,7 +36,7 @@ interface Props {
    */
   icon?: TabBarItemProps['icon']
   /**
-   * 详情 c-icon props 。
+   * [IconProps](https://cfg-design.github.io/cfgd-uniapp3-docs/components/icon.html#props) 。
    * 默认： `undefined`
    */
   iconProps?: TabBarItemProps['iconProps']
@@ -46,7 +46,7 @@ interface Props {
    */
   activeIcon?: TabBarItemProps['activeIcon']
   /**
-   * activeIcon props = { ...mergeProps(props.iconProps, activeIconProps), color }，详情 c-icon props 。
+   * activeIcon props = { ...mergeProps(props.iconProps, activeIconProps), color }，[IconProps](https://cfg-design.github.io/cfgd-uniapp3-docs/components/icon.html#props) 。
    * 默认： `undefined`
    */
   activeIconProps?: TabBarItemProps['activeIconProps']
@@ -56,7 +56,7 @@ interface Props {
    */
   text?: TabBarItemProps['text']
   /**
-   * 详情 c-text props 。
+   * [TextProps](https://cfg-design.github.io/cfgd-uniapp3-docs/components/text.html#props) 。
    * 默认： `undefined`
    */
   textProps?: TabBarItemProps['textProps']
@@ -66,7 +66,7 @@ interface Props {
    */
   badge?: TabBarItemProps['badge']
   /**
-   * 详情 c-badge props 。
+   * [BadgeProps](https://cfg-design.github.io/cfgd-uniapp3-docs/components/badge.html#props) 。
    * 默认： `undefined`
    */
   badgeProps?: TabBarItemProps['badgeProps']
@@ -83,7 +83,7 @@ interface Emits {
 
 const tabBarValue = inject(tabBarInjectionKeyValue, ref(''))
 const tabBarGetIndex = inject(tabBarInjectionKeyGetIndex, () => 0)
-const tabBarUpdateValue = inject(tabBarInjectionKeyUpdateValue, null)
+const tabBarClickItem = inject(tabBarInjectionKeyClickItem, null)
 const tabBarItem = inject(tabBarInjectionKeyItem, ref())
 
 const index = tabBarGetIndex()
@@ -120,7 +120,10 @@ const badgePropsC = computed(() => mergeProps({
 }, propsC.value.badgeProps))
 
 const onClick = (e: any) => {
-  tabBarUpdateValue && tabBarUpdateValue(valueC.value)
+  tabBarClickItem && tabBarClickItem({
+    ...propsC.value,
+    value: valueC.value
+  })
   emits('click', e)
 }
 </script>

@@ -28,10 +28,10 @@ import {
 
 interface Props {
   props?: CheckboxGroupProps
-  cClase?: CheckboxGroupProps['cClass']
+  cClass?: CheckboxGroupProps['cClass']
   cStyle?: CheckboxGroupProps['cStyle']
   /**
-   * 配置名。使用 `useCheckboxGroupConfigs()` 查看配置数据。使用 `setCheckboxGroupConfigs()` 进行配置。
+   * 配置名，[使用说明](https://cfg-design.github.io/cfgd-uniapp3-docs/guide/props.html) 。
    * 默认： `default`
    */
   c?: CheckboxGroupProps['c']
@@ -56,7 +56,7 @@ interface Props {
    */
   path?: CheckboxGroupProps['path']
   /**
-   * checkbox 一些设置，详情查看 checkbox props 。
+   * [CheckboxProps](https://cfg-design.github.io/cfgd-uniapp3-docs/components/checkbox.html#props) 。
    * 默认： `undefined`
    */
   checkbox?: CheckboxGroupProps['checkbox']
