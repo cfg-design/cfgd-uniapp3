@@ -1,3 +1,5 @@
+## 1.0.27-alpha（2022-10-21）
+c-notice-bar 事件 click:close 改为 close
 ## 1.0.26-alpha（2022-10-21）
 1. c-nav-bar 去掉小程序样式 padding-right ， 使用时自己加，值一般为 94px 
 ## 1.0.25-alpha（2022-10-19）

@@ -73,7 +73,7 @@ interface Props {
 
 interface Emits {
   (e: 'click'): void
-  (e: 'click:close'): void
+  (e: 'close'): void
 }
 
 const props = withDefaults(defineProps<Props>(), { c: 'default' })
@@ -125,7 +125,7 @@ const textPropsC = computed(() => mergeProps({
 
 const close = () => {
   visible.value = false
-  emits('click:close')
+  emits('close')
 }
 
 const that = getCurrentInstance()!
