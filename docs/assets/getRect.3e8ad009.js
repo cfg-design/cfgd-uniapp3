@@ -1,0 +1,1 @@
+import{a5 as e}from"./index.77e0feac.js";const n=(n,r,s)=>new Promise(((t,i)=>e().in(n)[s?"selectAll":"select"](r).boundingClientRect((e=>{s&&Array.isArray(e)&&e.length||!s&&e?t(e):i(e)})).exec()));export{n as g};
